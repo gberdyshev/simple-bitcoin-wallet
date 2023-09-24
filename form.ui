@@ -30,7 +30,7 @@
      <number>3</number>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="home"/>
     <widget class="QWidget" name="page_3"/>
@@ -65,7 +65,7 @@
       <property name="geometry">
        <rect>
         <x>80</x>
-        <y>180</y>
+        <y>210</y>
         <width>191</width>
         <height>71</height>
        </rect>
@@ -77,17 +77,33 @@
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="hash">
       <property name="geometry">
        <rect>
-        <x>60</x>
-        <y>120</y>
+        <x>20</x>
+        <y>170</y>
         <width>761</width>
         <height>20</height>
        </rect>
       </property>
       <property name="text">
        <string/>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="note">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>120</y>
+        <width>311</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>примечание (видно только вам)</string>
       </property>
      </widget>
     </widget>
@@ -196,7 +212,7 @@
      <string>Настройки</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="history_2">
+   <widget class="QPushButton" name="contacts">
     <property name="geometry">
      <rect>
       <x>10</x>

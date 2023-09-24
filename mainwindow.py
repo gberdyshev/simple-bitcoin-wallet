@@ -6,9 +6,9 @@ import sqlite3
 import time
 from cryptos import *
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QWidget, QDialog
-from PySide6 import QtSql
 
-__db_path__ = './wallet.db'
+__db_path__ = './db/wallet.db'
+__data_db_path__ = './db/data.db'
 # Important:
 # You need to run the following command to generate the ui_form.py file
 #     pyside6-uic form.ui -o ui_form.py, or
@@ -18,7 +18,6 @@ __db_path__ = './wallet.db'
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         self.btc = Bitcoin(testnet=True)
-
         super().__init__(parent)
         self.ui = ui_form.Ui_MainWindow()
         self.ui.setupUi(self)
@@ -52,18 +51,24 @@ class MainWindow(QMainWindow):
 
     # Отправка транзакции
     def send_transaction(self):
-        try:
+        #try:
             priv = self.get_from_db('private_key')
             address = self.get_from_db('address')
             inputs = self.btc.unspent(address)
-            summ = int(float(self.ui.summ.text())*10** 8)
-            outs = [{'value': summ, 'address': self.ui.addr.text()}, {'value': sum(i['value'] for i in inputs) - 10000 - 750 , 'address': address}]
+            print(inputs)
+            summ = int(float(self.ui.summ.text())*10**8)
+            #Сдача считается по формуле: входные данные - сумма отправки - комиссия
+            outs = [{'value': summ, 'address': self.ui.addr.text()}, {'value': sum(i['value'] for i in inputs) -  summ - 750, 'address': address}]
             tx = self.btc.mktx(inputs, outs)
             tx2 = self.btc.signall(tx, priv)
             tx3 = serialize(tx2)
-            self.ui.label.setText(self.btc.pushtx(tx3))
-        except:
-            QMessageBox.critical(self, 'Ошибка!', "Проверьте корректность введенных данных")
+            tx_final = self.btc.pushtx(tx3)
+            linkTemplate = '<a href={0}>{1}</a>'
+            tx_link = f'https://live.blockcypher.com/btc-testnet/tx/{tx_final}'
+            self.ui.hash.setText(linkTemplate.format(tx_link, tx_final))
+
+        #except:
+            #QMessageBox.critical(self, 'Ошибка!', "Проверьте корректность введенных данных")
 
 
 
@@ -112,7 +117,7 @@ class FirstRunWindow(QMainWindow):
 
     # Функция добавления ключей в БД
     def add_keys_to_db(self, private_key, addr):
-        db = sqlite3.connect('./wallet.db')
+        db = sqlite3.connect(__db_path__)
         cur = db.cursor()
         cur.execute('INSERT INTO keys (private_key, address) VALUES (?, ?)',(str(private_key), str(addr)))
         db.commit()
@@ -123,7 +128,7 @@ class FirstRunWindow(QMainWindow):
 
 
 def init_db():
-    db = sqlite3.connect('./wallet.db')
+    db = sqlite3.connect(__db_path__)
     cur = db.cursor()
     cur.execute("create table if not exists keys (private_key TEXT, address TEXT)")
     db.commit()
