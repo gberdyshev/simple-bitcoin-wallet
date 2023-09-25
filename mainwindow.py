@@ -4,6 +4,7 @@ import ui_form # Импорт основной формы
 import firstrun_form
 import sqlite3
 import time
+import requests, json
 from cryptos import *
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QWidget, QDialog
 
@@ -29,6 +30,19 @@ class MainWindow(QMainWindow):
         #self.ui.recieve_button.clicked.connect(self.recieve)
 
     #def recieve(self)
+
+    # Расчёт комиссии, принимает аргумент: размер транзакции (в Байтах)
+    def calc_fee(self, size):
+        r = requests.get('https://api.blockcypher.com/v1/btc/test3')
+        r = r.json()
+        high = r['high_fee_per_kb']
+        medium = r['medium_fee_per_kb']
+        low = r['low_fee_per_kb']
+        size_kb = size / 1024
+        print(size_kb*low)
+
+
+
 
 
     def get_bal(self):
@@ -58,7 +72,7 @@ class MainWindow(QMainWindow):
             print(inputs)
             summ = int(float(self.ui.summ.text())*10**8)
             #Сдача считается по формуле: входные данные - сумма отправки - комиссия
-            outs = [{'value': summ, 'address': self.ui.addr.text()}, {'value': sum(i['value'] for i in inputs) -  summ - 750, 'address': address}]
+            outs = [{'value': summ, 'address': self.ui.addr.text()}, {'value': sum(i['value'] for i in inputs) -  summ - 3177, 'address': address}]
             tx = self.btc.mktx(inputs, outs)
             tx2 = self.btc.signall(tx, priv)
             tx3 = serialize(tx2)
