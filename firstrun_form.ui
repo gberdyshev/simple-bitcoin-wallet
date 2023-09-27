@@ -90,6 +90,9 @@
         <height>26</height>
        </rect>
       </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QLineEdit" name="address_2">
       <property name="geometry">
@@ -99,6 +102,9 @@
         <width>571</width>
         <height>26</height>
        </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="line_open">
@@ -151,6 +157,9 @@
         <height>26</height>
        </rect>
       </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QLineEdit" name="public_key">
       <property name="geometry">
@@ -161,6 +170,9 @@
         <height>26</height>
        </rect>
       </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QLineEdit" name="address">
       <property name="geometry">
@@ -170,6 +182,9 @@
         <width>571</width>
         <height>26</height>
        </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="label">

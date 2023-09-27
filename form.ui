@@ -33,7 +33,37 @@
      <number>0</number>
     </property>
     <widget class="QWidget" name="home"/>
-    <widget class="QWidget" name="page_3"/>
+    <widget class="QWidget" name="receive_page">
+     <widget class="QLabel" name="address_qr">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>50</y>
+        <width>191</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="address_label">
+      <property name="geometry">
+       <rect>
+        <x>226</x>
+        <y>280</y>
+        <width>331</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
     <widget class="QWidget" name="send">
      <widget class="QLineEdit" name="addr">
       <property name="geometry">
@@ -112,7 +142,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>140</y>
+      <y>220</y>
       <width>181</width>
       <height>41</height>
      </rect>
@@ -139,7 +169,7 @@
      <rect>
       <x>20</x>
       <y>60</y>
-      <width>66</width>
+      <width>131</width>
       <height>18</height>
      </rect>
     </property>
@@ -151,7 +181,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
+      <y>170</y>
       <width>181</width>
       <height>41</height>
      </rect>
@@ -164,7 +194,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>190</y>
+      <y>270</y>
       <width>181</width>
       <height>41</height>
      </rect>
@@ -190,7 +220,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>240</y>
+      <y>320</y>
       <width>181</width>
       <height>41</height>
      </rect>
@@ -203,7 +233,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>340</y>
+      <y>420</y>
       <width>181</width>
       <height>41</height>
      </rect>
@@ -216,13 +246,42 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>290</y>
+      <y>370</y>
       <width>181</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
      <string>Контакты</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>121</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>Неподтверждено</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="unconf_balance">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>120</y>
+      <width>131</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>
