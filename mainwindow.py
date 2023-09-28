@@ -3,13 +3,12 @@ import sys
 import ui_form # Импорт основной формы
 import ui_firstrun_form as firstrun_form
 import sqlite3
-import os
-import time
-import requests, json
+import requests
 from cryptos import *
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QWidget, QDialog
 __db_path__ = './db/wallet.db'
 __data_db_path__ = './db/data.db'
+__coin__ = Bitcoin(testnet=True) # Какую монету используем, какую сеть
 # Important:
 # You need to run the following command to generate the ui_form.py file
 #     pyside6-uic form.ui -o ui_form.py, or
@@ -18,7 +17,7 @@ __data_db_path__ = './db/data.db'
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
-        self.btc = Bitcoin(testnet=True)
+        self.btc = __coin__
         super().__init__(parent)
         self.ui = ui_form.Ui_MainWindow()
         self.ui.setupUi(self)
@@ -70,7 +69,7 @@ class MainWindow(QMainWindow):
 
     # Отправка транзакции
     def send_transaction(self):
-        #try:
+        try:
             priv = self.get_from_db('private_key')
             address = self.get_from_db('address')
             inputs = self.btc.unspent(address)
@@ -88,9 +87,8 @@ class MainWindow(QMainWindow):
             linkTemplate = '<a href={0}>{1}</a>'
             tx_link = f'https://live.blockcypher.com/btc-testnet/tx/{tx_final}'
             self.ui.hash.setText(linkTemplate.format(tx_link, tx_final))
-
-        #except:
-            #QMessageBox.critical(self, 'Ошибка!', "Проверьте корректность введенных данных")
+        except:
+            QMessageBox.critical(self, 'Ошибка!', "Проверьте корректность введенных данных")
 
 
 
@@ -100,12 +98,18 @@ class FirstRunWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__()
         self.ui = firstrun_form.Ui_MainWindow()
-        self.btc = Bitcoin(testnet=True)
+        self.btc = __coin__
         self.ui.setupUi(self)
         self.ui.create_wallet.clicked.connect(self.create_wallet)
         self.ui.import_wallet.clicked.connect(self.import_wallet)
 
-    # !!!
+
+    # Всё это в отдельные классы в отдельные файлы
+    def import_wallet(self):
+        self.ui.stackedWidget.setCurrentIndex(1)
+        self.ui.check.clicked.connect(self.check_keys)
+
+        # !!!
     def add_old_transactions_to_db(self, address):
         history = self.btc.get_histories(address)
         db = sqlite3.connect(__db_path__)
@@ -120,56 +124,45 @@ class FirstRunWindow(QMainWindow):
                         continue
                     else:
                         print(data['outs'][x]['address'], data['outs'][x]['value'])
-            else:
-                print('')
+                else:
+                    print('')
 
-            #r = requests.get(f'https://api.blockcypher.com/v1/btc/test3/txs/{tx_hash}?includeHex=false').json()
+                #r = requests.get(f'https://api.blockcypher.com/v1/btc/test3/txs/{tx_hash}?includeHex=false').json()
 
-
-
-
-
-
-    def import_wallet(self):
-        self.ui.stackedWidget.setCurrentIndex(1)
-        self.ui.check.clicked.connect(self.check_keys)
     def check_keys(self):
-        #try:
+            #try:
 
 
-            private_key = self.ui.private_key_2.text()
-            self.ui.public_key_2.setText(self.btc.privtopub(private_key))
-            self.ui.address_2.setText(self.btc.pubtoaddr(self.btc.privtopub(private_key)))
-            self.ui.finish_import.clicked.connect(lambda: self.add_keys_to_db(private_key, self.btc.pubtoaddr(self.btc.privtopub(private_key))))
+        private_key = self.ui.private_key_2.text()
+        self.ui.public_key_2.setText(self.btc.privtopub(private_key))
+        self.ui.address_2.setText(self.btc.pubtoaddr(self.btc.privtopub(private_key)))
+        self.ui.finish_import.clicked.connect(lambda: self.add_keys_to_db(private_key, self.btc.pubtoaddr(self.btc.privtopub(private_key))))
 
-            #self.ui.finish_import.clicked.connect(self.add_old_transactions_to_db(self.btc.pubtoaddr(self.btc.privtopub(private_key))))
-        #except:
-            #QMessageBox.critical(self, 'Ошибка!', "Проверьте корректность секретного ключа")
+                #self.ui.finish_import.clicked.connect(self.add_old_transactions_to_db(self.btc.pubtoaddr(self.btc.privtopub(private_key))))
+            #except:
+                #QMessageBox.critical(self, 'Ошибка!', "Проверьте корректность секретного ключа")
 
 
     def create_wallet(self):
         self.ui.stackedWidget.setCurrentIndex(2) # переход на сл страницу - создание кошелька
-        self.ui.generate.clicked.connect(lambda: self.gen_keys())
+        self.ui.generate.clicked.connect(lambda: self.gen_keys()) # Вызывается gen_keys
         self.ui.go.setEnabled(True)
 
         self.ui.go.clicked.connect(lambda: self.add_keys_to_db(self.ui.private_key.text() ,  self.ui.address.text()))
 
 
 
-    def generate_keys(self, private_key, public_key, addr):
-        self.ui.private_key.setText(private_key)
-        #self.ui.show_private_key.setEnabled(True)
-        self.ui.public_key.setText(public_key)
-        self.ui.address.setText(addr)
-        #self.ui.show_private_key.clicked.connect(lambda: self.ui.private_key.setText(private_key))
-
-        #self.ui.go.clicked.connect(lambda: self.add_keys_to_db(private_key, addr))
-
     def gen_keys(self):
         private_key = random_key()
         public_key = self.btc.privtopub(private_key)
         addr = self.btc.pubtoaddr(public_key)
-        return self.generate_keys(private_key, public_key, addr)
+        self.ui.private_key.setText(private_key)
+        #self.ui.show_private_key.setEnabled(True)
+        self.ui.public_key.setText(public_key)
+        self.ui.address.setText(addr)
+        #return self.generate_keys(private_key, public_key, addr)
+        #self.ui.show_private_key.clicked.connect(lambda: self.ui.private_key.setText(private_key))
+        #self.ui.go.clicked.connect(lambda: self.add_keys_to_db(private_key, addr))
 
 
 
@@ -195,7 +188,6 @@ def init_db():
     cur.execute('select * from keys')
     if cur.fetchone() is not None: # если ключи есть - вернуть 1
         return 1
-    return 0
     db.close()
 
 class Main(QMainWindow):
