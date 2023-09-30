@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>60</y>
+      <y>0</y>
       <width>831</width>
-      <height>471</height>
+      <height>531</height>
      </rect>
     </property>
     <property name="lineWidth">
@@ -38,10 +38,34 @@
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>50</y>
-        <width>191</width>
-        <height>141</height>
+        <y>40</y>
+        <width>200</width>
+        <height>200</height>
        </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>200</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>200</height>
+       </size>
+      </property>
+      <property name="sizeIncrement">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
       </property>
       <property name="text">
        <string/>
@@ -137,6 +161,75 @@
       </property>
      </widget>
     </widget>
+    <widget class="QWidget" name="history_page">
+     <widget class="QTableWidget" name="history_table">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>80</y>
+        <width>781</width>
+        <height>441</height>
+       </rect>
+      </property>
+      <property name="midLineWidth">
+       <number>0</number>
+      </property>
+      <property name="sortingEnabled">
+       <bool>false</bool>
+      </property>
+      <property name="rowCount">
+       <number>0</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="debet">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>20</y>
+        <width>351</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Всего поступило (дебет):</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="credit">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>50</y>
+        <width>451</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Всего отправлено (кредит, без учёта комиссии):</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="filter_history">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>50</y>
+        <width>201</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="editable">
+       <bool>false</bool>
+      </property>
+      <property name="currentText">
+       <string/>
+      </property>
+      <property name="currentIndex">
+       <number>-1</number>
+      </property>
+     </widget>
+    </widget>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
@@ -201,19 +294,6 @@
     </property>
     <property name="text">
      <string>Получить</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="hello">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>10</y>
-      <width>781</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="history">

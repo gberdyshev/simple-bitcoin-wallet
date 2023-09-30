@@ -134,6 +134,44 @@
       </property>
      </widget>
      <widget class="QPushButton" name="finish_import">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>340</y>
+        <width>181</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Импортировать</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+      <property name="autoDefault">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QProgressBar" name="import_progress">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>270</y>
+        <width>571</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="finish_import_2">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>410</x>
@@ -143,7 +181,13 @@
        </rect>
       </property>
       <property name="text">
-       <string>Импортировать</string>
+       <string>Завершить</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+      <property name="autoDefault">
+       <bool>false</bool>
       </property>
      </widget>
     </widget>
@@ -156,6 +200,9 @@
         <width>581</width>
         <height>26</height>
        </rect>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
       </property>
       <property name="readOnly">
        <bool>true</bool>
@@ -239,28 +286,6 @@
        <string>Генерировать</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="show_private_key">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>140</x>
-        <y>320</y>
-        <width>221</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Показать секретный ключ</string>
-      </property>
-      <property name="checkable">
-       <bool>false</bool>
-      </property>
-      <property name="flat">
-       <bool>false</bool>
-      </property>
-     </widget>
      <widget class="QPushButton" name="go">
       <property name="enabled">
        <bool>false</bool>
@@ -290,8 +315,77 @@
        <string/>
       </property>
      </widget>
+     <widget class="QPushButton" name="show_private_key">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>320</y>
+        <width>191</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Показать секретный ключ</string>
+      </property>
+     </widget>
     </widget>
-    <widget class="QWidget" name="password_creator"/>
+    <widget class="QWidget" name="password_creator">
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>371</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Задайте пароль для шифрования вашего кошелька</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="password">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>40</y>
+        <width>331</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="show_password">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>90</y>
+        <width>161</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Показать пароль</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="confirm">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>340</y>
+        <width>211</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Перейти к использованию</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
  </widget>
