@@ -43,6 +43,7 @@ class MainWindow(QMainWindow):
         self.ui.show_bal.clicked.connect(lambda: self.ui.unconf_balance.setText(str('{0:.9f}'.format(self.get_bal('unconfirmed')))))
         self.ui.receive_button.clicked.connect(self.recieve)
         self.ui.history.clicked.connect(self.get_history)
+        self.ui.load_button.clicked.connect(lambda: FirstRunWindow().add_old_transactions_to_db(self.get_from_db('address')))
 
     def check_password(self, password):
         try:
@@ -85,7 +86,6 @@ class MainWindow(QMainWindow):
         r = r.fetchone()
         if r[0] is not None:
             self.ui.credit.setText(f'Всего отправлено (кредит, без учёта комиссии): {r[0]/__currency__}')
-
         #self.ui.filter_history.addItems(["Все","Только отправка", "Только получение"])
         #self.ui.filter_history.currentTextChanged.connect(print('aa'))
 
@@ -143,7 +143,7 @@ class MainWindow(QMainWindow):
                 return QMessageBox.critical(self, 'Ошибка!', "Недостаточно средств на счёте")
             elif self.btc.is_address(self.ui.addr.text()) is False:
                 return QMessageBox.critical(self, 'Ошибка!', "Неверный адрес получателя")
-            outs = [{'value': summ, 'address': self.ui.addr.text()}, {'value': sum(i['value'] for i in inputs) -  summ - 3177, 'address': address}]
+            outs = [{'value': summ, 'address': self.ui.addr.text()}, {'value': sum(i['value'] for i in inputs) -  summ - 225, 'address': address}]
             tx = self.btc.mktx(inputs, outs)
             password, ok = QInputDialog.getText(None, 'Подписание транзакции', 'Введите пароль:', QLineEdit.Password)
             priv = self.check_password(str(password))
@@ -190,9 +190,11 @@ class FirstRunWindow(QMainWindow):
         db = sqlcipher3.connect(__db_path__)
         value = self.ui.import_progress.value()
         cur = db.cursor()
+        print('a')
         for i in range(len(history)):
             tx_hash = history[i]['tx_hash']
-            if history[i]['height'] != 0:
+            r = cur.execute('select * from transactions where hash = ?', (tx_hash,))
+            if r.fetchone() is None and history[i]['height'] > 0:
                 data = self.btc.inspect(self.btc.get_raw_tx(tx_hash))
                 # если у нас есть адрес в ins, то транзакция типа "перевод OUT", если другой адрес "получение IN"
                 for x in range(len(data['outs'])):
@@ -216,6 +218,7 @@ class FirstRunWindow(QMainWindow):
                     db.commit()
                     self.ui.import_progress.setValue(value+int(100/len(history)))
                     value += int(100/len(history))
+        print("б")
         self.ui.finish_import_2.setEnabled(True)
         #self.w2 = MainWindow()
         #self.ui.finish_import.clicked.connect(self.close())
@@ -287,8 +290,10 @@ class FirstRunWindow(QMainWindow):
     def add_keys_to_db(self, public_key, addr):
         db = sqlcipher3.connect(__db_path__)
         cur = db.cursor()
-        cur.execute('INSERT INTO keys (public_key, address) VALUES (?, ?)',(str(public_key), str(addr)))
-        db.commit()
+        r = cur.execute('select * from keys where public_key = ?',(public_key,))
+        if r.fetchone() is None:
+            cur.execute('INSERT INTO keys (public_key, address) VALUES (?, ?)',(str(public_key), str(addr)))
+            db.commit()
 
 
 
@@ -303,14 +308,13 @@ def init():
     cur.execute("create table if not exists transactions (type TEXT , sender TEXT, recepient TEXT, hash TEXT, amount INTEGER, fee INTEGER)")
     cur.execute("create table if not exists unconfirmed_transactions (type TEXT , sender TEXT, recepient TEXT, hash TEXT, amount INTEGER, fee INTEGER)")
     db.commit()
-
     #wdb = sqlcipher3.connect(__wallet_db_path__)
     #wcur = wdb.cursor()
     #wcur.execute("create table if not exists keys (private_key TEXT, public_key TEXT, address TEXT)")
     #wdb.commit()
 
     cur.execute('select * from keys')
-    if cur.fetchone() is not None: # если ключи есть - вернуть 1
+    if cur.fetchone() is not None and os.path.exists(__wallet_db_path__): # если ключи есть и есть файл с БД кошелька - вернуть 1
         return 1
 
 class Main(QMainWindow):

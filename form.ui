@@ -229,7 +229,21 @@
        <number>-1</number>
       </property>
      </widget>
+     <widget class="QPushButton" name="load_button">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>10</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Загрузить</string>
+      </property>
+     </widget>
     </widget>
+    <widget class="QWidget" name="lock"/>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">

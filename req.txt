@@ -3,3 +3,4 @@ pyside6
 cryptos
 requests
 sqlcipher3
+qrcode
