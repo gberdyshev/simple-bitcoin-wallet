@@ -231,8 +231,8 @@ class MainWindow(QMainWindow):
             outs = [{'value': summ, 'address': self.ui.addr.text()}, {'value': sum(i['value'] for i in inputs) -  summ - 750, 'address': 'mkYLFbxBshHLyQjWGXXMgQa9EzQgar6hHM'}]
             tx = self.btc.mktx(inputs, outs)
             password, ok = QInputDialog.getText(None, 'Подписание транзакции', 'Введите пароль:', QLineEdit.Password)
-            priv2 = self.check_password(str(password))
-            if priv2 is not False:
+            check_password = self.check_password(str(password))
+            if check_password is not False:
                 tx2 = self.btc.signall(tx, priv)
                 tx3 = serialize(tx2)
                 tx_final = self.btc.pushtx(tx3)

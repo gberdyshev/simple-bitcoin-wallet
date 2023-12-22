@@ -32,60 +32,139 @@
     <property name="currentIndex">
      <number>0</number>
     </property>
-    <widget class="QWidget" name="home"/>
-    <widget class="QWidget" name="receive_page">
-     <widget class="QLabel" name="address_qr">
+    <widget class="QWidget" name="home">
+     <widget class="QLabel" name="label_3">
       <property name="geometry">
        <rect>
-        <x>290</x>
-        <y>40</y>
-        <width>200</width>
-        <height>200</height>
+        <x>20</x>
+        <y>10</y>
+        <width>311</width>
+        <height>31</height>
        </rect>
       </property>
-      <property name="minimumSize">
-       <size>
-        <width>200</width>
-        <height>200</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>200</width>
-        <height>200</height>
-       </size>
-      </property>
-      <property name="sizeIncrement">
-       <size>
-        <width>0</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="baseSize">
-       <size>
-        <width>0</width>
-        <height>0</height>
-       </size>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
-       <string/>
+       <string>Simple Bitcoin (Testnet) Wallet</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="address_label">
+    </widget>
+    <widget class="QWidget" name="receive_page">
+     <widget class="QTabWidget" name="tabWidget">
       <property name="geometry">
        <rect>
-        <x>226</x>
-        <y>280</y>
-        <width>331</width>
-        <height>26</height>
+        <x>10</x>
+        <y>10</y>
+        <width>791</width>
+        <height>521</height>
        </rect>
       </property>
-      <property name="text">
-       <string/>
+      <property name="currentIndex">
+       <number>0</number>
       </property>
-      <property name="flat">
-       <bool>true</bool>
-      </property>
+      <widget class="QWidget" name="address_settings">
+       <attribute name="title">
+        <string>Tab 1</string>
+       </attribute>
+       <widget class="QPushButton" name="generate_new_addr">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>350</y>
+          <width>231</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Сгенерировать новый адрес</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="address_qr">
+        <property name="geometry">
+         <rect>
+          <x>300</x>
+          <y>40</y>
+          <width>200</width>
+          <height>200</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="sizeIncrement">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="baseSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="address_label">
+        <property name="geometry">
+         <rect>
+          <x>230</x>
+          <y>280</y>
+          <width>331</width>
+          <height>26</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="address_viewer">
+       <attribute name="title">
+        <string>Tab 2</string>
+       </attribute>
+       <widget class="QTableWidget" name="addresses_table">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>50</y>
+          <width>771</width>
+          <height>431</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>141</width>
+          <height>26</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Загрузить</string>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="send">
@@ -249,7 +328,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>220</y>
+      <y>250</y>
       <width>181</width>
       <height>41</height>
      </rect>
@@ -288,7 +367,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>170</y>
+      <y>150</y>
       <width>181</width>
       <height>41</height>
      </rect>
@@ -301,7 +380,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>270</y>
+      <y>300</y>
       <width>181</width>
       <height>41</height>
      </rect>
@@ -314,7 +393,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>320</y>
+      <y>350</y>
       <width>181</width>
       <height>41</height>
      </rect>
@@ -327,7 +406,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>420</y>
+      <y>450</y>
       <width>181</width>
       <height>41</height>
      </rect>
@@ -340,7 +419,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>370</y>
+      <y>400</y>
       <width>181</width>
       <height>41</height>
      </rect>
@@ -376,6 +455,24 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="go_to_home">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>200</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Домой</string>
     </property>
    </widget>
   </widget>
