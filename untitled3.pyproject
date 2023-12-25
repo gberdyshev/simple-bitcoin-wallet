@@ -1,7 +1,9 @@
 {
     "files": [
         "mainwindow.py",
-        "form.ui",
-        "firstrun_form.ui"
+        "./ui/form.ui",
+        "./ui/firstrun_form.ui",
+        "scripts/database.py",
+        "scripts/consts.py"
     ]
 }
