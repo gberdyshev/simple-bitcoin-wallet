@@ -263,7 +263,7 @@ class MainWindow(QMainWindow):
                 tx3 = serialize(tx2)
                 tx_final = self.btc.pushtx(tx3)
                 linkTemplate = '<a href={0}>{1}</a>'
-                tx_link = f'https://live.blockcypher.com/btc-testnet/tx/{tx_final}'
+                tx_link = f'https://testnet.bitcoinexplorer.org/tx/{tx_final}'
                 self.ui.hash.setText(linkTemplate.format(tx_link, tx_final))
                 db = sqlcipher3.connect(__db_path__)
                 cur = db.cursor()

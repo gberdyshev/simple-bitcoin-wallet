@@ -6,7 +6,7 @@ class Database(object):
         self.db = sqlcipher3.connect(consts.__db_path__)
         self.cur = self.db.cursor()
 
-        self.crypted_db = sqlcipher3.connect('./db/wallet.db')
+        self.crypted_db = sqlcipher3.connect(consts.__wallet_db_path__)
         self.cr_cur = self.crypted_db.cursor()
         self.password = password
 
