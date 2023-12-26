@@ -21,13 +21,14 @@ class Database(object):
     def _password(self, password):
         self.password = password
 
-    # возврат приватного ключа, соответствующего адресу
+    # Возврат приватного ключа, соответствующего адресу
     def get_private_key(self, address):
         self.cr_cur.execute('PRAGMA KEY = "{}"'.format(self.password))
         self.cr_cur.execute("select private_key from keys where address = ?", (address,))
         r = self.cr_cur.fetchone()
         return r[0]
 
+    # Проверка правильности пароля
     def check_password(self):
         try:
             self.cr_cur.execute('PRAGMA KEY = "{}"'.format(self.password))
@@ -37,13 +38,16 @@ class Database(object):
         except:
             return False
 
-    """Проверка, чтобы не генерировать новые адреса при непроведенных транзакциях,
-    если адрес не был использован - можно использовать его (для сдачи)"""
+    """
+        Проверка, чтобы не генерировать новые адреса при непроведенных транзакциях,
+        если адрес не был использован - можно использовать его (для сдачи)
+    """
     def get_last_address(self):
         self.cur.execute("select address from keys")
         r = self.cur.fetchall()
         return r[-1][0] # возвращаем последний адрес
 
+    "Получить список всех сгенерированных адресов из БД"
     def get_addresses_from_db(self):
         addr_list = list()
         self.cur.execute("select address from keys")
@@ -51,6 +55,10 @@ class Database(object):
         for addr in r:
             addr_list.append(addr[0])
         return addr_list
+
+    # Получить индекс для нового адреса (Последний адрес: длина списка адресов - 1)
+    def get_new_address_index(self):
+        return len(self.get_addresses_from_db())
 
     # Проверка на детерминированность
     def walletIsDeterministic(self):
@@ -62,6 +70,7 @@ class Database(object):
             f = True
         return f
 
+    # Создание и шифрование wallet.db
     def crypt_wallet_db(self, private_key, public_key, address, mnemonic):
         self.cr_cur.execute('PRAGMA KEY = "{}"'.format(self.password))
         self.crypted_db.commit()
@@ -71,12 +80,44 @@ class Database(object):
         self.cr_cur.execute('INSERT INTO mnemonic_keys (mnemonic) VALUES (?)',(mnemonic,))
         self.crypted_db.commit()
 
+    # Добавление ключей в незашифрованную БД (открытый ключ и адрес)
     def add_keys_to_db(self, public_key, address):
         r = self.cur.execute('select * from keys where public_key = ?',(public_key,))
         if r.fetchone() is None:
             self.cur.execute('INSERT INTO keys (public_key, address) VALUES (?, ?)',(str(public_key), str(address)))
-        #cur.execute('INSERT INTO mnemonic_public_key (xpub_key) VALUES (?)',(xpub_key))
         self.db.commit()
+
+    # Проверка существования транзакции
+    def transaction_is_exists(self, tx_hash):
+        self.cur.execute('select * from transactions where hash = ?', (tx_hash,))
+        if self.cur.fetchone() is None:
+            return False # транзакции нет
+        else:
+            return True
+
+    # Добавление транзакции в data.db
+    def add_transaction_to_db(self, type, sender, recepient, tx_hash, amount, fee):
+        self.cur.execute('INSERT INTO transactions (type, sender, recepient, hash, amount, fee) VALUES (?, ?, ?, ?, ?, ?)',\
+        (type, sender, recepient, tx_hash, amount, fee))
+        self.db.commit()
+
+    # Получить мнемоническую фразу из wallet.db
+    def get_mnemonic(self):
+        self.cr_cur.execute('PRAGMA KEY = "{}"'.format(self.password))
+        self.cr_cur.execute("select mnemonic from mnemonic_keys")
+        r = self.cr_cur.fetchone()
+        if r[0] is not None:
+            return r[0]
+
+    # Вставка ключей в незашифрованную и зашифрованную БД
+    def insert_keys(self, private_key, public_key, address):
+        self.add_keys_to_db(public_key, address)
+        self.cr_cur.execute('PRAGMA KEY = "{}"'.format(self.password))
+        self.cr_cur.execute('INSERT INTO keys (private_key, public_key, address) VALUES (?, ?, ?)',(private_key, public_key, address))
+        self.crypted_db.commit()
+
+
+
 
 
 
