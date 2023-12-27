@@ -47,7 +47,7 @@ class Database(object):
         r = self.cur.fetchall()
         return r[-1][0] # возвращаем последний адрес
 
-    "Получить список всех сгенерированных адресов из БД"
+    # Получить список всех сгенерированных адресов из БД
     def get_addresses_from_db(self):
         addr_list = list()
         self.cur.execute("select address from keys")
