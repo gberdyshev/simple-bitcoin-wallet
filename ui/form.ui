@@ -30,7 +30,7 @@
      <number>3</number>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="home">
      <widget class="QLabel" name="label_3">
@@ -195,6 +195,9 @@
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>80</x>
@@ -204,26 +207,13 @@
        </rect>
       </property>
       <property name="text">
-       <string>Отправить</string>
+       <string>Далее</string>
       </property>
       <property name="checkable">
        <bool>false</bool>
       </property>
-     </widget>
-     <widget class="QLabel" name="hash">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>170</y>
-        <width>761</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="openExternalLinks">
-       <bool>true</bool>
+      <property name="autoDefault">
+       <bool>false</bool>
       </property>
      </widget>
      <widget class="QLineEdit" name="note">
@@ -322,20 +312,275 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="lock"/>
-   </widget>
-   <widget class="QPushButton" name="pushButton_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>250</y>
-      <width>181</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Отправить</string>
-    </property>
+    <widget class="QWidget" name="lock">
+     <widget class="QLineEdit" name="password">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>280</y>
+        <width>301</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Введите пароль</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="password_ok">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>330</y>
+        <width>151</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Вход</string>
+      </property>
+      <property name="default">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="send_confirm">
+     <widget class="QLabel" name="check_details">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>20</y>
+        <width>221</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Проверьте детали транзакции</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>70</y>
+        <width>141</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Адрес получателя:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>100</y>
+        <width>141</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Сумма к отправке:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="address_recipient">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>70</y>
+        <width>601</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="summ_recipient">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>100</y>
+        <width>141</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="fee_options">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>170</y>
+        <width>301</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="editable">
+       <bool>false</bool>
+      </property>
+      <item>
+       <property name="text">
+        <string>Выбор</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Быстрая</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Стандартная</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Медленная</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="check_details_2">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>140</y>
+        <width>261</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Выберите скорость проведения:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="comm">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>210</y>
+        <width>141</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Комиссия (sat/vB):</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="comission_byte">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>210</y>
+        <width>141</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="comm_2">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>240</y>
+        <width>191</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Комиссия за транзакцию:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="comission_tr">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>260</y>
+        <width>141</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="push_transaction">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>360</y>
+        <width>211</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Провести</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="cancel_transaction">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>440</y>
+        <width>211</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Отменить транзакцию</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="password_2">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>320</y>
+        <width>301</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Пароль</string>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="send_success">
+     <widget class="QLabel" name="hash">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>200</y>
+        <width>761</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>150</y>
+        <width>531</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Успешно! Транзакция подписана и передана в сеть. Ожидайте проведения.</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
@@ -361,71 +606,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="show_bal">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>150</y>
-      <width>181</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Показать баланс</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="receive_button">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>300</y>
-      <width>181</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Получить</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="history">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>350</y>
-      <width>181</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>История</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="setting">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>450</y>
-      <width>181</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Настройки</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="contacts">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>400</y>
-      <width>181</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Контакты</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -457,23 +637,123 @@
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="go_to_home">
+   <widget class="QGroupBox" name="menu_buttons">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>200</y>
-      <width>181</width>
-      <height>41</height>
+      <x>0</x>
+      <y>140</y>
+      <width>221</width>
+      <height>401</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <bold>true</bold>
-     </font>
+    <property name="contextMenuPolicy">
+     <enum>Qt::DefaultContextMenu</enum>
     </property>
-    <property name="text">
-     <string>Домой</string>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QPushButton" name="show_bal">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>181</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Показать баланс</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="go_to_home">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>80</y>
+       <width>181</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Домой</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_3">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>130</y>
+       <width>181</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Отправить</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="receive_button">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>180</y>
+       <width>181</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Получить</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="contacts">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>280</y>
+       <width>181</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Контакты</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="setting">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>330</y>
+       <width>181</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Настройки</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="history">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>230</y>
+       <width>181</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>История</string>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>

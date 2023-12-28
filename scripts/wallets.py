@@ -80,9 +80,31 @@ class GeneralFunctions(object):
 
 
 
-class ImportWallet(object):
+class Transaction(object):
     def __init__(self):
         self.btc = __coin__
+
+    def send_tr(self, inputs, priv, inputs_summ, summ, new_addr, password, address):
+        outs = [{'value': summ, 'address': address}, {'value': inputs_summ -  summ - 750, 'address': new_addr}]
+        tx = self.btc.mktx(inputs, outs)
+        check_password = Database(str(password)).check_password()
+        if check_password is not False:
+            tx2 = self.btc.signall(tx, priv)
+            tx3 = serialize(tx2)
+            tx_final = self.btc.pushtx(tx3)
+            #linkTemplate = '<a href={0}>{1}</a>'
+            #tx_link = f'https://testnet.bitcoinexplorer.org/tx/{tx_final}'
+            #self.ui.hash.setText(linkTemplate.format(tx_link, tx_final))
+            #db = sqlcipher3.connect(__db_path__)
+            #cur = db.cursor()
+            #cur.execute('INSERT INTO unconfirmed_transactions (type, sender, recepient, hash, amount, fee) VALUES (?, ?, ?, ?, ?, ?)', ('output', address,self.ui.addr.text() , tx_final, summ, 0))
+            #db.commit()
+            print('a')
+        else:
+            return 0
+
+
+
 
 
 

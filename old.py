@@ -22,3 +22,13 @@
                         #inputs.extend(new_unspent)
                         #priv[addr[0]] = addr[1]
                         #inputs_summ = sum(i['value'] for i in inputs)
+                        
+     # Функция добавления ключей в БД
+    def add_keys_to_db(self, public_key, addr):
+        db = sqlcipher3.connect(__db_path__)
+        cur = db.cursor()
+        r = cur.execute('select * from keys where public_key = ?',(public_key,))
+        if r.fetchone() is None:
+            cur.execute('INSERT INTO keys (public_key, address) VALUES (?, ?)',(str(public_key), str(addr)))
+        #cur.execute('INSERT INTO mnemonic_public_key (xpub_key) VALUES (?)',(xpub_key))
+        db.commit()

@@ -4,6 +4,8 @@
         "./ui/form.ui",
         "./ui/firstrun_form.ui",
         "scripts/database.py",
-        "scripts/consts.py"
+        "scripts/consts.py",
+        "scripts/tools.py",
+        "scripts/wallets.py"
     ]
 }

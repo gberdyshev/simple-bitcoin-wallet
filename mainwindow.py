@@ -6,11 +6,13 @@ import qrcode
 import os
 import threading
 import time
+import random
 
 from ui import ui_form # Импорт основной формы
 from ui import ui_firstrun_form as firstrun_form
 
-
+from scripts.wallets import GeneralFunctions, Transaction
+from scripts.tools import Tools
 from scripts.database import Database
 from scripts import consts
 
@@ -35,27 +37,55 @@ __currency__ = consts.__currency__ # если 10^8 - Биткоин, если 1 
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, FirstRun=False, password=None):
         self.btc = __coin__
         super().__init__(parent)
         self.ui = ui_form.Ui_MainWindow()
         self.ui.setupUi(self)
-        password, ok = QInputDialog.getText(None, 'Аутентификация', 'Введите пароль:', QLineEdit.Password)
-        if Database(password).check_password() is False:
-            quit()
+
+        #if password is None:
+
+        #if FirstRun is False:
+            #password, ok = QInputDialog.getText(None, 'Аутентификация', 'Введите пароль:', QLineEdit.Password)
+            #if Database(password).check_password() is False:
+                #quit()
+
+        self.ui.password_ok.clicked.connect(self.enter_to_wallet)
         self.password = password
         self.ui.pushButton.clicked.connect(self.send_transaction)
+        self.ui.push_transaction.clicked.connect(lambda: self.send_tr(self.inputs, self.priv, self.inputs_summ, self.summ, self.new_addr))
         self.ui.pushButton_3.clicked.connect(self.dop)
         #self.ui.hello.setText(f'Здравствуйте, {self.get_from_db("address")}')
+
 
         self.ui.show_bal.clicked.connect(lambda: threading.Thread(target=self.get_bal).start())
         #self.ui.show_bal.clicked.connect(lambda: self.ui.unconf_balance.setText(str('{0:.9f}'.format(self.get_bal('unconfirmed')))))
         self.ui.receive_button.clicked.connect(self.recieve)
         self.ui.history.clicked.connect(self.get_history)
-        self.ui.load_button.clicked.connect(self.update_history)
+        self.ui.load_button.clicked.connect(lambda: threading.Thread(target=self.update_history).start())
         self.ui.generate_new_addr.clicked.connect(lambda: self.generate_new_address())
         self.ui.go_to_home.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(0))
         self.ui.pushButton_2.clicked.connect(self.get_addresses)
+
+    def enter_to_wallet(self):
+        if Database(self.ui.password.text()).check_password():
+            self.ui.stackedWidget.setCurrentIndex(0) # перейти на домашнюю страницу
+            self.ui.menu_buttons.setEnabled(True)
+            self.password = self.ui.password.text()
+            threading.Thread(target=self.get_bal).start() # получаем и отображаем баланс
+            self.cr_DB = Database(self.password)
+            self.DB = Database()
+            self.GenFunc = GeneralFunctions(self.password)
+        else:
+            QMessageBox.critical(self, 'Ошибка!', "Неверный пароль")
+
+
+
+
+
+
+
+
 
     def update_history(self):
         FirstRunWindow().add_old_transactions_to_db()
@@ -65,6 +95,7 @@ class MainWindow(QMainWindow):
 
 
     def get_history(self):
+
 
         self.ui.stackedWidget.setCurrentIndex(3)
         db = sqlcipher3.connect(__db_path__)
@@ -96,45 +127,22 @@ class MainWindow(QMainWindow):
 
 
     def get_addresses(self):
-        db1 = sqlcipher3.connect(__db_path__)
-        cur1 = db1.cursor()
-        cur1.execute('select * from keys')
-        r = cur1.fetchall()
+        r = self.DB.get_addresses_from_db()
         self.ui.addresses_table.setRowCount(len(r)) # строчки
         self.ui.addresses_table.setColumnCount(1)
         self.ui.addresses_table.setHorizontalHeaderLabels(["Адрес"])
-        print(r)
-        for i, (public_key, address) in enumerate(r):
+        for i, address in enumerate(r):
             self.ui.addresses_table.setItem(i,0, QTableWidgetItem(address))
 
 
+
     def generate_new_address(self):
-        db = sqlcipher3.connect(__wallet_db_path__)
-        cur = db.cursor()
-        cur.execute('PRAGMA KEY = "{}"'.format(self.password))
-        cur.execute("select mnemonic from mnemonic_keys")
-        r = cur.fetchone()
-        #print(r)
-        wallet = self.btc.wallet(r[0])
-        #print(wallet.get_used_addresses())
 
-        db1 = sqlcipher3.connect(__db_path__)
-        cur1 = db1.cursor()
-        cur1.execute('select address from keys')
-        r = cur1.fetchall()
-        print(r)
-        new_address_index = len(r)
-
-        new_addr = wallet.receiving_address(new_address_index)
-        priv_key = wallet.privkey(new_addr)
-        public_key = self.btc.privtopub(wallet.privkey(new_addr))
-        cur1.execute('INSERT INTO keys (public_key, address) VALUES (?, ?)',(public_key, new_addr))
-        db1.commit()
-        cur.execute('INSERT INTO keys (private_key, public_key, address) VALUES (?, ?, ?)',(priv_key, public_key, new_addr))
-        db.commit()
-
-        self.ui.address_label.setText(new_addr)
-        return new_addr
+        if Database(self.password).walletIsDeterministic() is False: # если кошелек недетерминированный - генерация новых адресов невозможна
+            return QMessageBox.critical(self, 'Ошибка!', "Ваш кошелек является недетерминированным!")
+        new_addr = self.GenFunc.generate_new_address()
+        QApplication.clipboard().setText(new_addr)
+        self.recieve()
 
 
 
@@ -142,46 +150,24 @@ class MainWindow(QMainWindow):
 
 
 
-    def recieve(self): # !!!надо qr-код сделать!!!
+
+    def recieve(self):
         self.ui.stackedWidget.setCurrentIndex(1) # открытие страницы
-        address = self.get_from_db('address')
+        address = Database().get_last_address()
         self.ui.address_label.setText(address)
         self.ui.address_label.clicked.connect(lambda: QApplication.clipboard().setText(address))
-        img = qrcode.make(address)
-        path = f"{__temp_path__}qr_{address}.png"
-        img.save(path)
+        path = Tools().qrcode_generator(address)
         pixmap = QPixmap(path).scaled(200,200)
         self.ui.address_qr.setPixmap(pixmap)
 
 
 
 
-    # Расчёт комиссии, принимает аргумент: размер транзакции (в Байтах)
-    def calc_fee(self, size):
-        r = requests.get('https://api.blockcypher.com/v1/btc/test3')
-        r = r.json()
-        high = r['high_fee_per_kb']
-        medium = r['medium_fee_per_kb']
-        low = r['low_fee_per_kb']
-        size_kb = size / 1024
-        print(size_kb*low)
-
 
     def get_bal(self):
-        db1 = sqlcipher3.connect(__db_path__)
-        cur1 = db1.cursor()
-        cur1.execute('select address from keys')
-        r = cur1.fetchall()
-        confirmed_bal = 0
-        unconfirmed_bal = 0
-        addresses = []
-        for addr in r:
-            addresses.append(addr[0])
-            #dict_bal = self.btc.get_balance(addr[0])
-            #confirmed_bal += dict_bal['confirmed']
-            #unconfirmed_bal += dict_bal['unconfirmed']
-            #print(addr, dict_bal['confirmed'])
+        addresses = Database().get_addresses_from_db()
         bal = self.btc.get_balances(*tuple(addresses))
+        confirmed_bal = unconfirmed_bal = 0
         for i in bal:
             confirmed_bal += i['confirmed']
             unconfirmed_bal += i['unconfirmed']
@@ -200,8 +186,40 @@ class MainWindow(QMainWindow):
         r = cur.fetchone()[0]
         return r
 
+
+
+
     def dop(self):
         self.ui.stackedWidget.setCurrentIndex(2)
+        #self.ui.pushButton.clicked.connect(self.send_transaction)
+        #self.ui.pushButton.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(5))
+        #self.ui.push_transaction.clicked.connect(lambda: self.send_tr(self.inputs, self.priv, self.inputs_summ, self.summ, self.new_addr))
+
+
+
+    def send_tr(self, inputs, priv, inputs_summ, summ, new_addr):
+        summ = int(self.ui.summ_recipient.text())
+        outs = [{'value': summ, 'address': self.ui.address_recipient.text()}, {'value': inputs_summ -  summ - int(self.ui.comission_tr.text()), 'address': new_addr}]
+        tx = self.btc.mktx(inputs, outs)
+        password, ok = QInputDialog.getText(None, 'Подписание транзакции', 'Введите пароль:', QLineEdit.Password)
+        check_password = Database(str(password)).check_password()
+        if check_password is not False:
+            tx2 = self.btc.signall(tx, priv)
+            tx3 = serialize(tx2)
+            tx_final = self.btc.pushtx(tx3)
+            linkTemplate = '<a href={0}>{1}</a>'
+            tx_link = f'https://testnet.bitcoinexplorer.org/tx/{tx_final}'
+            self.ui.hash.setText(linkTemplate.format(tx_link, tx_final))
+            self.ui.stackedWidget.setCurrentIndex(6)
+            #db = sqlcipher3.connect(__db_path__)
+            #cur = db.cursor()
+            #cur.execute('INSERT INTO unconfirmed_transactions (type, sender, recepient, hash, amount, fee) VALUES (?, ?, ?, ?, ?, ?)', ('output', address,self.ui.addr.text() , tx_final, summ, 0))
+            #db.commit()
+        else:
+            QMessageBox.critical(self, 'Ошибка!', "Неверный пароль")
+
+
+
 
     # Отправка транзакции
     def send_transaction(self):
@@ -219,6 +237,10 @@ class MainWindow(QMainWindow):
             #cur1 = db1.cursor()
             #cur1.execute('select address from keys')
             #r = cur1.fetchall()
+
+
+            if self.btc.is_address(self.ui.addr.text()) is False:
+                return QMessageBox.critical(self, 'Ошибка!', "Неверный адрес получателя")
             inputs_summ = 0
             all_in = []
             inputs = []
@@ -239,40 +261,85 @@ class MainWindow(QMainWindow):
                     priv[addr] = Database(self.password).get_private_key(addr)
                     inputs_summ += unsp['value']
 
-            fee = (len(inputs) * 148 + 2 * 34 + 10) * 1 # 2 - это выходы, пока они захардажены
-            print(inputs, priv)
-            print(inputs_summ)
+            #fee = (len(inputs) * 148 + 2 * 34 + 10) * 1 # 2 - это выходы, пока они захардажены
+            #print(inputs, priv)
+            #print(inputs_summ)
             print(time.time()-t)
-
             last_address = Database(self.password).get_last_address()
-            if len(self.btc.unspent(last_address)) == 0:
+            #print(Database(self.password).walletIsDeterministic())
+            if len(self.btc.unspent(last_address)) == 0 or Database(self.password).walletIsDeterministic() is False:
                 new_addr = last_address
-            else:
-                new_addr = self.generate_new_address()
-            #Сдача считается по формуле: входные данные - сумма отправки - комиссия
-            if inputs_summ - summ - fee < 0 or summ <=0:
+            elif Database(self.password).walletIsDeterministic() is True:
+                new_addr = self.GenFunc.generate_new_address()
+
+            if inputs_summ - summ < 0 or summ <=0:
                 return QMessageBox.critical(self, 'Ошибка!', "Недостаточно средств на счёте")
-            elif self.btc.is_address(self.ui.addr.text()) is False:
-                return QMessageBox.critical(self, 'Ошибка!', "Неверный адрес получателя")
-            outs = [{'value': summ, 'address': self.ui.addr.text()}, {'value': inputs_summ -  summ - fee, 'address': new_addr}]
-            tx = self.btc.mktx(inputs, outs)
-            password, ok = QInputDialog.getText(None, 'Подписание транзакции', 'Введите пароль:', QLineEdit.Password)
-            check_password = Database(str(password)).check_password()
-            if check_password is not False:
-                tx2 = self.btc.signall(tx, priv)
-                tx3 = serialize(tx2)
-                tx_final = self.btc.pushtx(tx3)
-                linkTemplate = '<a href={0}>{1}</a>'
-                tx_link = f'https://testnet.bitcoinexplorer.org/tx/{tx_final}'
-                self.ui.hash.setText(linkTemplate.format(tx_link, tx_final))
-                db = sqlcipher3.connect(__db_path__)
-                cur = db.cursor()
-                cur.execute('INSERT INTO unconfirmed_transactions (type, sender, recepient, hash, amount, fee) VALUES (?, ?, ?, ?, ?, ?)', ('output', address,self.ui.addr.text() , tx_final, summ, 0))
-                db.commit()
-            else:
-                QMessageBox.critical(self, 'Ошибка!', "Неверный пароль")
+
+            #Сдача считается по формуле: входные данные - сумма отправки - комиссия
+
+
+            def select_fee_option(value):
+                fees = Tools().get_actual_fee()
+                fee = 1
+                if value == "Быстрая":
+                    fee = fees[0]
+                elif value == "Стандартная":
+                    fee = fees[1]
+                elif value == "Медленная":
+                    fee = fees[2]
+                fee_tr = Tools().calc_fee(len(inputs), 2, fee)
+                self.ui.comission_byte.setText(str(fee))
+                self.ui.comission_tr.setText(str(fee_tr))
+                if inputs_summ - summ - fee_tr < 0:
+                    return QMessageBox.critical(self, 'Ошибка!', "Недостаточно средств на счёте")
+
+
+            def send_tr():
+                print("а")
+                #password = self.ui.password_2.text()
+                summ = int(self.ui.summ_recipient.text())
+                outs = [{'value': summ, 'address': self.ui.address_recipient.text()}, {'value': inputs_summ -  summ - int(self.ui.comission_tr.text()), 'address': new_addr}]
+                tx = self.btc.mktx(inputs, outs)
+                #QMessageBox.critical(self, 'Ошибка!', "Недостаточно средств на счёте")
+                password, ok = QInputDialog.getText(None, 'Подписание транзакции', 'Введите пароль:', QLineEdit.Password)
+                check_password = Database(str(password)).check_password()
+                if check_password is not False:
+                    tx2 = self.btc.signall(tx, priv)
+                    tx3 = serialize(tx2)
+                    tx_final = self.btc.pushtx(tx3)
+                    linkTemplate = '<a href={0}>{1}</a>'
+                    tx_link = f'https://testnet.bitcoinexplorer.org/tx/{tx_final}'
+                    self.ui.hash.setText(linkTemplate.format(tx_link, tx_final))
+                    self.ui.stackedWidget.setCurrentIndex(6)
+                    #db = sqlcipher3.connect(__db_path__)
+                    #cur = db.cursor()
+                    #cur.execute('INSERT INTO unconfirmed_transactions (type, sender, recepient, hash, amount, fee) VALUES (?, ?, ?, ?, ?, ?)', ('output', address,self.ui.addr.text() , tx_final, summ, 0))
+                    #db.commit()
+                else:
+                    QMessageBox.critical(self, 'Ошибка!', "Неверный пароль")
+                #return 0
+
+            self.ui.stackedWidget.setCurrentIndex(5)
+            self.ui.address_recipient.setText(self.ui.addr.text())
+            self.ui.summ_recipient.setText(str(summ))
+            #fees = Tools().get_actual_fee()
+            self.ui.fee_options.currentTextChanged.connect(select_fee_option)
+            self.inputs, self.priv, self.inputs_summ, self.summ, self.new_addr = inputs, priv, inputs_summ, summ, new_addr
+            #self.ui.push_transaction.clicked.connect(lambda: self.send_tr(self.inputs, self.priv, self.inputs_summ, self.summ, self.new_addr))
+            self.ui.cancel_transaction.clicked.connect(self.dop)
+            #return 0
+            #return inputs, priv, inputs_summ, summ, new_addr
+
+
+
+
+
+
+
+
         #except:
             #QMessageBox.critical(self, 'Ошибка!', "Проверьте корректность введенных данных")
+
 
 
 
@@ -287,53 +354,43 @@ class FirstRunWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.create_wallet.clicked.connect(self.create_wallet)
         self.ui.import_wallet.clicked.connect(self.import_wallet)
+        #self.ui.import_wallet_from_seed.clicked.connect(self.import_wallet_from_seed)
+
+
+    #def import_wallet_from_seed(self):
 
 
     # Всё это в отдельные классы в отдельные файлы
     def import_wallet(self):
         self.ui.stackedWidget.setCurrentIndex(1)
+        self.mnemonic = False
+        self.mnemonic_phrase = None
+        self.ui.import_options.currentTextChanged.connect(self.select_option)
+        #if self.ui.import_options.currentIndex() == 1:
+            #print(0)
         self.ui.check.clicked.connect(self.check_keys)
         db = sqlcipher3.connect(__db_path__)
         cur = db.cursor()
         cur.execute("delete from transactions")
         db.commit()
-        self.ui.finish_import_2.clicked.connect(lambda: self.add_password(self.ui.private_key_2.text(),self.ui.public_key_2.text(), self.ui.address_2.text()))
+        self.ui.finish_import_2.clicked.connect(lambda: self.add_password(self.ui.private_key_2.text(),self.ui.public_key_2.text(), self.ui.address_2.text(), self.mnemonic_phrase))
+
+    def select_option(self, value):
+        self.ui.private_key_2.setEnabled(False)
+        self.ui.mnemonic_2.setEnabled(False)
+        if value == "Секретный ключ":
+            self.ui.private_key_2.setEnabled(True)
+            self.mnemonic = False
+        elif value == "Мнемоническая фраза":
+            self.ui.mnemonic_2.setEnabled(True)
+            self.mnemonic = True
+
 
         # !!!
-    def add_old_transactions_to_db(self):
-        addr_list = Database().get_addresses_from_db()
-        history = self.btc.get_histories(*tuple(addr_list))
-        db = sqlcipher3.connect(__db_path__)
-        value = self.ui.import_progress.value()
-        cur = db.cursor()
-        print(history)
-        for i in range(len(history)):
-            tx_hash = history[i]['tx_hash']
-            r = cur.execute('select * from transactions where hash = ?', (tx_hash,))
-            if r.fetchone() is None and history[i]['height'] > 0:
-                data = self.btc.inspect(self.btc.get_raw_tx(tx_hash))
-                # если у нас есть адрес в ins, то транзакция типа "перевод OUT", если другой адрес "получение IN"
-                for x in range(len(data['outs'])):
-                    if next(iter(data['ins'])) in addr_list:
-                        if not data['outs'][x]['address'] in addr_list:
-                            recepient = data['outs'][x]['address']
-                            sender = 'You'
-                            type = 'output'
-                            amount = data['outs'][x]['value']
-                            fee = data['fee']
-                            cur.execute('INSERT INTO transactions (type, sender, recepient, hash, amount, fee) VALUES (?, ?, ?, ?, ?, ?)', (type, sender, recepient, tx_hash, amount, fee))
-                            #db.commit()
-                    else:
-                        if data['outs'][x]['address'] in addr_list:
-                            type = 'input'
-                            sender = next(iter(data['ins']))
-                            recepient = 'You'
-                            amount = data['outs'][x]['value']
-                            fee = data['fee']
-                            cur.execute('INSERT INTO transactions (type, sender, recepient, hash, amount, fee) VALUES (?, ?, ?, ?, ?, ?)', (type, sender, recepient, tx_hash, amount, fee))
-                    db.commit()
-                    self.ui.import_progress.setValue(value+int(100/len(history)))
-                    value += int(100/len(history))
+    def add_old_transactions_to_db(self, addr=None):
+        GeneralFunctions().add_transactions(addr)
+
+        #value += int(100/len(history))
         self.ui.import_progress.setValue(100)
         print("б")
         self.ui.finish_import_2.setEnabled(True)
@@ -345,27 +402,19 @@ class FirstRunWindow(QMainWindow):
 
     def check_keys(self):
         try:
-            private_key = self.ui.private_key_2.text()
-            public_key = self.btc.privtopub(private_key)
+            if self.mnemonic is True:
+                self.mnemonic_phrase = self.ui.mnemonic_2.text()
+                self.ui.private_key_2.setText(GeneralFunctions().get_first_private_key(self.mnemonic_phrase))
+            public_key, address = GeneralFunctions().check_private_key(self.ui.private_key_2.text())
             self.ui.public_key_2.setText(public_key)
-            self.ui.address_2.setText(self.btc.pubtoaddr(self.btc.privtopub(private_key)))
-            #self.ui.finish_import.clicked.connect(lambda: self.add_keys_to_db(public_key, self.btc.pubtoaddr(public_key)))
-            self.ui.finish_import.clicked.connect(lambda: self.add_old_transactions_to_db(self.btc.pubtoaddr(public_key)))
+            self.ui.address_2.setText(address)
+            self.ui.finish_import.clicked.connect(lambda: self.add_old_transactions_to_db(address))
         except:
-            QMessageBox.critical(self, 'Ошибка!', "Проверьте корректность секретного ключа")
+            QMessageBox.critical(self, 'Ошибка!', "Проверьте корректность секретного ключа или мнемонической фразы")
 
     def crypt_wdb(self, private_key, public_key, address, mnemonic):
-
-        wdb = sqlcipher3.connect(__wallet_db_path__)
-        cur = wdb.cursor()
-        cur.execute('PRAGMA KEY = "{}"'.format(self.ui.password.text()))
-        wdb.commit()
-        cur.execute("create table if not exists keys (private_key TEXT, public_key TEXT, address TEXT)")
-        cur.execute("create table if not exists mnemonic_keys (mnemonic TEXT)")
-        cur.execute('INSERT INTO keys (private_key, public_key, address) VALUES (?, ?, ?)',(private_key, public_key, address))
-        cur.execute('INSERT INTO mnemonic_keys (mnemonic) VALUES (?)',(mnemonic,))
-        wdb.commit()
-        self.add_keys_to_db(public_key, address)
+        Database(self.ui.password.text()).crypt_wallet_db(private_key, public_key, address, mnemonic)
+        Database().add_keys_to_db(public_key, address)
 
 
     def add_password(self,private_key, public_key, addr, mnemonic):
@@ -411,15 +460,9 @@ class FirstRunWindow(QMainWindow):
 
 
 
-    # Функция добавления ключей в БД
-    def add_keys_to_db(self, public_key, addr):
-        db = sqlcipher3.connect(__db_path__)
-        cur = db.cursor()
-        r = cur.execute('select * from keys where public_key = ?',(public_key,))
-        if r.fetchone() is None:
-            cur.execute('INSERT INTO keys (public_key, address) VALUES (?, ?)',(str(public_key), str(addr)))
-        #cur.execute('INSERT INTO mnemonic_public_key (xpub_key) VALUES (?)',(xpub_key))
-        db.commit()
+
+
+
 
 
 
@@ -441,12 +484,13 @@ def init():
     #wdb.commit()
 
     cur.execute('select * from keys')
-    if cur.fetchone() is not None and os.path.exists(__wallet_db_path__): # если ключи есть и есть файл с БД кошелька - вернуть 1
+    if cur.fetchone() is not None: # если ключи есть и есть файл с БД кошелька - вернуть 1
         return 1
 
 class Main(QMainWindow):
     def __init__(self):
         super(Main, self).__init__()
+        self.w1 = FirstRunWindow()
     def show_w1(self):
 
         self.w1 = FirstRunWindow()
@@ -469,8 +513,8 @@ if __name__ == "__main__":
 
     app = QApplication(sys.argv)
     widget = Main()
-    Main().hide()
-    widget.show()
+    #Main().hide()
+    #widget.show()
     if init() == 1: # при наличии ключей запускается сразу MainWindow
         widget.show_w2()
     else:

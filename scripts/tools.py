@@ -32,6 +32,3 @@ class Tools(object):
     """Расчет размера транзации (приблизительного) и комиссии по нему"""
     def calc_fee(self, inputs, outs = 2, sat_byte = 1):
         return (inputs * 148 + outs * 34 + 10) * sat_byte
-
-
-
