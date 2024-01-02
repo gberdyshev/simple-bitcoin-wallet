@@ -64,6 +64,7 @@ class GeneralFunctions(object):
         Database(self.password).insert_keys(priv_key, public_key, new_addr)
         return new_addr
 
+    # Возвращает первый приватный ключ из первой пары ключей (с индексом 0)
     def get_first_private_key(self, mnemonic):
         wallet = self.btc.wallet(mnemonic)
         addr0 = wallet.receiving_address(0)

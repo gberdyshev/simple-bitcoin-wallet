@@ -42,6 +42,7 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         self.ui = ui_form.Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.address_label.clicked.connect(lambda: QApplication.clipboard().setText(self.ui.address_label.text()))
 
         #if password is None:
 
@@ -71,6 +72,7 @@ class MainWindow(QMainWindow):
         if Database(self.ui.password.text()).check_password():
             self.ui.stackedWidget.setCurrentIndex(0) # перейти на домашнюю страницу
             self.ui.menu_buttons.setEnabled(True)
+            self.ui.pushButton_3.setEnabled(True)
             self.password = self.ui.password.text()
             threading.Thread(target=self.get_bal).start() # получаем и отображаем баланс
             self.cr_DB = Database(self.password)
@@ -155,7 +157,6 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(1) # открытие страницы
         address = Database().get_last_address()
         self.ui.address_label.setText(address)
-        self.ui.address_label.clicked.connect(lambda: QApplication.clipboard().setText(address))
         path = Tools().qrcode_generator(address)
         pixmap = QPixmap(path).scaled(200,200)
         self.ui.address_qr.setPixmap(pixmap)
