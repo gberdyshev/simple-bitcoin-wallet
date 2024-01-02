@@ -16,7 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QFrame,
-    QGroupBox, QHeaderView, QLabel, QLineEdit,
+    QGridLayout, QGroupBox, QHeaderView, QLabel,
+    QLayout, QLineEdit, QListWidget, QListWidgetItem,
     QMainWindow, QPushButton, QSizePolicy, QStackedWidget,
     QTabWidget, QTableWidget, QTableWidgetItem, QVBoxLayout,
     QWidget)
@@ -26,15 +27,13 @@ class Ui_MainWindow(object):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1026, 533)
-        MainWindow.setStyleSheet(u"background-color: rgb(53, 51, 51);\n"
-"font: 11pt \"Cantarell\";\n"
-"color: white;\n"
-"border-color: rgba(216, 151, 50, 246);")
+        MainWindow.setStyleSheet(u"")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        self.centralwidget.setStyleSheet(u"")
         self.stackedWidget = QStackedWidget(self.centralwidget)
         self.stackedWidget.setObjectName(u"stackedWidget")
-        self.stackedWidget.setGeometry(QRect(230, 0, 821, 521))
+        self.stackedWidget.setGeometry(QRect(210, 0, 811, 531))
         self.stackedWidget.setLineWidth(3)
         self.stackedWidget.setMidLineWidth(3)
         self.home = QWidget()
@@ -59,16 +58,20 @@ class Ui_MainWindow(object):
         self.generate_new_addr = QPushButton(self.address_settings)
         self.generate_new_addr.setObjectName(u"generate_new_addr")
         self.generate_new_addr.setGeometry(QRect(270, 350, 231, 51))
-        self.address_qr = QLabel(self.address_settings)
+        self.address_frame = QFrame(self.address_settings)
+        self.address_frame.setObjectName(u"address_frame")
+        self.address_frame.setGeometry(QRect(200, 40, 371, 291))
+        self.address_qr = QLabel(self.address_frame)
         self.address_qr.setObjectName(u"address_qr")
-        self.address_qr.setGeometry(QRect(300, 40, 200, 200))
+        self.address_qr.setGeometry(QRect(90, 10, 200, 200))
         self.address_qr.setMinimumSize(QSize(200, 200))
         self.address_qr.setMaximumSize(QSize(200, 200))
         self.address_qr.setSizeIncrement(QSize(0, 0))
         self.address_qr.setBaseSize(QSize(0, 0))
-        self.address_label = QPushButton(self.address_settings)
+        self.address_qr.setAlignment(Qt.AlignCenter)
+        self.address_label = QPushButton(self.address_frame)
         self.address_label.setObjectName(u"address_label")
-        self.address_label.setGeometry(QRect(230, 280, 331, 26))
+        self.address_label.setGeometry(QRect(3, 215, 371, 26))
         self.address_label.setFlat(True)
         self.tabWidget.addTab(self.address_settings, "")
         self.address_viewer = QWidget()
@@ -83,31 +86,115 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.receive_page)
         self.send = QWidget()
         self.send.setObjectName(u"send")
-        self.addr = QLineEdit(self.send)
+        self.label_10 = QLabel(self.send)
+        self.label_10.setObjectName(u"label_10")
+        self.label_10.setGeometry(QRect(200, 40, 371, 21))
+        self.label_10.setLayoutDirection(Qt.LeftToRight)
+        self.label_10.setLineWidth(7)
+        self.label_10.setTextFormat(Qt.PlainText)
+        self.label_10.setScaledContents(False)
+        self.label_10.setAlignment(Qt.AlignCenter)
+        self.widget = QWidget(self.send)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(47, 100, 701, 251))
+        self.gridLayout = QGridLayout(self.widget)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.transaction_frame = QFrame(self.widget)
+        self.transaction_frame.setObjectName(u"transaction_frame")
+        font1 = QFont()
+        font1.setFamilies([u"Cantarell"])
+        font1.setPointSize(11)
+        font1.setBold(False)
+        font1.setItalic(False)
+        font1.setKerning(True)
+        self.transaction_frame.setFont(font1)
+        self.transaction_frame.setStyleSheet(u"border: none;")
+        self.verticalLayout_7 = QVBoxLayout(self.transaction_frame)
+        self.verticalLayout_7.setSpacing(10)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.verticalLayout_5 = QVBoxLayout()
+        self.verticalLayout_5.setSpacing(6)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setSizeConstraint(QLayout.SetDefaultConstraint)
+        self.verticalLayout_5.setContentsMargins(0, 2, -1, -1)
+        self.label_8 = QLabel(self.transaction_frame)
+        self.label_8.setObjectName(u"label_8")
+
+        self.verticalLayout_5.addWidget(self.label_8)
+
+        self.addr = QLineEdit(self.transaction_frame)
         self.addr.setObjectName(u"addr")
-        self.addr.setGeometry(QRect(80, 20, 311, 26))
         self.addr.setStyleSheet(u"")
         self.addr.setClearButtonEnabled(True)
-        self.summ = QLineEdit(self.send)
+
+        self.verticalLayout_5.addWidget(self.addr)
+
+
+        self.verticalLayout_7.addLayout(self.verticalLayout_5)
+
+        self.verticalLayout_6 = QVBoxLayout()
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.label_9 = QLabel(self.transaction_frame)
+        self.label_9.setObjectName(u"label_9")
+
+        self.verticalLayout_6.addWidget(self.label_9)
+
+        self.summ = QLineEdit(self.transaction_frame)
         self.summ.setObjectName(u"summ")
-        self.summ.setGeometry(QRect(80, 70, 311, 26))
         self.summ.setClearButtonEnabled(True)
-        self.pushButton = QPushButton(self.send)
+
+        self.verticalLayout_6.addWidget(self.summ)
+
+
+        self.verticalLayout_7.addLayout(self.verticalLayout_6)
+
+
+        self.gridLayout.addWidget(self.transaction_frame, 0, 0, 1, 1)
+
+        self.verticalLayout_14 = QVBoxLayout()
+        self.verticalLayout_14.setObjectName(u"verticalLayout_14")
+        self.line = QFrame(self.widget)
+        self.line.setObjectName(u"line")
+        self.line.setFrameShape(QFrame.HLine)
+        self.line.setFrameShadow(QFrame.Sunken)
+
+        self.verticalLayout_14.addWidget(self.line)
+
+        self.pushButton = QPushButton(self.widget)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setEnabled(True)
-        self.pushButton.setGeometry(QRect(80, 210, 191, 71))
+        self.pushButton.setFont(font1)
         self.pushButton.setCheckable(False)
         self.pushButton.setAutoDefault(False)
-        self.note = QLineEdit(self.send)
-        self.note.setObjectName(u"note")
-        self.note.setGeometry(QRect(80, 120, 311, 26))
+
+        self.verticalLayout_14.addWidget(self.pushButton)
+
+
+        self.gridLayout.addLayout(self.verticalLayout_14, 1, 0, 1, 1)
+
         self.stackedWidget.addWidget(self.send)
         self.history_page = QWidget()
         self.history_page.setObjectName(u"history_page")
         self.history_table = QTableWidget(self.history_page)
+        if (self.history_table.columnCount() < 6):
+            self.history_table.setColumnCount(6)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.history_table.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.history_table.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        __qtablewidgetitem2 = QTableWidgetItem()
+        self.history_table.setHorizontalHeaderItem(2, __qtablewidgetitem2)
+        __qtablewidgetitem3 = QTableWidgetItem()
+        self.history_table.setHorizontalHeaderItem(3, __qtablewidgetitem3)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.history_table.setHorizontalHeaderItem(4, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.history_table.setHorizontalHeaderItem(5, __qtablewidgetitem5)
         self.history_table.setObjectName(u"history_table")
         self.history_table.setEnabled(True)
         self.history_table.setGeometry(QRect(10, 80, 781, 441))
+        self.history_table.setStyleSheet(u"border: none;")
         self.history_table.setMidLineWidth(0)
         self.history_table.setAutoScroll(True)
         self.history_table.setEditTriggers(QAbstractItemView.AnyKeyPressed|QAbstractItemView.DoubleClicked|QAbstractItemView.EditKeyPressed|QAbstractItemView.SelectedClicked)
@@ -129,81 +216,185 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.history_page)
         self.lock = QWidget()
         self.lock.setObjectName(u"lock")
-        self.password = QLineEdit(self.lock)
+        self.frame_2 = QFrame(self.lock)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setGeometry(QRect(200, 200, 401, 111))
+        self.verticalLayout_13 = QVBoxLayout(self.frame_2)
+        self.verticalLayout_13.setObjectName(u"verticalLayout_13")
+        self.password = QLineEdit(self.frame_2)
         self.password.setObjectName(u"password")
-        self.password.setGeometry(QRect(210, 280, 301, 26))
-        self.password_ok = QPushButton(self.lock)
+        self.password.setStyleSheet(u"border: none;")
+        self.password.setEchoMode(QLineEdit.Password)
+        self.password.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        self.password.setClearButtonEnabled(True)
+
+        self.verticalLayout_13.addWidget(self.password)
+
+        self.password_ok = QPushButton(self.frame_2)
         self.password_ok.setObjectName(u"password_ok")
-        self.password_ok.setGeometry(QRect(280, 330, 151, 26))
+
+        self.verticalLayout_13.addWidget(self.password_ok)
+
         self.stackedWidget.addWidget(self.lock)
         self.send_confirm = QWidget()
         self.send_confirm.setObjectName(u"send_confirm")
+        self.verticalLayout_12 = QVBoxLayout(self.send_confirm)
+        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.check_details = QLabel(self.send_confirm)
         self.check_details.setObjectName(u"check_details")
-        self.check_details.setGeometry(QRect(40, 20, 221, 18))
+        self.check_details.setStyleSheet(u"font: 14pt \"Cantarell\";")
+
+        self.verticalLayout_12.addWidget(self.check_details)
+
+        self.verticalLayout_8 = QVBoxLayout()
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
         self.label_5 = QLabel(self.send_confirm)
         self.label_5.setObjectName(u"label_5")
-        self.label_5.setGeometry(QRect(40, 70, 141, 18))
-        self.label_6 = QLabel(self.send_confirm)
-        self.label_6.setObjectName(u"label_6")
-        self.label_6.setGeometry(QRect(40, 100, 141, 18))
+
+        self.verticalLayout_8.addWidget(self.label_5)
+
         self.address_recipient = QLabel(self.send_confirm)
         self.address_recipient.setObjectName(u"address_recipient")
-        self.address_recipient.setGeometry(QRect(180, 70, 601, 18))
+
+        self.verticalLayout_8.addWidget(self.address_recipient)
+
+
+        self.verticalLayout_12.addLayout(self.verticalLayout_8)
+
+        self.verticalLayout_9 = QVBoxLayout()
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.label_6 = QLabel(self.send_confirm)
+        self.label_6.setObjectName(u"label_6")
+
+        self.verticalLayout_9.addWidget(self.label_6)
+
         self.summ_recipient = QLabel(self.send_confirm)
         self.summ_recipient.setObjectName(u"summ_recipient")
-        self.summ_recipient.setGeometry(QRect(180, 100, 141, 18))
+
+        self.verticalLayout_9.addWidget(self.summ_recipient)
+
+
+        self.verticalLayout_12.addLayout(self.verticalLayout_9)
+
+        self.check_details_2 = QLabel(self.send_confirm)
+        self.check_details_2.setObjectName(u"check_details_2")
+        self.check_details_2.setStyleSheet(u"font: 14pt \"Cantarell\";")
+
+        self.verticalLayout_12.addWidget(self.check_details_2)
+
         self.fee_options = QComboBox(self.send_confirm)
         self.fee_options.addItem("")
         self.fee_options.addItem("")
         self.fee_options.addItem("")
         self.fee_options.addItem("")
         self.fee_options.setObjectName(u"fee_options")
-        self.fee_options.setGeometry(QRect(200, 170, 301, 31))
         self.fee_options.setEditable(False)
-        self.check_details_2 = QLabel(self.send_confirm)
-        self.check_details_2.setObjectName(u"check_details_2")
-        self.check_details_2.setGeometry(QRect(230, 140, 261, 20))
+
+        self.verticalLayout_12.addWidget(self.fee_options)
+
+        self.verticalLayout_10 = QVBoxLayout()
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
         self.comm = QLabel(self.send_confirm)
         self.comm.setObjectName(u"comm")
-        self.comm.setGeometry(QRect(200, 210, 141, 18))
+
+        self.verticalLayout_10.addWidget(self.comm)
+
         self.comission_byte = QLabel(self.send_confirm)
         self.comission_byte.setObjectName(u"comission_byte")
-        self.comission_byte.setGeometry(QRect(360, 210, 141, 18))
+
+        self.verticalLayout_10.addWidget(self.comission_byte)
+
+
+        self.verticalLayout_12.addLayout(self.verticalLayout_10)
+
+        self.verticalLayout_11 = QVBoxLayout()
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
         self.comm_2 = QLabel(self.send_confirm)
         self.comm_2.setObjectName(u"comm_2")
-        self.comm_2.setGeometry(QRect(200, 240, 191, 51))
+
+        self.verticalLayout_11.addWidget(self.comm_2)
+
         self.comission_tr = QLabel(self.send_confirm)
         self.comission_tr.setObjectName(u"comission_tr")
-        self.comission_tr.setGeometry(QRect(390, 260, 141, 18))
-        self.push_transaction = QPushButton(self.send_confirm)
-        self.push_transaction.setObjectName(u"push_transaction")
-        self.push_transaction.setGeometry(QRect(240, 360, 211, 41))
-        self.cancel_transaction = QPushButton(self.send_confirm)
-        self.cancel_transaction.setObjectName(u"cancel_transaction")
-        self.cancel_transaction.setGeometry(QRect(240, 440, 211, 41))
+
+        self.verticalLayout_11.addWidget(self.comission_tr)
+
+
+        self.verticalLayout_12.addLayout(self.verticalLayout_11)
+
         self.password_2 = QLineEdit(self.send_confirm)
         self.password_2.setObjectName(u"password_2")
-        self.password_2.setGeometry(QRect(200, 320, 301, 26))
         self.password_2.setClearButtonEnabled(True)
+
+        self.verticalLayout_12.addWidget(self.password_2)
+
+        self.push_transaction = QPushButton(self.send_confirm)
+        self.push_transaction.setObjectName(u"push_transaction")
+
+        self.verticalLayout_12.addWidget(self.push_transaction)
+
+        self.cancel_transaction = QPushButton(self.send_confirm)
+        self.cancel_transaction.setObjectName(u"cancel_transaction")
+
+        self.verticalLayout_12.addWidget(self.cancel_transaction)
+
         self.stackedWidget.addWidget(self.send_confirm)
         self.send_success = QWidget()
         self.send_success.setObjectName(u"send_success")
         self.hash = QLabel(self.send_success)
         self.hash.setObjectName(u"hash")
         self.hash.setGeometry(QRect(30, 200, 761, 20))
+        self.hash.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.hash.setOpenExternalLinks(True)
         self.label_4 = QLabel(self.send_success)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(140, 150, 531, 18))
         self.stackedWidget.addWidget(self.send_success)
+        self.contacts_2 = QWidget()
+        self.contacts_2.setObjectName(u"contacts_2")
+        self.listWidget = QListWidget(self.contacts_2)
+        self.listWidget.setObjectName(u"listWidget")
+        self.listWidget.setGeometry(QRect(0, 30, 781, 491))
+        self.stackedWidget.addWidget(self.contacts_2)
+        self.transaction_inform = QWidget()
+        self.transaction_inform.setObjectName(u"transaction_inform")
+        self.transaction_inform.setStyleSheet(u"")
+        self.hash_2 = QLabel(self.transaction_inform)
+        self.hash_2.setObjectName(u"hash_2")
+        self.hash_2.setGeometry(QRect(80, 310, 391, 18))
+        self.rec = QLabel(self.transaction_inform)
+        self.rec.setObjectName(u"rec")
+        self.rec.setGeometry(QRect(80, 190, 401, 18))
+        self.summ_2 = QLabel(self.transaction_inform)
+        self.summ_2.setObjectName(u"summ_2")
+        self.summ_2.setGeometry(QRect(310, 130, 111, 41))
+        font2 = QFont()
+        font2.setFamilies([u"Cantarell"])
+        font2.setPointSize(16)
+        font2.setBold(False)
+        font2.setItalic(False)
+        self.summ_2.setFont(font2)
+        self.summ_2.setStyleSheet(u"font: 16pt \"Cantarell\";")
+        self.sender = QLabel(self.transaction_inform)
+        self.sender.setObjectName(u"sender")
+        self.sender.setGeometry(QRect(80, 270, 401, 18))
+        font3 = QFont()
+        font3.setFamilies([u"Cantarell"])
+        font3.setPointSize(14)
+        font3.setBold(False)
+        font3.setItalic(False)
+        self.sender.setFont(font3)
+        self.label_7 = QLabel(self.transaction_inform)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setGeometry(QRect(310, 40, 111, 81))
+        self.stackedWidget.addWidget(self.transaction_inform)
         self.menu_buttons = QGroupBox(self.centralwidget)
         self.menu_buttons.setObjectName(u"menu_buttons")
         self.menu_buttons.setEnabled(False)
-        self.menu_buttons.setGeometry(QRect(0, 140, 211, 391))
+        self.menu_buttons.setGeometry(QRect(0, 140, 201, 391))
         self.menu_buttons.setContextMenuPolicy(Qt.DefaultContextMenu)
         self.menu_buttons.setAutoFillBackground(False)
-        self.menu_buttons.setStyleSheet(u"background-color: rgb(9, 12, 20);\n"
+        self.menu_buttons.setStyleSheet(u"\n"
 "border: none;\n"
 "")
         self.verticalLayout_3 = QVBoxLayout(self.menu_buttons)
@@ -251,9 +442,14 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addWidget(self.setting)
 
+        self.change_theme = QPushButton(self.menu_buttons)
+        self.change_theme.setObjectName(u"change_theme")
+
+        self.verticalLayout_3.addWidget(self.change_theme)
+
         self.BalanceFrame = QFrame(self.centralwidget)
         self.BalanceFrame.setObjectName(u"BalanceFrame")
-        self.BalanceFrame.setGeometry(QRect(0, 20, 211, 121))
+        self.BalanceFrame.setGeometry(QRect(0, 10, 201, 121))
         self.BalanceFrame.setStyleSheet(u"border-style: solid;\n"
 "border-width: 1px;\n"
 "border-color: rgb(249, 240, 107);")
@@ -301,12 +497,18 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.unconf_balance_frame)
 
+        self.line_2 = QFrame(self.centralwidget)
+        self.line_2.setObjectName(u"line_2")
+        self.line_2.setGeometry(QRect(190, 160, 20, 371))
+        self.line_2.setFrameShape(QFrame.VLine)
+        self.line_2.setFrameShadow(QFrame.Sunken)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(4)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
+        self.pushButton.setDefault(False)
         self.filter_history.setCurrentIndex(-1)
         self.password_ok.setDefault(True)
 
@@ -323,36 +525,61 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.address_settings), QCoreApplication.translate("MainWindow", u"Tab 1", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.address_viewer), QCoreApplication.translate("MainWindow", u"Tab 2", None))
-        self.addr.setText(QCoreApplication.translate("MainWindow", u"\u0430\u0434\u0440\u0435\u0441", None))
-        self.summ.setText(QCoreApplication.translate("MainWindow", u"\u0441\u0443\u043c\u043c\u0430", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"\u0424\u043e\u0440\u043c\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u0442\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0438\u0438 (\u043e\u0442\u043f\u0440\u0430\u0432\u043a\u0430 \u0430\u043a\u0442\u0438\u0432\u043e\u0432)", None))
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0434\u0440\u0435\u0441 \u043f\u043e\u043b\u0443\u0447\u0430\u0442\u0435\u043b\u044f", None))
+#if QT_CONFIG(tooltip)
+        self.addr.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><br/></p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+        self.addr.setText("")
+        self.addr.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0430\u0434\u0440\u0435\u0441 \u043f\u043e\u043b\u0443\u0447\u0430\u0442\u0435\u043b\u044f", None))
+        self.label_9.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0443\u043c\u043c\u0430 \u043a \u043e\u0442\u043f\u0440\u0430\u0432\u043a\u0435", None))
+        self.summ.setText("")
+        self.summ.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0441\u0443\u043c\u043c\u0443 \u0432 BTC", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"\u0414\u0430\u043b\u0435\u0435", None))
-        self.note.setText(QCoreApplication.translate("MainWindow", u"\u043f\u0440\u0438\u043c\u0435\u0447\u0430\u043d\u0438\u0435 (\u0432\u0438\u0434\u043d\u043e \u0442\u043e\u043b\u044c\u043a\u043e \u0432\u0430\u043c)", None))
+        ___qtablewidgetitem = self.history_table.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"\u0422\u0438\u043f", None));
+        ___qtablewidgetitem1 = self.history_table.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u043f\u0440\u0430\u0432\u0438\u0442\u0435\u043b\u044c", None));
+        ___qtablewidgetitem2 = self.history_table.horizontalHeaderItem(2)
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u043b\u0443\u0447\u0430\u0442\u0435\u043b\u044c", None));
+        ___qtablewidgetitem3 = self.history_table.horizontalHeaderItem(3)
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u0425\u0435\u0448", None));
+        ___qtablewidgetitem4 = self.history_table.horizontalHeaderItem(4)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0443\u043c\u043c\u0430", None));
+        ___qtablewidgetitem5 = self.history_table.horizontalHeaderItem(5)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"\u041a\u043e\u043c\u0438\u0441\u0441\u0438\u044f", None));
         self.debet.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0441\u0435\u0433\u043e \u043f\u043e\u0441\u0442\u0443\u043f\u0438\u043b\u043e (\u0434\u0435\u0431\u0435\u0442):", None))
         self.credit.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0441\u0435\u0433\u043e \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043e (\u043a\u0440\u0435\u0434\u0438\u0442, \u0431\u0435\u0437 \u0443\u0447\u0451\u0442\u0430 \u043a\u043e\u043c\u0438\u0441\u0441\u0438\u0438):", None))
         self.filter_history.setCurrentText("")
         self.load_button.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c", None))
-        self.password.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043f\u0430\u0440\u043e\u043b\u044c", None))
+        self.password.setText("")
+        self.password.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043f\u0430\u0440\u043e\u043b\u044c", None))
         self.password_ok.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0445\u043e\u0434", None))
         self.check_details.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0440\u043e\u0432\u0435\u0440\u044c\u0442\u0435 \u0434\u0435\u0442\u0430\u043b\u0438 \u0442\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0438\u0438", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0434\u0440\u0435\u0441 \u043f\u043e\u043b\u0443\u0447\u0430\u0442\u0435\u043b\u044f:", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0443\u043c\u043c\u0430 \u043a \u043e\u0442\u043f\u0440\u0430\u0432\u043a\u0435:", None))
         self.address_recipient.setText("")
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0443\u043c\u043c\u0430 \u043a \u043e\u0442\u043f\u0440\u0430\u0432\u043a\u0435:", None))
         self.summ_recipient.setText("")
+        self.check_details_2.setText(QCoreApplication.translate("MainWindow", u"\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u044c \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u0438\u044f:", None))
         self.fee_options.setItemText(0, QCoreApplication.translate("MainWindow", u"\u0412\u044b\u0431\u043e\u0440", None))
         self.fee_options.setItemText(1, QCoreApplication.translate("MainWindow", u"\u0411\u044b\u0441\u0442\u0440\u0430\u044f", None))
         self.fee_options.setItemText(2, QCoreApplication.translate("MainWindow", u"\u0421\u0442\u0430\u043d\u0434\u0430\u0440\u0442\u043d\u0430\u044f", None))
         self.fee_options.setItemText(3, QCoreApplication.translate("MainWindow", u"\u041c\u0435\u0434\u043b\u0435\u043d\u043d\u0430\u044f", None))
 
-        self.check_details_2.setText(QCoreApplication.translate("MainWindow", u"\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u044c \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u0438\u044f:", None))
         self.comm.setText(QCoreApplication.translate("MainWindow", u"\u041a\u043e\u043c\u0438\u0441\u0441\u0438\u044f (sat/vB):", None))
         self.comission_byte.setText("")
         self.comm_2.setText(QCoreApplication.translate("MainWindow", u"\u041a\u043e\u043c\u0438\u0441\u0441\u0438\u044f \u0437\u0430 \u0442\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0438\u044e:", None))
         self.comission_tr.setText("")
+        self.password_2.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0430\u0440\u043e\u043b\u044c", None))
         self.push_transaction.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0440\u043e\u0432\u0435\u0441\u0442\u0438", None))
         self.cancel_transaction.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u043c\u0435\u043d\u0438\u0442\u044c \u0442\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0438\u044e", None))
-        self.password_2.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0430\u0440\u043e\u043b\u044c", None))
         self.hash.setText("")
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0441\u043f\u0435\u0448\u043d\u043e! \u0422\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0438\u044f \u043f\u043e\u0434\u043f\u0438\u0441\u0430\u043d\u0430 \u0438 \u043f\u0435\u0440\u0435\u0434\u0430\u043d\u0430 \u0432 \u0441\u0435\u0442\u044c. \u041e\u0436\u0438\u0434\u0430\u0439\u0442\u0435 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u0438\u044f.", None))
+        self.hash_2.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.rec.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.summ_2.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.sender.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.label_7.setText("")
 #if QT_CONFIG(whatsthis)
         self.menu_buttons.setWhatsThis(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><br/></p></body></html>", None))
 #endif // QT_CONFIG(whatsthis)
@@ -364,6 +591,7 @@ class Ui_MainWindow(object):
         self.history.setText(QCoreApplication.translate("MainWindow", u"\u0418\u0441\u0442\u043e\u0440\u0438\u044f", None))
         self.contacts.setText(QCoreApplication.translate("MainWindow", u"\u041a\u043e\u043d\u0442\u0430\u043a\u0442\u044b", None))
         self.setting.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
+        self.change_theme.setText(QCoreApplication.translate("MainWindow", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u0442\u0435\u043c\u0443", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u0411\u0410\u041b\u0410\u041d\u0421", None))
         self.balance.setText("")
         self.label.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0435\u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u043e", None))

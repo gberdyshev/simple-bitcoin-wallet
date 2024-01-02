@@ -7,6 +7,7 @@ import os
 import threading
 import time
 import random
+import json
 
 from ui import ui_form # Импорт основной формы
 from ui import ui_firstrun_form as firstrun_form
@@ -18,9 +19,10 @@ from scripts import consts
 
 from cryptos import *
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QWidget, QDialog, QTableWidgetItem, QInputDialog, QLineEdit
-from PySide6.QtGui import QImage, QPixmap
+from PySide6.QtGui import QImage, QPixmap, QFont
 from PySide6.QtCore import QThread
 
+__db_folder_path__ = consts.__db_folder_path__
 __db_path__ = consts.__db_path__
 __wallet_db_path__ = consts.__wallet_db_path__ # Зашифрованная база для хранения секретного ключа
 __temp_path__ = consts.__temp_path__
@@ -42,20 +44,22 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         self.ui = ui_form.Ui_MainWindow()
         self.ui.setupUi(self)
+        self.check_theme()
         self.ui.address_label.clicked.connect(lambda: QApplication.clipboard().setText(self.ui.address_label.text()))
-
         #if password is None:
 
         #if FirstRun is False:
             #password, ok = QInputDialog.getText(None, 'Аутентификация', 'Введите пароль:', QLineEdit.Password)
             #if Database(password).check_password() is False:
                 #quit()
-
+        self.ui.change_theme.clicked.connect(self.change_theme)
+        self.ui.history_table.currentItemChanged.connect(lambda: self.get_transaction_inform(self.ui.history_table.item(self.ui.history_table.currentRow(),3).text()))
         self.ui.password_ok.clicked.connect(self.enter_to_wallet)
         self.password = password
         self.ui.pushButton.clicked.connect(self.send_transaction)
         self.ui.push_transaction.clicked.connect(lambda: self.send_tr(self.inputs, self.priv, self.inputs_summ, self.summ, self.new_addr))
         self.ui.pushButton_3.clicked.connect(self.dop)
+        self.ui.contacts.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(7))
         #self.ui.hello.setText(f'Здравствуйте, {self.get_from_db("address")}')
 
 
@@ -81,9 +85,43 @@ class MainWindow(QMainWindow):
         else:
             QMessageBox.critical(self, 'Ошибка!', "Неверный пароль")
 
+    def check_theme(self):
+        theme = Tools().get_theme_option()
+        if theme == "light":
+            ui_style = consts.__ui_light_theme__
+        elif theme == "dark":
+            ui_style = consts.__ui_dark_theme__
+        self.ui.centralwidget.setStyleSheet(ui_style)
 
 
 
+    def change_theme(self):
+        theme = Tools().get_theme_option()
+        if theme == "light":
+            ui_style = consts.__ui_dark_theme__
+            theme_opt = "dark"
+        elif theme == "dark":
+            ui_style = consts.__ui_light_theme__
+            theme_opt = "light"
+        Tools().change_theme_option(theme_opt)
+        self.ui.centralwidget.setStyleSheet(ui_style)
+
+
+    def get_transaction_inform(self, hash):
+        db = sqlcipher3.connect(__db_path__)
+        cur = db.cursor()
+        cur.execute("select * from transactions where hash = ?", (hash, ))
+        r = cur.fetchone()
+        if r[0] == 'input':
+            pixmap = QPixmap('./resources/input_tr.png')
+            self.ui.summ_2.setText(f"+ {str(r[4]/__currency__)}")
+            self.ui.label_7.setPixmap(pixmap)
+        else:
+             self.ui.summ_2.setText(f"- {str(r[4]/__currency__)}")
+
+        self.ui.hash_2.setText(r[3])
+
+        self.ui.stackedWidget.setCurrentIndex(8)
 
 
 
@@ -105,8 +143,9 @@ class MainWindow(QMainWindow):
         cur.execute('select * from transactions')
         r = cur.fetchall()
         self.ui.history_table.setRowCount(len(r)) # строчки
-        self.ui.history_table.setColumnCount(6)
-        self.ui.history_table.setHorizontalHeaderLabels(["Тип", "Отправитель", "Получатель","Хэш", "Сумма","Комиссия"])
+        #self.ui.history_table.setColumnCount(6)
+        self.ui.history_table.setShowGrid(False)
+        #self.ui.history_table.setHorizontalHeaderLabels(["Тип", "Отправитель", "Получатель","Хэш", "Сумма","Комиссия"])
         for i, (type, sender, recipient, hash, amount, fee) in enumerate(r):
             self.ui.history_table.setItem(i,0, QTableWidgetItem(type))
             self.ui.history_table.setItem(i,1, QTableWidgetItem(sender))
@@ -114,6 +153,10 @@ class MainWindow(QMainWindow):
             self.ui.history_table.setItem(i,3, QTableWidgetItem(hash))
             self.ui.history_table.setItem(i,4, QTableWidgetItem(str('{:.8f}'.format(amount/__currency__))))
             self.ui.history_table.setItem(i,5, QTableWidgetItem(str('{:.8f}'.format(fee/__currency__))))
+            if type == 'input':
+                self.ui.listWidget.addItem(f"📥 Приход {amount/__currency__} {hash}")
+            else:
+                self.ui.listWidget.addItem(f"Расход {amount/__currency__} {hash}")
         q = """select SUM(amount) from transactions where recepient = ?"""
         r = cur.execute(q, ("You",))
         r = r.fetchone()
@@ -472,6 +515,8 @@ class FirstRunWindow(QMainWindow):
 def init():
     if not os.path.exists(__temp_path__):
         os.mkdir(__temp_path__)
+    if not os.path.exists(__db_folder_path__):
+        os.mkdir(__db_folder_path__)
     db = sqlcipher3.connect(__db_path__)
     cur = db.cursor()
     cur.execute("create table if not exists keys (public_key TEXT, address TEXT)")

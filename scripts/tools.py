@@ -2,8 +2,12 @@ import qrcode
 import os
 import random
 import requests
+import json
 
 from scripts import consts
+json_config_file = './scripts/config.json'
+
+
 
 class Tools(object):
 
@@ -32,3 +36,23 @@ class Tools(object):
     """Расчет размера транзации (приблизительного) и комиссии по нему"""
     def calc_fee(self, inputs, outs = 2, sat_byte = 1):
         return (inputs * 148 + outs * 34 + 10) * sat_byte
+
+    """Получить текущую тему приложения"""
+    def get_theme_option(self):
+        jsonconfig = {}
+        with open(json_config_file, 'r') as file:
+            jsonconfig = json.load(file)
+            file.close()
+        return jsonconfig["ui_theme"]
+
+    """Изменить текущую тему приложения"""
+    def change_theme_option(self, option):
+        with open(json_config_file, 'r') as file:
+            jsonconfig = json.load(file)
+            file.close()
+        with open(json_config_file, 'w') as file:
+            jsonconfig["ui_theme"] = option
+            json.dump(jsonconfig, file)
+            file.close()
+
+
