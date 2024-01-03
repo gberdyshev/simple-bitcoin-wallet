@@ -52,6 +52,7 @@ class MainWindow(QMainWindow):
             #password, ok = QInputDialog.getText(None, 'Аутентификация', 'Введите пароль:', QLineEdit.Password)
             #if Database(password).check_password() is False:
                 #quit()
+        self.ui.addresses_list.itemActivated.connect(self.address_item_change)
         self.ui.change_theme.clicked.connect(self.change_theme)
         self.ui.history_table.currentItemChanged.connect(lambda: self.get_transaction_inform(self.ui.history_table.item(self.ui.history_table.currentRow(),3).text()))
         self.ui.password_ok.clicked.connect(self.enter_to_wallet)
@@ -60,13 +61,15 @@ class MainWindow(QMainWindow):
         self.ui.push_transaction.clicked.connect(lambda: self.send_tr(self.inputs, self.priv, self.inputs_summ, self.summ, self.new_addr))
         self.ui.pushButton_3.clicked.connect(self.dop)
         self.ui.contacts.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(7))
+
         #self.ui.hello.setText(f'Здравствуйте, {self.get_from_db("address")}')
-
-
+        self.ui.setting.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(9))
+        self.ui.get_mnemonic.clicked.connect(self.get_mnemonic)
         self.ui.show_bal.clicked.connect(lambda: threading.Thread(target=self.get_bal).start())
         #self.ui.show_bal.clicked.connect(lambda: self.ui.unconf_balance.setText(str('{0:.9f}'.format(self.get_bal('unconfirmed')))))
         self.ui.receive_button.clicked.connect(self.recieve)
         self.ui.history.clicked.connect(self.get_history)
+
         self.ui.load_button.clicked.connect(lambda: threading.Thread(target=self.update_history).start())
         self.ui.generate_new_addr.clicked.connect(lambda: self.generate_new_address())
         self.ui.go_to_home.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(0))
@@ -84,6 +87,24 @@ class MainWindow(QMainWindow):
             self.GenFunc = GeneralFunctions(self.password)
         else:
             QMessageBox.critical(self, 'Ошибка!', "Неверный пароль")
+
+
+    def get_mnemonic(self):
+        if self.ui.mnemonic.text() == "":
+            QMessageBox.warning(self, 'Предупреждение!', "Никогда и никому не передавайте сид-фразу и секретные ключи от вашего кошелька!")
+            if self.cr_DB.walletIsDeterministic() is False:
+                text = self.cr_DB.get_private_key_for_non_determ()
+            else:
+                text = self.cr_DB.get_mnemonic()
+            self.ui.mnemonic.setText(text)
+        else:
+            self.ui.mnemonic.setText("")
+
+
+
+    def address_item_change(self, item):
+        QApplication.clipboard().setText(item.text())
+
 
     def check_theme(self):
         theme = Tools().get_theme_option()
@@ -113,9 +134,7 @@ class MainWindow(QMainWindow):
         cur.execute("select * from transactions where hash = ?", (hash, ))
         r = cur.fetchone()
         if r[0] == 'input':
-            pixmap = QPixmap('./resources/input_tr.png')
             self.ui.summ_2.setText(f"+ {str(r[4]/__currency__)}")
-            self.ui.label_7.setPixmap(pixmap)
         else:
              self.ui.summ_2.setText(f"- {str(r[4]/__currency__)}")
 
@@ -153,10 +172,6 @@ class MainWindow(QMainWindow):
             self.ui.history_table.setItem(i,3, QTableWidgetItem(hash))
             self.ui.history_table.setItem(i,4, QTableWidgetItem(str('{:.8f}'.format(amount/__currency__))))
             self.ui.history_table.setItem(i,5, QTableWidgetItem(str('{:.8f}'.format(fee/__currency__))))
-            if type == 'input':
-                self.ui.listWidget.addItem(f"📥 Приход {amount/__currency__} {hash}")
-            else:
-                self.ui.listWidget.addItem(f"Расход {amount/__currency__} {hash}")
         q = """select SUM(amount) from transactions where recepient = ?"""
         r = cur.execute(q, ("You",))
         r = r.fetchone()
@@ -173,11 +188,13 @@ class MainWindow(QMainWindow):
 
     def get_addresses(self):
         r = self.DB.get_addresses_from_db()
-        self.ui.addresses_table.setRowCount(len(r)) # строчки
-        self.ui.addresses_table.setColumnCount(1)
-        self.ui.addresses_table.setHorizontalHeaderLabels(["Адрес"])
+        #self.ui.addresses_table.setRowCount(len(r)) # строчки
+        #self.ui.addresses_table.setColumnCount(1)
+        #self.ui.addresses_table.setHorizontalHeaderLabels(["Адрес"])
+        self.ui.addresses_list.clear()
         for i, address in enumerate(r):
-            self.ui.addresses_table.setItem(i,0, QTableWidgetItem(address))
+            self.ui.addresses_list.addItem(address)
+            #self.ui.addresses_table.setItem(i,0, QTableWidgetItem(address))
 
 
 
@@ -242,7 +259,7 @@ class MainWindow(QMainWindow):
 
 
     def send_tr(self, inputs, priv, inputs_summ, summ, new_addr):
-        summ = int(self.ui.summ_recipient.text())
+        summ = int(float(self.ui.summ_recipient.text())*__currency__)
         outs = [{'value': summ, 'address': self.ui.address_recipient.text()}, {'value': inputs_summ -  summ - int(self.ui.comission_tr.text()), 'address': new_addr}]
         tx = self.btc.mktx(inputs, outs)
         password, ok = QInputDialog.getText(None, 'Подписание транзакции', 'Введите пароль:', QLineEdit.Password)
@@ -271,7 +288,7 @@ class MainWindow(QMainWindow):
             #priv = self.get_from_db('private_key')
             #address = self.get_from_db('address')
             t = time.time()
-            summ = round(float(self.ui.summ.text())*10**8)
+            summ = round(float(self.ui.summ.text())*__currency__)
             db = sqlcipher3.connect(__wallet_db_path__)
             cur = db.cursor()
             cur.execute('PRAGMA KEY = "{}"'.format(self.password))
@@ -341,7 +358,7 @@ class MainWindow(QMainWindow):
             def send_tr():
                 print("а")
                 #password = self.ui.password_2.text()
-                summ = int(self.ui.summ_recipient.text())
+                summ = int(float(self.ui.summ_recipient.text())*__currency__)
                 outs = [{'value': summ, 'address': self.ui.address_recipient.text()}, {'value': inputs_summ -  summ - int(self.ui.comission_tr.text()), 'address': new_addr}]
                 tx = self.btc.mktx(inputs, outs)
                 #QMessageBox.critical(self, 'Ошибка!', "Недостаточно средств на счёте")
@@ -365,7 +382,13 @@ class MainWindow(QMainWindow):
 
             self.ui.stackedWidget.setCurrentIndex(5)
             self.ui.address_recipient.setText(self.ui.addr.text())
-            self.ui.summ_recipient.setText(str(summ))
+            self.ui.summ_recipient.setText(self.ui.summ.text())
+            self.ui.addr.setText("")
+            self.ui.summ.setText("")
+            self.ui.fee_options.setCurrentText("Выбор")
+            self.ui.comission_byte.setText("")
+            self.ui.comission_tr.setText("")
+
             #fees = Tools().get_actual_fee()
             self.ui.fee_options.currentTextChanged.connect(select_fee_option)
             self.inputs, self.priv, self.inputs_summ, self.summ, self.new_addr = inputs, priv, inputs_summ, summ, new_addr
@@ -551,6 +574,7 @@ class Main(QMainWindow):
 
     def show_w2(self):
         self.w2 = MainWindow()
+        self.w2.setFixedSize(1026, 533)
         self.w2.show()
 
 

@@ -116,6 +116,13 @@ class Database(object):
         self.cr_cur.execute('INSERT INTO keys (private_key, public_key, address) VALUES (?, ?, ?)',(private_key, public_key, address))
         self.crypted_db.commit()
 
+    # Получить приватный ключ (для кошельков вида пара ключей)
+    def get_private_key_for_non_determ(self):
+        self.cr_cur.execute('PRAGMA KEY = "{}"'.format(self.password))
+        self.cr_cur.execute("select private_key from keys")
+        r = self.cr_cur.fetchone()
+        return r[0]
+
 
 
 

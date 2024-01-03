@@ -50,26 +50,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Импортировать секретный ключ</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="import_wallet_from_seed">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>290</y>
-        <width>251</width>
-        <height>91</height>
-       </rect>
-      </property>
-      <property name="acceptDrops">
-       <bool>false</bool>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="text">
-       <string>Импортировать сид-фразу</string>
+       <string>Импортировать кошелек</string>
       </property>
      </widget>
     </widget>

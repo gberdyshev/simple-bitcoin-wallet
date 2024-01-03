@@ -72,11 +72,11 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="address_settings">
        <attribute name="title">
-        <string>Tab 1</string>
+        <string>Текущий адрес</string>
        </attribute>
        <widget class="QPushButton" name="generate_new_addr">
         <property name="geometry">
@@ -160,18 +160,8 @@
       </widget>
       <widget class="QWidget" name="address_viewer">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>Все адреса</string>
        </attribute>
-       <widget class="QTableWidget" name="addresses_table">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>50</y>
-          <width>771</width>
-          <height>431</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QPushButton" name="pushButton_2">
         <property name="geometry">
          <rect>
@@ -183,6 +173,16 @@
         </property>
         <property name="text">
          <string>Загрузить</string>
+        </property>
+       </widget>
+       <widget class="QListWidget" name="addresses_list">
+        <property name="geometry">
+         <rect>
+          <x>5</x>
+          <y>51</y>
+          <width>771</width>
+          <height>431</height>
+         </rect>
         </property>
        </widget>
       </widget>
@@ -315,7 +315,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <layout class="QVBoxLayout" name="verticalLayout_14">
+        <layout class="QVBoxLayout" name="trans_button">
          <item>
           <widget class="Line" name="line">
            <property name="orientation">
@@ -478,7 +478,7 @@
      </widget>
     </widget>
     <widget class="QWidget" name="lock">
-     <widget class="QFrame" name="frame_2">
+     <widget class="QFrame" name="password_frame">
       <property name="geometry">
        <rect>
         <x>200</x>
@@ -676,7 +676,7 @@
        <rect>
         <x>30</x>
         <y>200</y>
-        <width>761</width>
+        <width>771</width>
         <height>20</height>
        </rect>
       </property>
@@ -685,6 +685,9 @@
       </property>
       <property name="text">
        <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
       <property name="openExternalLinks">
        <bool>true</bool>
@@ -702,17 +705,23 @@
       <property name="text">
        <string>Успешно! Транзакция подписана и передана в сеть. Ожидайте проведения.</string>
       </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="contacts_2">
-     <widget class="QListWidget" name="listWidget">
+     <widget class="QLabel" name="label_11">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>20</x>
         <y>30</y>
-        <width>781</width>
-        <height>491</height>
+        <width>101</width>
+        <height>18</height>
        </rect>
+      </property>
+      <property name="text">
+       <string>Coming soon</string>
       </property>
      </widget>
     </widget>
@@ -805,6 +814,37 @@
       </property>
      </widget>
     </widget>
+    <widget class="QWidget" name="settings">
+     <widget class="QLineEdit" name="mnemonic">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>50</y>
+        <width>791</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="get_mnemonic">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>80</y>
+        <width>341</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Показать/скрыть сид-фразу (секретный ключ)</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="menu_buttons">
     <property name="enabled">
@@ -828,8 +868,7 @@
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">
-border: none;
+     <string notr="true">border: none;
 </string>
     </property>
     <property name="title">
@@ -839,7 +878,7 @@ border: none;
      <item>
       <widget class="QPushButton" name="show_bal">
        <property name="text">
-        <string>Показать баланс</string>
+        <string>Обновить баланс</string>
        </property>
       </widget>
      </item>
@@ -850,8 +889,11 @@ border: none;
          <family>Cantarell</family>
          <pointsize>11</pointsize>
          <italic>false</italic>
-         <bold>false</bold>
+         <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 700 11pt &quot;Cantarell&quot;;</string>
        </property>
        <property name="text">
         <string>Домой</string>

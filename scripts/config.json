@@ -1,1 +1,1 @@
-{"ui_theme": "dark"}
+{"ui_theme": "light", "db_folder": "./db", "data_db_path": "./db/data.db", "wallet_db_path": "./db/wallet.db", "temp_path": "./.temp/", "currency": "btc"}
