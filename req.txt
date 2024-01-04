@@ -1,6 +1,6 @@
 pyqt6
 pyside6
-cryptos
+cryptos-witness
 requests
 sqlcipher3
 qrcode
