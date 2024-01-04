@@ -1,5 +1,3 @@
-import sqlcipher3
-
 from cryptos import *
 from scripts import consts
 from scripts.database import Database
@@ -32,21 +30,22 @@ class GeneralFunctions(object):
             if self.DB.transaction_is_exists(tx_hash) is False and history[i]['height'] > 0:
                 data = self.btc.inspect(self.btc.get_raw_tx(tx_hash))
                 # если у нас есть адрес в ins, то транзакция типа "перевод OUT", если другой адрес "получение IN"
-                for x in range(len(data['outs'])):
-                    if next(iter(data['ins'])) in addr_list:
-                        if not data['outs'][x]['address'] in addr_list:
-                            recepient = data['outs'][x]['address']
+                for y in data['ins']:
+                    for x in data['outs']:
+                        if y in addr_list:
                             sender = 'You'
                             type = 'output'
-                            amount = data['outs'][x]['value']
                             fee = data['fee']
+                            if not x['address'] in addr_list:
+                                recepient = x['address']
+                                amount = x['value']
                             #self.DB.add_transaction_to_db(type, sender, recepient, tx_hash, amount, fee)
-                    else:
-                        if data['outs'][x]['address'] in addr_list:
+                        else:
                             type = 'input'
-                            sender = next(iter(data['ins']))
                             recepient = 'You'
-                            amount = data['outs'][x]['value']
+                            if x['address'] in addr_list:
+                                sender = y
+                                amount = x['value']
                             fee = data['fee']
                 self.DB.add_transaction_to_db(type, sender, recepient, tx_hash, amount, fee)
 
@@ -70,44 +69,3 @@ class GeneralFunctions(object):
         addr0 = wallet.receiving_address(0)
         priv_key = wallet.privkey(addr0)
         return priv_key
-
-
-
-
-
-   #def crypt_wallet_db(self):
-
-
-
-
-
-class Transaction(object):
-    def __init__(self):
-        self.btc = __coin__
-
-    def send_tr(self, inputs, priv, inputs_summ, summ, new_addr, password, address):
-        outs = [{'value': summ, 'address': address}, {'value': inputs_summ -  summ - 750, 'address': new_addr}]
-        tx = self.btc.mktx(inputs, outs)
-        check_password = Database(str(password)).check_password()
-        if check_password is not False:
-            tx2 = self.btc.signall(tx, priv)
-            tx3 = serialize(tx2)
-            tx_final = self.btc.pushtx(tx3)
-            #linkTemplate = '<a href={0}>{1}</a>'
-            #tx_link = f'https://testnet.bitcoinexplorer.org/tx/{tx_final}'
-            #self.ui.hash.setText(linkTemplate.format(tx_link, tx_final))
-            #db = sqlcipher3.connect(__db_path__)
-            #cur = db.cursor()
-            #cur.execute('INSERT INTO unconfirmed_transactions (type, sender, recepient, hash, amount, fee) VALUES (?, ?, ?, ?, ?, ?)', ('output', address,self.ui.addr.text() , tx_final, summ, 0))
-            #db.commit()
-            print('a')
-        else:
-            return 0
-
-
-
-
-
-
-
-

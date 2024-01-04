@@ -12,14 +12,21 @@ class Database(object):
         self.cr_cur = self.crypted_db.cursor()
         self.password = password
 
+    # Инициализация приложения: проверка существования файлов, создание таблиц в БД
+    def init_app(self):
+        if not os.path.exists(consts.__temp_path__):
+            os.mkdir(consts.__temp_path__)
+        if not os.path.exists(consts.__db_folder_path__):
+            os.mkdir(consts.__db_folder_path__)
+        with open("./resources/init.sql", "r") as file:
+            self.cur.executescript(file.read())
+            self.db.commit()
+        # проверка на наличие ключей
+        self.cur.execute('select * from keys')
+        r = self.cur.fetchone()
+        if r is not None: # если ключи есть и есть файл с БД кошелька - вернуть истину
+            return True
 
-    @property
-    def _password(self):
-        return self.password
-
-    @_password.setter
-    def _password(self, password):
-        self.password = password
 
     # Возврат приватного ключа, соответствующего адресу
     def get_private_key(self, address):
@@ -122,15 +129,3 @@ class Database(object):
         self.cr_cur.execute("select private_key from keys")
         r = self.cr_cur.fetchone()
         return r[0]
-
-
-
-
-
-
-
-
-
-
-
-

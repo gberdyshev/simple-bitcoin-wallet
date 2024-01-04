@@ -1,26 +1,28 @@
 import json
 
-json_config_file = './scripts/config.json'
+__json_config_file__ = './scripts/config.json'
 
 def get_json_config():
     jsonconfig = {}
-    with open(json_config_file, 'r') as file:
+    with open(__json_config_file__, 'r') as file:
         jsonconfig = json.load(file)
         file.close()
     return jsonconfig
 
-
-__db_path__ = get_json_config()["data_db_path"]
-__wallet_db_path__ = get_json_config()["wallet_db_path"]
-__temp_path__ = get_json_config()["temp_path"]
-if get_json_config()["currency"] == "btc":
-    __currency__ = 10**8
-elif get_json_config()["currency"] == "sat":
-     __currency__ = 1
-__db_folder_path__ = get_json_config()["db_folder"]
+jsonconfig = get_json_config()
+__db_path__ = jsonconfig["data_db_path"]
+__wallet_db_path__ = jsonconfig["wallet_db_path"]
+__temp_path__ = jsonconfig["temp_path"]
+__db_folder_path__ = jsonconfig["db_folder"]
 __ui_dark_theme__ = """
                     background-color: rgb(53, 51, 51);
                     font: 11pt "Cantarell";
                     color: white;
                     border-color: rgba(216, 151, 50, 246);"""
 __ui_light_theme__ = """font: 11pt "Cantarell";"""
+
+if jsonconfig["currency"] == "btc":
+    __currency__ = 10**8
+elif jsonconfig["currency"] == "sat":
+     __currency__ = 1
+

@@ -6,6 +6,8 @@
         "scripts/database.py",
         "scripts/consts.py",
         "scripts/tools.py",
-        "scripts/wallets.py"
+        "scripts/wallets.py",
+        "classes/FirstRunWindow.py",
+        "classes/MainWindow.py"
     ]
 }

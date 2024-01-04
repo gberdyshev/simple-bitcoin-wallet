@@ -72,7 +72,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="address_settings">
        <attribute name="title">
@@ -394,16 +394,6 @@
       </column>
       <column>
        <property name="text">
-        <string>Отправитель</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Получатель</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
         <string>Хеш</string>
        </property>
       </column>
@@ -412,37 +402,6 @@
         <string>Сумма</string>
        </property>
       </column>
-      <column>
-       <property name="text">
-        <string>Комиссия</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="QLabel" name="debet">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>20</y>
-        <width>351</width>
-        <height>18</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Всего поступило (дебет):</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="credit">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>50</y>
-        <width>451</width>
-        <height>18</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Всего отправлено (кредит, без учёта комиссии):</string>
-      </property>
      </widget>
      <widget class="QComboBox" name="filter_history">
       <property name="geometry">
@@ -645,16 +604,6 @@
        </layout>
       </item>
       <item>
-       <widget class="QLineEdit" name="password_2">
-        <property name="text">
-         <string>Пароль</string>
-        </property>
-        <property name="clearButtonEnabled">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="push_transaction">
         <property name="text">
          <string>Провести</string>
@@ -732,27 +681,17 @@
      <widget class="QLabel" name="hash_2">
       <property name="geometry">
        <rect>
-        <x>80</x>
-        <y>310</y>
-        <width>391</width>
+        <x>50</x>
+        <y>180</y>
+        <width>711</width>
         <height>18</height>
        </rect>
       </property>
       <property name="text">
        <string>TextLabel</string>
       </property>
-     </widget>
-     <widget class="QLabel" name="rec">
-      <property name="geometry">
-       <rect>
-        <x>80</x>
-        <y>190</y>
-        <width>401</width>
-        <height>18</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>TextLabel</string>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
      <widget class="QLabel" name="summ_2">
@@ -760,7 +699,7 @@
        <rect>
         <x>310</x>
         <y>130</y>
-        <width>111</width>
+        <width>191</width>
         <height>41</height>
        </rect>
       </property>
@@ -778,40 +717,103 @@
       <property name="text">
        <string>TextLabel</string>
       </property>
-     </widget>
-     <widget class="QLabel" name="sender">
-      <property name="geometry">
-       <rect>
-        <x>80</x>
-        <y>270</y>
-        <width>401</width>
-        <height>18</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Cantarell</family>
-        <pointsize>14</pointsize>
-        <italic>false</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>TextLabel</string>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="label_7">
+     <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
-        <x>310</x>
-        <y>40</y>
-        <width>111</width>
-        <height>81</height>
+        <x>10</x>
+        <y>250</y>
+        <width>781</width>
+        <height>261</height>
        </rect>
       </property>
-      <property name="text">
-       <string/>
+      <layout class="QHBoxLayout" name="in_outs">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_15">
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Входные данные</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTableWidget" name="inputs_table">
+           <column>
+            <property name="text">
+             <string>Адрес</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Сумма</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_16">
+         <item>
+          <widget class="QLabel" name="label_12">
+           <property name="text">
+            <string>Выходные данные</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTableWidget" name="outs_table">
+           <column>
+            <property name="text">
+             <string>Адрес</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Сумма</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>210</y>
+        <width>251</width>
+        <height>21</height>
+       </rect>
       </property>
+      <layout class="QHBoxLayout" name="fee_frame">
+       <item>
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>Комиссия сети:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="fee">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QWidget" name="settings">

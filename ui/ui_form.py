@@ -16,11 +16,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QFrame,
-    QGridLayout, QGroupBox, QHeaderView, QLabel,
-    QLayout, QLineEdit, QListWidget, QListWidgetItem,
-    QMainWindow, QPushButton, QSizePolicy, QStackedWidget,
-    QTabWidget, QTableWidget, QTableWidgetItem, QVBoxLayout,
-    QWidget)
+    QGridLayout, QGroupBox, QHBoxLayout, QHeaderView,
+    QLabel, QLayout, QLineEdit, QListWidget,
+    QListWidgetItem, QMainWindow, QPushButton, QSizePolicy,
+    QStackedWidget, QTabWidget, QTableWidget, QTableWidgetItem,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -177,20 +177,14 @@ class Ui_MainWindow(object):
         self.history_page = QWidget()
         self.history_page.setObjectName(u"history_page")
         self.history_table = QTableWidget(self.history_page)
-        if (self.history_table.columnCount() < 6):
-            self.history_table.setColumnCount(6)
+        if (self.history_table.columnCount() < 3):
+            self.history_table.setColumnCount(3)
         __qtablewidgetitem = QTableWidgetItem()
         self.history_table.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
         self.history_table.setHorizontalHeaderItem(1, __qtablewidgetitem1)
         __qtablewidgetitem2 = QTableWidgetItem()
         self.history_table.setHorizontalHeaderItem(2, __qtablewidgetitem2)
-        __qtablewidgetitem3 = QTableWidgetItem()
-        self.history_table.setHorizontalHeaderItem(3, __qtablewidgetitem3)
-        __qtablewidgetitem4 = QTableWidgetItem()
-        self.history_table.setHorizontalHeaderItem(4, __qtablewidgetitem4)
-        __qtablewidgetitem5 = QTableWidgetItem()
-        self.history_table.setHorizontalHeaderItem(5, __qtablewidgetitem5)
         self.history_table.setObjectName(u"history_table")
         self.history_table.setEnabled(True)
         self.history_table.setGeometry(QRect(10, 80, 781, 441))
@@ -200,12 +194,6 @@ class Ui_MainWindow(object):
         self.history_table.setEditTriggers(QAbstractItemView.AnyKeyPressed|QAbstractItemView.DoubleClicked|QAbstractItemView.EditKeyPressed|QAbstractItemView.SelectedClicked)
         self.history_table.setSortingEnabled(False)
         self.history_table.setRowCount(0)
-        self.debet = QLabel(self.history_page)
-        self.debet.setObjectName(u"debet")
-        self.debet.setGeometry(QRect(30, 20, 351, 18))
-        self.credit = QLabel(self.history_page)
-        self.credit.setObjectName(u"credit")
-        self.credit.setGeometry(QRect(30, 50, 451, 18))
         self.filter_history = QComboBox(self.history_page)
         self.filter_history.setObjectName(u"filter_history")
         self.filter_history.setGeometry(QRect(590, 50, 201, 21))
@@ -322,12 +310,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_12.addLayout(self.verticalLayout_11)
 
-        self.password_2 = QLineEdit(self.send_confirm)
-        self.password_2.setObjectName(u"password_2")
-        self.password_2.setClearButtonEnabled(True)
-
-        self.verticalLayout_12.addWidget(self.password_2)
-
         self.push_transaction = QPushButton(self.send_confirm)
         self.push_transaction.setObjectName(u"push_transaction")
 
@@ -363,13 +345,11 @@ class Ui_MainWindow(object):
         self.transaction_inform.setStyleSheet(u"")
         self.hash_2 = QLabel(self.transaction_inform)
         self.hash_2.setObjectName(u"hash_2")
-        self.hash_2.setGeometry(QRect(80, 310, 391, 18))
-        self.rec = QLabel(self.transaction_inform)
-        self.rec.setObjectName(u"rec")
-        self.rec.setGeometry(QRect(80, 190, 401, 18))
+        self.hash_2.setGeometry(QRect(50, 180, 711, 18))
+        self.hash_2.setAlignment(Qt.AlignCenter)
         self.summ_2 = QLabel(self.transaction_inform)
         self.summ_2.setObjectName(u"summ_2")
-        self.summ_2.setGeometry(QRect(310, 130, 111, 41))
+        self.summ_2.setGeometry(QRect(310, 130, 191, 41))
         font2 = QFont()
         font2.setFamilies([u"Cantarell"])
         font2.setPointSize(16)
@@ -377,18 +357,73 @@ class Ui_MainWindow(object):
         font2.setItalic(False)
         self.summ_2.setFont(font2)
         self.summ_2.setStyleSheet(u"font: 16pt \"Cantarell\";")
-        self.sender = QLabel(self.transaction_inform)
-        self.sender.setObjectName(u"sender")
-        self.sender.setGeometry(QRect(80, 270, 401, 18))
-        font3 = QFont()
-        font3.setFamilies([u"Cantarell"])
-        font3.setPointSize(14)
-        font3.setBold(False)
-        font3.setItalic(False)
-        self.sender.setFont(font3)
-        self.label_7 = QLabel(self.transaction_inform)
+        self.summ_2.setAlignment(Qt.AlignCenter)
+        self.widget1 = QWidget(self.transaction_inform)
+        self.widget1.setObjectName(u"widget1")
+        self.widget1.setGeometry(QRect(10, 250, 781, 261))
+        self.in_outs = QHBoxLayout(self.widget1)
+        self.in_outs.setObjectName(u"in_outs")
+        self.in_outs.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_15 = QVBoxLayout()
+        self.verticalLayout_15.setObjectName(u"verticalLayout_15")
+        self.label_7 = QLabel(self.widget1)
         self.label_7.setObjectName(u"label_7")
-        self.label_7.setGeometry(QRect(310, 40, 111, 81))
+
+        self.verticalLayout_15.addWidget(self.label_7)
+
+        self.inputs_table = QTableWidget(self.widget1)
+        if (self.inputs_table.columnCount() < 2):
+            self.inputs_table.setColumnCount(2)
+        __qtablewidgetitem3 = QTableWidgetItem()
+        self.inputs_table.setHorizontalHeaderItem(0, __qtablewidgetitem3)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.inputs_table.setHorizontalHeaderItem(1, __qtablewidgetitem4)
+        self.inputs_table.setObjectName(u"inputs_table")
+
+        self.verticalLayout_15.addWidget(self.inputs_table)
+
+
+        self.in_outs.addLayout(self.verticalLayout_15)
+
+        self.verticalLayout_16 = QVBoxLayout()
+        self.verticalLayout_16.setObjectName(u"verticalLayout_16")
+        self.label_12 = QLabel(self.widget1)
+        self.label_12.setObjectName(u"label_12")
+
+        self.verticalLayout_16.addWidget(self.label_12)
+
+        self.outs_table = QTableWidget(self.widget1)
+        if (self.outs_table.columnCount() < 2):
+            self.outs_table.setColumnCount(2)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.outs_table.setHorizontalHeaderItem(0, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.outs_table.setHorizontalHeaderItem(1, __qtablewidgetitem6)
+        self.outs_table.setObjectName(u"outs_table")
+
+        self.verticalLayout_16.addWidget(self.outs_table)
+
+
+        self.in_outs.addLayout(self.verticalLayout_16)
+
+        self.widget2 = QWidget(self.transaction_inform)
+        self.widget2.setObjectName(u"widget2")
+        self.widget2.setGeometry(QRect(290, 210, 251, 21))
+        self.fee_frame = QHBoxLayout(self.widget2)
+        self.fee_frame.setObjectName(u"fee_frame")
+        self.fee_frame.setContentsMargins(0, 0, 0, 0)
+        self.label_13 = QLabel(self.widget2)
+        self.label_13.setObjectName(u"label_13")
+        self.label_13.setAlignment(Qt.AlignCenter)
+
+        self.fee_frame.addWidget(self.label_13)
+
+        self.fee = QLabel(self.widget2)
+        self.fee.setObjectName(u"fee")
+        self.fee.setAlignment(Qt.AlignCenter)
+
+        self.fee_frame.addWidget(self.fee)
+
         self.stackedWidget.addWidget(self.transaction_inform)
         self.settings = QWidget()
         self.settings.setObjectName(u"settings")
@@ -418,12 +453,12 @@ class Ui_MainWindow(object):
 
         self.go_to_home = QPushButton(self.menu_buttons)
         self.go_to_home.setObjectName(u"go_to_home")
-        font4 = QFont()
-        font4.setFamilies([u"Cantarell"])
-        font4.setPointSize(11)
-        font4.setBold(True)
-        font4.setItalic(False)
-        self.go_to_home.setFont(font4)
+        font3 = QFont()
+        font3.setFamilies([u"Cantarell"])
+        font3.setPointSize(11)
+        font3.setBold(True)
+        font3.setItalic(False)
+        self.go_to_home.setFont(font3)
         self.go_to_home.setStyleSheet(u"font: 700 11pt \"Cantarell\";")
 
         self.verticalLayout_3.addWidget(self.go_to_home)
@@ -525,7 +560,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(4)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         self.pushButton.setDefault(False)
         self.filter_history.setCurrentIndex(-1)
         self.password_ok.setDefault(True)
@@ -557,17 +592,9 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem = self.history_table.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"\u0422\u0438\u043f", None));
         ___qtablewidgetitem1 = self.history_table.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u043f\u0440\u0430\u0432\u0438\u0442\u0435\u043b\u044c", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"\u0425\u0435\u0448", None));
         ___qtablewidgetitem2 = self.history_table.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u043b\u0443\u0447\u0430\u0442\u0435\u043b\u044c", None));
-        ___qtablewidgetitem3 = self.history_table.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u0425\u0435\u0448", None));
-        ___qtablewidgetitem4 = self.history_table.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0443\u043c\u043c\u0430", None));
-        ___qtablewidgetitem5 = self.history_table.horizontalHeaderItem(5)
-        ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"\u041a\u043e\u043c\u0438\u0441\u0441\u0438\u044f", None));
-        self.debet.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0441\u0435\u0433\u043e \u043f\u043e\u0441\u0442\u0443\u043f\u0438\u043b\u043e (\u0434\u0435\u0431\u0435\u0442):", None))
-        self.credit.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0441\u0435\u0433\u043e \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043e (\u043a\u0440\u0435\u0434\u0438\u0442, \u0431\u0435\u0437 \u0443\u0447\u0451\u0442\u0430 \u043a\u043e\u043c\u0438\u0441\u0441\u0438\u0438):", None))
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0443\u043c\u043c\u0430", None));
         self.filter_history.setCurrentText("")
         self.load_button.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c", None))
         self.password.setText("")
@@ -588,17 +615,25 @@ class Ui_MainWindow(object):
         self.comission_byte.setText("")
         self.comm_2.setText(QCoreApplication.translate("MainWindow", u"\u041a\u043e\u043c\u0438\u0441\u0441\u0438\u044f \u0437\u0430 \u0442\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0438\u044e:", None))
         self.comission_tr.setText("")
-        self.password_2.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0430\u0440\u043e\u043b\u044c", None))
         self.push_transaction.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0440\u043e\u0432\u0435\u0441\u0442\u0438", None))
         self.cancel_transaction.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u043c\u0435\u043d\u0438\u0442\u044c \u0442\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0438\u044e", None))
         self.hash.setText("")
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0441\u043f\u0435\u0448\u043d\u043e! \u0422\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0438\u044f \u043f\u043e\u0434\u043f\u0438\u0441\u0430\u043d\u0430 \u0438 \u043f\u0435\u0440\u0435\u0434\u0430\u043d\u0430 \u0432 \u0441\u0435\u0442\u044c. \u041e\u0436\u0438\u0434\u0430\u0439\u0442\u0435 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u0438\u044f.", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Coming soon", None))
         self.hash_2.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
-        self.rec.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.summ_2.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
-        self.sender.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
-        self.label_7.setText("")
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0445\u043e\u0434\u043d\u044b\u0435 \u0434\u0430\u043d\u043d\u044b\u0435", None))
+        ___qtablewidgetitem3 = self.inputs_table.horizontalHeaderItem(0)
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0434\u0440\u0435\u0441", None));
+        ___qtablewidgetitem4 = self.inputs_table.horizontalHeaderItem(1)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0443\u043c\u043c\u0430", None));
+        self.label_12.setText(QCoreApplication.translate("MainWindow", u"\u0412\u044b\u0445\u043e\u0434\u043d\u044b\u0435 \u0434\u0430\u043d\u043d\u044b\u0435", None))
+        ___qtablewidgetitem5 = self.outs_table.horizontalHeaderItem(0)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"\u0410\u0434\u0440\u0435\u0441", None));
+        ___qtablewidgetitem6 = self.outs_table.horizontalHeaderItem(1)
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0443\u043c\u043c\u0430", None));
+        self.label_13.setText(QCoreApplication.translate("MainWindow", u"\u041a\u043e\u043c\u0438\u0441\u0441\u0438\u044f \u0441\u0435\u0442\u0438:", None))
+        self.fee.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.get_mnemonic.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c/\u0441\u043a\u0440\u044b\u0442\u044c \u0441\u0438\u0434-\u0444\u0440\u0430\u0437\u0443 (\u0441\u0435\u043a\u0440\u0435\u0442\u043d\u044b\u0439 \u043a\u043b\u044e\u0447)", None))
 #if QT_CONFIG(whatsthis)
         self.menu_buttons.setWhatsThis(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><br/></p></body></html>", None))

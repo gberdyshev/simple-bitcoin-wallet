@@ -5,7 +5,7 @@ import requests
 import json
 
 from scripts import consts
-json_config_file = './scripts/config.json'
+
 
 
 
@@ -40,17 +40,17 @@ class Tools(object):
     """Получить текущую тему приложения"""
     def get_theme_option(self):
         jsonconfig = {}
-        with open(json_config_file, 'r') as file:
+        with open(consts.__json_config_file__, 'r') as file:
             jsonconfig = json.load(file)
             file.close()
         return jsonconfig["ui_theme"]
 
     """Изменить текущую тему приложения"""
     def change_theme_option(self, option):
-        with open(json_config_file, 'r') as file:
+        with open(consts.__json_config_file__, 'r') as file:
             jsonconfig = json.load(file)
             file.close()
-        with open(json_config_file, 'w') as file:
+        with open(consts.__json_config_file__, 'w') as file:
             jsonconfig["ui_theme"] = option
             json.dump(jsonconfig, file)
             file.close()
