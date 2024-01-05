@@ -5,25 +5,31 @@ from scripts import consts
 
 class Database(object):
     def __init__(self, password=None):
-        self.db = sqlcipher3.connect(consts.__db_path__)
-        self.cur = self.db.cursor()
+        try:
+            self.db = sqlcipher3.connect(consts.__db_path__)
+            self.cur = self.db.cursor()
 
-        self.crypted_db = sqlcipher3.connect(consts.__wallet_db_path__)
-        self.cr_cur = self.crypted_db.cursor()
-        self.password = password
+            self.crypted_db = sqlcipher3.connect(consts.__wallet_db_path__)
+            self.cr_cur = self.crypted_db.cursor()
+            self.password = password
+        except:
+    	    pass
 
     # Инициализация приложения: проверка существования файлов, создание таблиц в БД
     def init_app(self):
+    
         if not os.path.exists(consts.__temp_path__):
             os.mkdir(consts.__temp_path__)
         if not os.path.exists(consts.__db_folder_path__):
             os.mkdir(consts.__db_folder_path__)
+        db = sqlcipher3.connect(consts.__db_path__)
+        cur = db.cursor()
         with open("./resources/init.sql", "r") as file:
-            self.cur.executescript(file.read())
-            self.db.commit()
+            cur.executescript(file.read())
+            db.commit()
         # проверка на наличие ключей
-        self.cur.execute('select * from keys')
-        r = self.cur.fetchone()
+        cur.execute('select * from keys')
+        r = cur.fetchone()
         if r is not None: # если ключи есть и есть файл с БД кошелька - вернуть истину
             return True
 
