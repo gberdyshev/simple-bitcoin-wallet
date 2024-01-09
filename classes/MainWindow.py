@@ -313,12 +313,16 @@ class MainWindow(QMainWindow):
             def select_fee_option(value):
                 fees = Tools().get_actual_fee()
                 fee = 1
+                if fees is False:
+                    fee = 1
+                    value = None
                 if value == "Быстрая":
                     fee = fees[0]
                 elif value == "Стандартная":
                     fee = fees[1]
                 elif value == "Медленная":
                     fee = fees[2]
+                
                 fee_tr = Tools().calc_fee(len(inputs), 2, fee)
                 self.ui.comission_byte.setText(str(fee))
                 self.ui.comission_tr.setText(str(fee_tr))

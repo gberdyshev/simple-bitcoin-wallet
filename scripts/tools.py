@@ -24,13 +24,17 @@ class Tools(object):
 
     """Актуальная комиссия в блокчейне тестнета"""
     def get_actual_fee(self):
-        r = requests.get("https://testnet.bitcoinexplorer.org/api/mempool/fees")
-        if r.status_code != 200:
-            return False # сервис недоступен
-        r = r.json()
-        fast, standard, slow = r["nextBlock"], r["30min"], r["1day"]
+        try:
+            r = requests.get("https://testnet.bitcoinexplorer.org/api/mempool/fees", timeout=3)
+            if r.status_code != 200:
+                return False # сервис недоступен
+            r = r.json()
+            fast, standard, slow = r["nextBlock"], r["30min"], r["1day"]
 
-        return fast, standard, slow
+            return fast, standard, slow
+        except requests.exceptions.Timeout:
+            print("Timeout Blockchain Explorer")
+            return False
 
 
     """Расчет размера транзации (приблизительного) и комиссии по нему"""

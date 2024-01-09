@@ -24,13 +24,21 @@ class Main(QMainWindow):
         self.w2 = MainWindow() # основное окно приложения
         self.w2.setFixedSize(1026, 533)
         self.w2.show()
-
-if __name__ == "__main__":
+ 
+ 
+def main():
     app = QApplication(sys.argv)
     widget = Main()
     if Database().init_app(): # при наличии ключей запускается сразу MainWindow
         widget.show_w2()
     else:
         widget.show_w1() # при отсутствии ключей запускается мастер первоначальной настройки
-
     sys.exit(app.exec())
+
+
+    
+ 	
+
+if __name__ == "__main__":
+    main()
+
