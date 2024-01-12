@@ -16,7 +16,7 @@ __db_folder_path__ = consts.__db_folder_path__
 __db_path__ = consts.__db_path__
 __wallet_db_path__ = consts.__wallet_db_path__ # Зашифрованная база для хранения секретного ключа
 __temp_path__ = consts.__temp_path__
-__coin__ = Bitcoin(testnet=True) # Какую монету используем, какую сеть
+__coin__ = Bitcoin(testnet=consts.__testnet__) # Какую монету используем, какую сеть
 __currency__ = consts.__currency__ # если 10^8 - Биткоин, если 1 - сатоши (10^(-8) Биткоина)
 
 class FirstRunWindow(QMainWindow):
@@ -36,16 +36,13 @@ class FirstRunWindow(QMainWindow):
     """ Импорт кошелька """
     def import_wallet(self):
         self.ui.stackedWidget.setCurrentIndex(1)
+        Database().clean_transactions()
         self.mnemonic = False
         self.mnemonic_phrase = None
         self.ui.import_options.currentTextChanged.connect(self.select_option)
         #if self.ui.import_options.currentIndex() == 1:
             #print(0)
         self.ui.check.clicked.connect(self.check_keys)
-        db = sqlcipher3.connect(__db_path__)
-        cur = db.cursor()
-        cur.execute("delete from transactions")
-        db.commit()
         self.ui.finish_import_2.clicked.connect(lambda: self.add_password(self.ui.private_key_2.text(),self.ui.public_key_2.text(), self.ui.address_2.text(), self.mnemonic_phrase))
 
     def select_option(self, value):
@@ -100,6 +97,7 @@ class FirstRunWindow(QMainWindow):
         self.ui.mnemonic.setEchoMode(QLineEdit.EchoMode.Normal)
 
     def gen_keys(self):
+        Database().clean_transactions()
         words = entropy_to_words(os.urandom(16))
         wallet = self.btc.wallet(words)
         addr = wallet.new_receiving_address()

@@ -15,6 +15,7 @@ class Main(QMainWindow):
     def show_w1(self):
 
         self.w1 = FirstRunWindow()
+        self.w1.setFixedSize(666, 441)
         self.w1.ui.confirm.clicked.connect(self.show_w2)
         self.w1.ui.confirm.clicked.connect(self.w1.close)
 

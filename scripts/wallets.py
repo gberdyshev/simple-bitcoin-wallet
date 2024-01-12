@@ -2,7 +2,7 @@ from cryptos import *
 from scripts import consts
 from scripts.database import Database
 
-__coin__ = Bitcoin(testnet=True)
+__coin__ = Bitcoin(testnet=consts.__testnet__)
 
 class GeneralFunctions(object):
     def __init__(self, password=None):
@@ -29,7 +29,6 @@ class GeneralFunctions(object):
             tx_hash = history[i]['tx_hash']
             if self.DB.transaction_is_exists(tx_hash) is False and history[i]['height'] > 0:
                 data = self.btc.inspect(self.btc.get_raw_tx(tx_hash))
-                # если у нас есть адрес в ins, то транзакция типа "перевод OUT", если другой адрес "получение IN"
                 for y in data['ins']:
                     for x in data['outs']:
                         if y in addr_list:
@@ -37,17 +36,16 @@ class GeneralFunctions(object):
                             type = 'output'
                             fee = data['fee']
                             if not x['address'] in addr_list:
-                                recepient = x['address']
+                                recipient = x['address']
                                 amount = x['value']
-                            #self.DB.add_transaction_to_db(type, sender, recepient, tx_hash, amount, fee)
                         else:
                             type = 'input'
-                            recepient = 'You'
+                            recipient = 'You'
                             if x['address'] in addr_list:
                                 sender = y
                                 amount = x['value']
                             fee = data['fee']
-                self.DB.add_transaction_to_db(type, sender, recepient, tx_hash, amount, fee)
+                self.DB.add_transaction_to_db(type, sender, recipient, tx_hash, amount, fee)
 
     def generate_new_address(self):
         mnemonic = Database(self.password).get_mnemonic()

@@ -5,18 +5,13 @@ create table if not exists keys (
 create table if not exists transactions (
     type TEXT, 
     sender TEXT, 
-    recepient TEXT, 
+    recipient TEXT, 
     hash TEXT, 
     amount INTEGER, 
     fee INTEGER);
 
-create table if not exists unconfirmed_transactions (
-    type TEXT, 
-    sender TEXT, 
-    recepient TEXT, 
-    hash TEXT, 
-    amount INTEGER, 
-    fee INTEGER);
+create table if not exists contacts (
+    address TEXT,
+    name TEXT
 
-create table if not exists mnemonic_public_key (
-    xpub_key TEXT);
+)

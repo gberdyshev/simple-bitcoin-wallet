@@ -26,3 +26,7 @@ if jsonconfig["currency"] == "btc":
 elif jsonconfig["currency"] == "sat":
      __currency__ = 1
 
+if jsonconfig["network"] == "testnet":
+    __testnet__ = True
+elif jsonconfig["network"] == "mainnet":
+    __testnet__ = False

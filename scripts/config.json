@@ -1,1 +1,1 @@
-{"ui_theme": "dark", "db_folder": "./db", "data_db_path": "./db/data.db", "wallet_db_path": "./db/wallet.db", "temp_path": "./.temp/", "currency": "btc"}
+{"ui_theme": "dark", "db_folder": "./db", "data_db_path": "./db/data.db", "wallet_db_path": "./db/wallet.db", "temp_path": "./.temp/", "currency": "btc", "network": "testnet"}

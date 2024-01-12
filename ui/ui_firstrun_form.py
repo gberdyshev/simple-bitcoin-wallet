@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'firstrun_form.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.6.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,10 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFrame,
-    QGridLayout, QLabel, QLineEdit, QMainWindow,
-    QProgressBar, QPushButton, QSizePolicy, QStackedWidget,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QGridLayout,
+    QLabel, QLineEdit, QMainWindow, QProgressBar,
+    QPushButton, QSizePolicy, QStackedWidget, QVBoxLayout,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -166,65 +166,65 @@ class Ui_MainWindow(object):
         self.warning_label = QLabel(self.creator)
         self.warning_label.setObjectName(u"warning_label")
         self.warning_label.setGeometry(QRect(10, 250, 361, 61))
-        self.widget = QWidget(self.creator)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(10, 20, 631, 281))
-        self.creator_fr = QVBoxLayout(self.widget)
+        self.layoutWidget = QWidget(self.creator)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(10, 20, 631, 281))
+        self.creator_fr = QVBoxLayout(self.layoutWidget)
         self.creator_fr.setObjectName(u"creator_fr")
         self.creator_fr.setContentsMargins(0, 0, 0, 0)
-        self.label_6 = QLabel(self.widget)
+        self.label_6 = QLabel(self.layoutWidget)
         self.label_6.setObjectName(u"label_6")
 
         self.creator_fr.addWidget(self.label_6)
 
-        self.mnemonic = QLineEdit(self.widget)
+        self.mnemonic = QLineEdit(self.layoutWidget)
         self.mnemonic.setObjectName(u"mnemonic")
         self.mnemonic.setEchoMode(QLineEdit.Password)
         self.mnemonic.setReadOnly(True)
 
         self.creator_fr.addWidget(self.mnemonic)
 
-        self.label = QLabel(self.widget)
+        self.label = QLabel(self.layoutWidget)
         self.label.setObjectName(u"label")
 
         self.creator_fr.addWidget(self.label)
 
-        self.private_key = QLineEdit(self.widget)
+        self.private_key = QLineEdit(self.layoutWidget)
         self.private_key.setObjectName(u"private_key")
         self.private_key.setEchoMode(QLineEdit.Password)
         self.private_key.setReadOnly(True)
 
         self.creator_fr.addWidget(self.private_key)
 
-        self.label_2 = QLabel(self.widget)
+        self.label_2 = QLabel(self.layoutWidget)
         self.label_2.setObjectName(u"label_2")
 
         self.creator_fr.addWidget(self.label_2)
 
-        self.public_key = QLineEdit(self.widget)
+        self.public_key = QLineEdit(self.layoutWidget)
         self.public_key.setObjectName(u"public_key")
         self.public_key.setReadOnly(True)
 
         self.creator_fr.addWidget(self.public_key)
 
-        self.label_3 = QLabel(self.widget)
+        self.label_3 = QLabel(self.layoutWidget)
         self.label_3.setObjectName(u"label_3")
 
         self.creator_fr.addWidget(self.label_3)
 
-        self.address = QLineEdit(self.widget)
+        self.address = QLineEdit(self.layoutWidget)
         self.address.setObjectName(u"address")
         self.address.setReadOnly(True)
 
         self.creator_fr.addWidget(self.address)
 
-        self.widget1 = QWidget(self.creator)
-        self.widget1.setObjectName(u"widget1")
-        self.widget1.setGeometry(QRect(240, 310, 401, 121))
-        self.gridLayout = QGridLayout(self.widget1)
+        self.layoutWidget1 = QWidget(self.creator)
+        self.layoutWidget1.setObjectName(u"layoutWidget1")
+        self.layoutWidget1.setGeometry(QRect(240, 310, 401, 121))
+        self.gridLayout = QGridLayout(self.layoutWidget1)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.show_private_key = QPushButton(self.widget1)
+        self.show_private_key = QPushButton(self.layoutWidget1)
         self.show_private_key.setObjectName(u"show_private_key")
         self.show_private_key.setEnabled(False)
 
@@ -232,13 +232,13 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_5 = QVBoxLayout()
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.go = QPushButton(self.widget1)
+        self.go = QPushButton(self.layoutWidget1)
         self.go.setObjectName(u"go")
         self.go.setEnabled(False)
 
         self.verticalLayout_5.addWidget(self.go)
 
-        self.generate = QPushButton(self.widget1)
+        self.generate = QPushButton(self.layoutWidget1)
         self.generate.setObjectName(u"generate")
 
         self.verticalLayout_5.addWidget(self.generate)
@@ -256,9 +256,6 @@ class Ui_MainWindow(object):
         self.password.setObjectName(u"password")
         self.password.setGeometry(QRect(20, 40, 331, 26))
         self.password.setEchoMode(QLineEdit.Password)
-        self.show_password = QCheckBox(self.password_creator)
-        self.show_password.setObjectName(u"show_password")
-        self.show_password.setGeometry(QRect(20, 90, 161, 24))
         self.confirm = QPushButton(self.password_creator)
         self.confirm.setObjectName(u"confirm")
         self.confirm.setGeometry(QRect(390, 340, 211, 41))
@@ -321,7 +318,6 @@ class Ui_MainWindow(object):
         self.go.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u044e", None))
         self.generate.setText(QCoreApplication.translate("MainWindow", u"\u0413\u0435\u043d\u0435\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0434\u0430\u0439\u0442\u0435 \u043f\u0430\u0440\u043e\u043b\u044c \u0434\u043b\u044f \u0448\u0438\u0444\u0440\u043e\u0432\u0430\u043d\u0438\u044f \u0432\u0430\u0448\u0435\u0433\u043e \u043a\u043e\u0448\u0435\u043b\u044c\u043a\u0430", None))
-        self.show_password.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u043f\u0430\u0440\u043e\u043b\u044c", None))
         self.confirm.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0435\u0440\u0435\u0439\u0442\u0438 \u043a \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u044e", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u041c\u043d\u0435\u043c\u043e\u043d\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0444\u0440\u0430\u0437\u0430", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0440\u043e\u0432\u0435\u0440\u0438\u0442\u044c", None))

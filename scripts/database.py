@@ -30,7 +30,7 @@ class Database(object):
         # проверка на наличие ключей
         cur.execute('select * from keys')
         r = cur.fetchone()
-        if r is not None: # если ключи есть и есть файл с БД кошелька - вернуть истину
+        if r is not None and os.path.exists(consts.__wallet_db_path__): # если ключи есть и есть файл с БД кошелька - вернуть истину
             return True
 
 
@@ -109,9 +109,9 @@ class Database(object):
             return True
 
     # Добавление транзакции в data.db
-    def add_transaction_to_db(self, type, sender, recepient, tx_hash, amount, fee):
-        self.cur.execute('INSERT INTO transactions (type, sender, recepient, hash, amount, fee) VALUES (?, ?, ?, ?, ?, ?)',\
-        (type, sender, recepient, tx_hash, amount, fee))
+    def add_transaction_to_db(self, type, sender, recipient, tx_hash, amount, fee):
+        self.cur.execute('INSERT INTO transactions (type, sender, recipient, hash, amount, fee) VALUES (?, ?, ?, ?, ?, ?)',\
+        (type, sender, recipient, tx_hash, amount, fee))
         self.db.commit()
 
     # Получить мнемоническую фразу из wallet.db
@@ -135,3 +135,7 @@ class Database(object):
         self.cr_cur.execute("select private_key from keys")
         r = self.cr_cur.fetchone()
         return r[0]
+
+    def clean_transactions(self):
+        self.cur.execute("delete from transactions")
+        self.db.commit()

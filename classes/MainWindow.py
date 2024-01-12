@@ -19,7 +19,7 @@ __db_folder_path__ = consts.__db_folder_path__
 __db_path__ = consts.__db_path__
 __wallet_db_path__ = consts.__wallet_db_path__ # Зашифрованная база для хранения секретного ключа
 __temp_path__ = consts.__temp_path__
-__coin__ = Bitcoin(testnet=True) # Какую монету используем, какую сеть
+__coin__ = Bitcoin(testnet=consts.__testnet__) # Какую монету используем, какую сеть
 __currency__ = consts.__currency__ # если 10^8 - Биткоин, если 1 - сатоши (10^(-8) Биткоина)
 
 
@@ -141,19 +141,6 @@ class MainWindow(QMainWindow):
 
             self.ui.history_table.setItem(i,1, QTableWidgetItem(hash))
             self.ui.history_table.setItem(i,2, QTableWidgetItem(str('{:.8f}'.format(amount/__currency__))))
-            #self.ui.history_table.setItem(i,5, QTableWidgetItem(str('{:.8f}'.format(fee/__currency__))))
-        #q = """select SUM(amount) from transactions where type = 'input'"""
-        #r = cur.execute(q)
-        #r = r.fetchone()
-        #if r[0] is not None:
-            #self.ui.debet.setText(f'Всего поступило (дебет): {r[0]/__currency__}')
-        #q2 = """select (sum(fee)+sum(amount)) from TRANSACTIONS where type='output'"""
-        #r = cur.execute(q2)
-        #r = r.fetchone()
-        #if r[0] is not None:
-            #self.ui.credit.setText(f'Всего отправлено: {r[0]/__currency__}')
-        #self.ui.filter_history.addItems(["Все","Только отправка", "Только получение"])
-        #self.ui.filter_history.currentTextChanged.connect(print('aa'))
 
     def get_transaction_inform(self, hash):
         db = sqlcipher3.connect(__db_path__)
@@ -164,7 +151,6 @@ class MainWindow(QMainWindow):
             self.ui.summ_2.setText("+ {:.8f}".format(r[4]/__currency__))
         else:
             self.ui.summ_2.setText("-{:.8f}".format(r[4]/__currency__))
-
         self.ui.hash_2.setText(r[3])
         data = self.btc.inspect(self.btc.get_raw_tx(hash))
         outputs = data['outs']
@@ -220,8 +206,6 @@ class MainWindow(QMainWindow):
                     self.ui.inputs_table.setItem(i, 0, QTableWidgetItem(input))
                     self.ui.inputs_table.setItem(i, 1, QTableWidgetItem(str('{:.8f}'.format(inputs[input]/__currency__))))
 
-                print(inputs)
-
     def generate_new_address(self):
 
         if Database(self.password).walletIsDeterministic() is False: # если кошелек недетерминированный - генерация новых адресов невозможна
@@ -259,7 +243,7 @@ class MainWindow(QMainWindow):
             tx3 = serialize(tx2)
             tx_final = self.btc.pushtx(tx3)
             linkTemplate = '<a href={0}>{1}</a>'
-            tx_link = f'https://testnet.bitcoinexplorer.org/tx/{tx_final}'
+            tx_link = f'https://mempool.space/testnet/tx/{tx_final}'
             self.ui.hash.setText(linkTemplate.format(tx_link, tx_final))
             self.ui.stackedWidget.setCurrentIndex(6)
         else:
@@ -286,9 +270,9 @@ class MainWindow(QMainWindow):
             for addr in r:
                 all_in.append(addr[0])
             # формула расчета комисии: fee = (n_inputs * 148 + n_outputs * 34 + 10) * price_per_byte (где 10 - служебные доп данные)
-
+	
             all_in = tuple(all_in)
-            all_in = self.btc.get_unspents(*all_in)
+            all_in = self.btc.get_unspents(*all_in) # получаем UTXO для всех адресов
 
             # Ищем неизрасходованные данные (UTXO)
             for unsp in all_in:
