@@ -65,6 +65,13 @@ class MainWindow(QMainWindow):
             self.cr_DB = Database(self.password)
             self.DB = Database()
             self.GenFunc = GeneralFunctions(self.password)
+            path = './resources/logo.png'
+            self.ui.logo.setPixmap(QPixmap(path))
+           
+            linkTemplate = '<a href={0} style="text-decoration:none;color:rgb(196, 176, 4);">{1}</a>'   
+            self.ui.docs.setText(linkTemplate.format(consts.__docs__, "Документация"))   
+            self.ui.source_code.setText(linkTemplate.format(consts.__repository__, "Исходный код"))
+            self.ui.author.setText(linkTemplate.format(consts.__author__, "Связь с автором"))
         else:
             QMessageBox.critical(self, 'Ошибка!', "Неверный пароль")
 

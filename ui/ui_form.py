@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'form.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.6.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -38,15 +38,61 @@ class Ui_MainWindow(object):
         self.stackedWidget.setMidLineWidth(3)
         self.home = QWidget()
         self.home.setObjectName(u"home")
-        self.label_3 = QLabel(self.home)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(20, 10, 311, 31))
+        self.title = QLabel(self.home)
+        self.title.setObjectName(u"title")
+        self.title.setGeometry(QRect(290, 0, 151, 31))
         font = QFont()
         font.setFamilies([u"Cantarell"])
         font.setPointSize(11)
         font.setBold(False)
         font.setItalic(False)
-        self.label_3.setFont(font)
+        self.title.setFont(font)
+        self.title.setAlignment(Qt.AlignCenter)
+        self.logo = QLabel(self.home)
+        self.logo.setObjectName(u"logo")
+        self.logo.setGeometry(QRect(310, 120, 108, 167))
+        self.logo.setPixmap(QPixmap(u"../resources/logo.png"))
+        self.logo.setScaledContents(True)
+        self.logo.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        self.logo.setOpenExternalLinks(False)
+        self.info = QFrame(self.home)
+        self.info.setObjectName(u"info")
+        self.info.setGeometry(QRect(110, 300, 511, 36))
+        font1 = QFont()
+        font1.setKerning(True)
+        self.info.setFont(font1)
+        self.info.setStyleSheet(u"a:hover, a:visited, a:link, a:active\n"
+"{\n"
+"    text-decoration: none;\n"
+"}\n"
+"")
+        self.horizontalLayout = QHBoxLayout(self.info)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.author = QLabel(self.info)
+        self.author.setObjectName(u"author")
+        self.author.setAlignment(Qt.AlignCenter)
+        self.author.setOpenExternalLinks(True)
+
+        self.horizontalLayout.addWidget(self.author)
+
+        self.docs = QLabel(self.info)
+        self.docs.setObjectName(u"docs")
+        self.docs.setStyleSheet(u"a:hover, a:visited, a:link, a:active\n"
+"{\n"
+"    text-decoration: none;\n"
+"}")
+        self.docs.setAlignment(Qt.AlignCenter)
+        self.docs.setOpenExternalLinks(True)
+
+        self.horizontalLayout.addWidget(self.docs)
+
+        self.source_code = QLabel(self.info)
+        self.source_code.setObjectName(u"source_code")
+        self.source_code.setAlignment(Qt.AlignCenter)
+        self.source_code.setOpenExternalLinks(True)
+
+        self.horizontalLayout.addWidget(self.source_code)
+
         self.stackedWidget.addWidget(self.home)
         self.receive_page = QWidget()
         self.receive_page.setObjectName(u"receive_page")
@@ -73,6 +119,10 @@ class Ui_MainWindow(object):
         self.address_label.setObjectName(u"address_label")
         self.address_label.setGeometry(QRect(3, 215, 371, 26))
         self.address_label.setFlat(True)
+        self.label_3 = QLabel(self.address_settings)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setGeometry(QRect(310, 10, 151, 18))
+        self.label_3.setAlignment(Qt.AlignCenter)
         self.tabWidget.addTab(self.address_settings, "")
         self.address_viewer = QWidget()
         self.address_viewer.setObjectName(u"address_viewer")
@@ -94,21 +144,21 @@ class Ui_MainWindow(object):
         self.label_10.setTextFormat(Qt.PlainText)
         self.label_10.setScaledContents(False)
         self.label_10.setAlignment(Qt.AlignCenter)
-        self.widget = QWidget(self.send)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(47, 100, 701, 251))
-        self.gridLayout = QGridLayout(self.widget)
+        self.layoutWidget = QWidget(self.send)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(47, 100, 701, 251))
+        self.gridLayout = QGridLayout(self.layoutWidget)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.transaction_frame = QFrame(self.widget)
+        self.transaction_frame = QFrame(self.layoutWidget)
         self.transaction_frame.setObjectName(u"transaction_frame")
-        font1 = QFont()
-        font1.setFamilies([u"Cantarell"])
-        font1.setPointSize(11)
-        font1.setBold(False)
-        font1.setItalic(False)
-        font1.setKerning(True)
-        self.transaction_frame.setFont(font1)
+        font2 = QFont()
+        font2.setFamilies([u"Cantarell"])
+        font2.setPointSize(11)
+        font2.setBold(False)
+        font2.setItalic(False)
+        font2.setKerning(True)
+        self.transaction_frame.setFont(font2)
         self.transaction_frame.setStyleSheet(u"border: none;")
         self.verticalLayout_7 = QVBoxLayout(self.transaction_frame)
         self.verticalLayout_7.setSpacing(10)
@@ -154,17 +204,17 @@ class Ui_MainWindow(object):
 
         self.trans_button = QVBoxLayout()
         self.trans_button.setObjectName(u"trans_button")
-        self.line = QFrame(self.widget)
+        self.line = QFrame(self.layoutWidget)
         self.line.setObjectName(u"line")
         self.line.setFrameShape(QFrame.HLine)
         self.line.setFrameShadow(QFrame.Sunken)
 
         self.trans_button.addWidget(self.line)
 
-        self.pushButton = QPushButton(self.widget)
+        self.pushButton = QPushButton(self.layoutWidget)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setEnabled(True)
-        self.pushButton.setFont(font1)
+        self.pushButton.setFont(font2)
         self.pushButton.setCheckable(False)
         self.pushButton.setAutoDefault(False)
 
@@ -201,6 +251,9 @@ class Ui_MainWindow(object):
         self.load_button = QPushButton(self.history_page)
         self.load_button.setObjectName(u"load_button")
         self.load_button.setGeometry(QRect(590, 10, 151, 31))
+        self.label_15 = QLabel(self.history_page)
+        self.label_15.setObjectName(u"label_15")
+        self.label_15.setGeometry(QRect(290, 10, 151, 18))
         self.stackedWidget.addWidget(self.history_page)
         self.lock = QWidget()
         self.lock.setObjectName(u"lock")
@@ -350,28 +403,28 @@ class Ui_MainWindow(object):
         self.summ_2 = QLabel(self.transaction_inform)
         self.summ_2.setObjectName(u"summ_2")
         self.summ_2.setGeometry(QRect(310, 130, 191, 41))
-        font2 = QFont()
-        font2.setFamilies([u"Cantarell"])
-        font2.setPointSize(16)
-        font2.setBold(False)
-        font2.setItalic(False)
-        self.summ_2.setFont(font2)
+        font3 = QFont()
+        font3.setFamilies([u"Cantarell"])
+        font3.setPointSize(16)
+        font3.setBold(False)
+        font3.setItalic(False)
+        self.summ_2.setFont(font3)
         self.summ_2.setStyleSheet(u"font: 16pt \"Cantarell\";")
         self.summ_2.setAlignment(Qt.AlignCenter)
-        self.widget1 = QWidget(self.transaction_inform)
-        self.widget1.setObjectName(u"widget1")
-        self.widget1.setGeometry(QRect(10, 250, 781, 261))
-        self.in_outs = QHBoxLayout(self.widget1)
+        self.layoutWidget1 = QWidget(self.transaction_inform)
+        self.layoutWidget1.setObjectName(u"layoutWidget1")
+        self.layoutWidget1.setGeometry(QRect(10, 250, 781, 261))
+        self.in_outs = QHBoxLayout(self.layoutWidget1)
         self.in_outs.setObjectName(u"in_outs")
         self.in_outs.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_15 = QVBoxLayout()
         self.verticalLayout_15.setObjectName(u"verticalLayout_15")
-        self.label_7 = QLabel(self.widget1)
+        self.label_7 = QLabel(self.layoutWidget1)
         self.label_7.setObjectName(u"label_7")
 
         self.verticalLayout_15.addWidget(self.label_7)
 
-        self.inputs_table = QTableWidget(self.widget1)
+        self.inputs_table = QTableWidget(self.layoutWidget1)
         if (self.inputs_table.columnCount() < 2):
             self.inputs_table.setColumnCount(2)
         __qtablewidgetitem3 = QTableWidgetItem()
@@ -387,12 +440,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_16 = QVBoxLayout()
         self.verticalLayout_16.setObjectName(u"verticalLayout_16")
-        self.label_12 = QLabel(self.widget1)
+        self.label_12 = QLabel(self.layoutWidget1)
         self.label_12.setObjectName(u"label_12")
 
         self.verticalLayout_16.addWidget(self.label_12)
 
-        self.outs_table = QTableWidget(self.widget1)
+        self.outs_table = QTableWidget(self.layoutWidget1)
         if (self.outs_table.columnCount() < 2):
             self.outs_table.setColumnCount(2)
         __qtablewidgetitem5 = QTableWidgetItem()
@@ -406,24 +459,30 @@ class Ui_MainWindow(object):
 
         self.in_outs.addLayout(self.verticalLayout_16)
 
-        self.widget2 = QWidget(self.transaction_inform)
-        self.widget2.setObjectName(u"widget2")
-        self.widget2.setGeometry(QRect(290, 210, 251, 21))
-        self.fee_frame = QHBoxLayout(self.widget2)
+        self.layoutWidget2 = QWidget(self.transaction_inform)
+        self.layoutWidget2.setObjectName(u"layoutWidget2")
+        self.layoutWidget2.setGeometry(QRect(290, 210, 251, 21))
+        self.fee_frame = QHBoxLayout(self.layoutWidget2)
         self.fee_frame.setObjectName(u"fee_frame")
         self.fee_frame.setContentsMargins(0, 0, 0, 0)
-        self.label_13 = QLabel(self.widget2)
+        self.label_13 = QLabel(self.layoutWidget2)
         self.label_13.setObjectName(u"label_13")
         self.label_13.setAlignment(Qt.AlignCenter)
 
         self.fee_frame.addWidget(self.label_13)
 
-        self.fee = QLabel(self.widget2)
+        self.fee = QLabel(self.layoutWidget2)
         self.fee.setObjectName(u"fee")
         self.fee.setAlignment(Qt.AlignCenter)
 
         self.fee_frame.addWidget(self.fee)
 
+        self.summ_3 = QLabel(self.transaction_inform)
+        self.summ_3.setObjectName(u"summ_3")
+        self.summ_3.setGeometry(QRect(310, 40, 191, 41))
+        self.summ_3.setFont(font3)
+        self.summ_3.setStyleSheet(u"font: 16pt \"Cantarell\";")
+        self.summ_3.setAlignment(Qt.AlignCenter)
         self.stackedWidget.addWidget(self.transaction_inform)
         self.settings = QWidget()
         self.settings.setObjectName(u"settings")
@@ -435,6 +494,10 @@ class Ui_MainWindow(object):
         self.get_mnemonic = QPushButton(self.settings)
         self.get_mnemonic.setObjectName(u"get_mnemonic")
         self.get_mnemonic.setGeometry(QRect(0, 80, 341, 41))
+        self.label_14 = QLabel(self.settings)
+        self.label_14.setObjectName(u"label_14")
+        self.label_14.setGeometry(QRect(340, 20, 101, 18))
+        self.label_14.setAlignment(Qt.AlignCenter)
         self.stackedWidget.addWidget(self.settings)
         self.menu_buttons = QGroupBox(self.centralwidget)
         self.menu_buttons.setObjectName(u"menu_buttons")
@@ -453,12 +516,12 @@ class Ui_MainWindow(object):
 
         self.go_to_home = QPushButton(self.menu_buttons)
         self.go_to_home.setObjectName(u"go_to_home")
-        font3 = QFont()
-        font3.setFamilies([u"Cantarell"])
-        font3.setPointSize(11)
-        font3.setBold(True)
-        font3.setItalic(False)
-        self.go_to_home.setFont(font3)
+        font4 = QFont()
+        font4.setFamilies([u"Cantarell"])
+        font4.setPointSize(11)
+        font4.setBold(True)
+        font4.setItalic(False)
+        self.go_to_home.setFont(font4)
         self.go_to_home.setStyleSheet(u"font: 700 11pt \"Cantarell\";")
 
         self.verticalLayout_3.addWidget(self.go_to_home)
@@ -502,10 +565,10 @@ class Ui_MainWindow(object):
 
         self.BalanceFrame = QFrame(self.centralwidget)
         self.BalanceFrame.setObjectName(u"BalanceFrame")
-        self.BalanceFrame.setGeometry(QRect(0, 10, 201, 121))
+        self.BalanceFrame.setGeometry(QRect(0, 10, 201, 141))
         self.BalanceFrame.setStyleSheet(u"border-style: solid;\n"
-"border-width: 1px;\n"
-"border-color: rgb(249, 240, 107);")
+"border-width: 2px;\n"
+"border-color: rgb(196, 176, 4);")
         self.verticalLayout_4 = QVBoxLayout(self.BalanceFrame)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.balance_frame = QFrame(self.BalanceFrame)
@@ -524,31 +587,21 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.balance)
 
-
-        self.verticalLayout_4.addWidget(self.balance_frame)
-
-        self.unconf_balance_frame = QFrame(self.BalanceFrame)
-        self.unconf_balance_frame.setObjectName(u"unconf_balance_frame")
-        self.unconf_balance_frame.setStyleSheet(u"border-color: rgb(249, 240, 107);\n"
-"border: none;\n"
-"")
-        self.verticalLayout_2 = QVBoxLayout(self.unconf_balance_frame)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.label = QLabel(self.unconf_balance_frame)
+        self.label = QLabel(self.balance_frame)
         self.label.setObjectName(u"label")
         self.label.setMouseTracking(False)
         self.label.setStyleSheet(u"border: none;")
 
-        self.verticalLayout_2.addWidget(self.label)
+        self.verticalLayout.addWidget(self.label)
 
-        self.unconf_balance = QLabel(self.unconf_balance_frame)
+        self.unconf_balance = QLabel(self.balance_frame)
         self.unconf_balance.setObjectName(u"unconf_balance")
         self.unconf_balance.setStyleSheet(u"border: none;")
 
-        self.verticalLayout_2.addWidget(self.unconf_balance)
+        self.verticalLayout.addWidget(self.unconf_balance)
 
 
-        self.verticalLayout_4.addWidget(self.unconf_balance_frame)
+        self.verticalLayout_4.addWidget(self.balance_frame)
 
         self.line_2 = QFrame(self.centralwidget)
         self.line_2.setObjectName(u"line_2")
@@ -560,7 +613,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(4)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         self.pushButton.setDefault(False)
         self.filter_history.setCurrentIndex(-1)
         self.password_ok.setDefault(True)
@@ -571,10 +624,15 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Simple Bitcoin Wallet", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Simple Bitcoin (Testnet) Wallet", None))
+        self.title.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043e\u043c\u0430\u0448\u043d\u044f\u044f \u0421\u0442\u0440\u0430\u043d\u0438\u0446\u0430", None))
+        self.logo.setText("")
+        self.author.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0432\u044f\u0437\u044c \u0441 \u0430\u0432\u0442\u043e\u0440\u043e\u043c", None))
+        self.docs.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f", None))
+        self.source_code.setText(QCoreApplication.translate("MainWindow", u"\u0418\u0441\u0445\u043e\u0434\u043d\u044b\u0439 \u043a\u043e\u0434 (Github)", None))
         self.generate_new_addr.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0433\u0435\u043d\u0435\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u043d\u043e\u0432\u044b\u0439 \u0430\u0434\u0440\u0435\u0441", None))
         self.address_qr.setText("")
         self.address_label.setText("")
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u0435 \u0430\u043a\u0442\u0438\u0432\u043e\u0432", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.address_settings), QCoreApplication.translate("MainWindow", u"\u0422\u0435\u043a\u0443\u0449\u0438\u0439 \u0430\u0434\u0440\u0435\u0441", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.address_viewer), QCoreApplication.translate("MainWindow", u"\u0412\u0441\u0435 \u0430\u0434\u0440\u0435\u0441\u0430", None))
@@ -597,6 +655,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0443\u043c\u043c\u0430", None));
         self.filter_history.setCurrentText("")
         self.load_button.setText(QCoreApplication.translate("MainWindow", u"\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c", None))
+        self.label_15.setText(QCoreApplication.translate("MainWindow", u"\u0418\u0441\u0442\u043e\u0440\u0438\u044f \u0442\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0438\u0439", None))
         self.password.setText("")
         self.password.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043f\u0430\u0440\u043e\u043b\u044c", None))
         self.password_ok.setText(QCoreApplication.translate("MainWindow", u"\u0412\u0445\u043e\u0434", None))
@@ -634,7 +693,9 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0443\u043c\u043c\u0430", None));
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"\u041a\u043e\u043c\u0438\u0441\u0441\u0438\u044f \u0441\u0435\u0442\u0438:", None))
         self.fee.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.summ_3.setText(QCoreApplication.translate("MainWindow", u"\u0422\u0440\u0430\u043d\u0437\u0430\u043a\u0446\u0438\u044f", None))
         self.get_mnemonic.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c/\u0441\u043a\u0440\u044b\u0442\u044c \u0441\u0438\u0434-\u0444\u0440\u0430\u0437\u0443 (\u0441\u0435\u043a\u0440\u0435\u0442\u043d\u044b\u0439 \u043a\u043b\u044e\u0447)", None))
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
 #if QT_CONFIG(whatsthis)
         self.menu_buttons.setWhatsThis(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><br/></p></body></html>", None))
 #endif // QT_CONFIG(whatsthis)

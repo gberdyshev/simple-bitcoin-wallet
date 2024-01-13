@@ -21,6 +21,10 @@ __ui_dark_theme__ = """
                     border-color: rgba(216, 151, 50, 246);"""
 __ui_light_theme__ = """font: 11pt "Cantarell";"""
 
+__repository__ = "https://github.com/gberdyshev/simple-bitcoin-wallet"
+__docs__ = "https://github.com/gberdyshev/simple-bitcoin-wallet/blob/main/README.md"
+__author__ = "https://github.com/gberdyshev"
+
 if jsonconfig["currency"] == "btc":
     __currency__ = 10**8
 elif jsonconfig["currency"] == "sat":
