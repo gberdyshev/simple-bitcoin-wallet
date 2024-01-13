@@ -19,6 +19,7 @@ __ui_dark_theme__ = """
                     font: 11pt "Cantarell";
                     color: white;
                     border-color: rgba(216, 151, 50, 246);"""
+                    
 __ui_light_theme__ = """font: 11pt "Cantarell";"""
 
 __repository__ = "https://github.com/gberdyshev/simple-bitcoin-wallet"

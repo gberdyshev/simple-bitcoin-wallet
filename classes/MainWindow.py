@@ -140,9 +140,8 @@ class MainWindow(QMainWindow):
         cur.execute('select * from transactions')
         r = cur.fetchall()
         self.ui.history_table.setRowCount(len(r)) # строчки
-        #self.ui.history_table.setColumnCount(6)
-        self.ui.history_table.setShowGrid(False)
-        #self.ui.history_table.setHorizontalHeaderLabels(["Тип", "Отправитель", "Получатель","Хэш", "Сумма","Комиссия"])
+        #self.ui.history_table.setShowGrid(False)
+        #self.ui.history_table.setHorizontalHeaderLabels(["Тип", "Хеш", "Сумма"])
         for i, (type, sender, recipient, hash, amount, fee) in enumerate(r):
             self.ui.history_table.setItem(i,0, QTableWidgetItem(type))
 
@@ -289,7 +288,7 @@ class MainWindow(QMainWindow):
                     priv[addr] = Database(self.password).get_private_key(addr)
                     inputs_summ += unsp['value']
 
-            print(time.time()-t)
+            
             last_address = Database(self.password).get_last_address()
 
             # Если кошелек детерминированный - генерируем новый адрес для сдачи
@@ -332,6 +331,7 @@ class MainWindow(QMainWindow):
             self.ui.comission_tr.setText("")
             self.ui.fee_options.currentTextChanged.connect(select_fee_option)
             self.inputs, self.priv, self.inputs_summ, self.summ, self.new_addr = inputs, priv, inputs_summ, summ, new_addr
+            print(time.time()-t)
             self.ui.cancel_transaction.clicked.connect(self.dop)
         except:
             QMessageBox.critical(self, 'Ошибка!', "Проверьте корректность введенных данных")
