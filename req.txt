@@ -2,5 +2,4 @@ pyqt6
 pyside6
 cryptos-witness
 requests
-sqlcipher3
 qrcode
