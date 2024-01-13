@@ -1,6 +1,6 @@
 """Работа с базой данных"""
 
-import sqlcipher3
+import sqlite3 as sqlcipher3
 import os
 
 from simple_bitcoin_wallet.scripts import consts

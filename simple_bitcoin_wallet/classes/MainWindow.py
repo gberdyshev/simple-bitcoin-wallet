@@ -1,6 +1,6 @@
 """Основное окно приложения"""
 
-import sqlcipher3
+import sqlite3 as sqlcipher3
 import threading
 import time
 

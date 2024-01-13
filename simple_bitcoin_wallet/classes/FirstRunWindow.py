@@ -1,6 +1,6 @@
 """Класс и окно первоначальной настройки"""
 
-import sqlcipher3
+import sqlite3 as sqlcipher3
 import os
 import threading
 
