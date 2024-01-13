@@ -23,7 +23,7 @@ __ui_dark_theme__ = """
 __ui_light_theme__ = """font: 11pt "Cantarell";"""
 
 __repository__ = "https://github.com/gberdyshev/simple-bitcoin-wallet"
-__docs__ = "https://github.com/gberdyshev/simple-bitcoin-wallet/blob/main/README.md"
+__docs__ = "https://github.com/gberdyshev/simple-bitcoin-wallet/blob/main/docs/user_guide.md"
 __author__ = "https://github.com/gberdyshev"
 
 if jsonconfig["currency"] == "btc":

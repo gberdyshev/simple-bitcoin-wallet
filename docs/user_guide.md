@@ -38,7 +38,7 @@ python3 -m pip install -r req.txt
 ```
 3. Запустить приложение
 ```
-python -m simple_bitcoin_wallet
+python3 -m simple_bitcoin_wallet
 ```
 ### Windows
 

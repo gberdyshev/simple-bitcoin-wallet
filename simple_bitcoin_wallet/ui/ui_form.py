@@ -655,7 +655,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Simple Bitcoin Wallet", None))
         self.title.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043e\u043c\u0430\u0448\u043d\u044f\u044f \u0421\u0442\u0440\u0430\u043d\u0438\u0446\u0430", None))
         self.logo.setText("")
-        self.label_16.setText(QCoreApplication.translate("MainWindow", u"\u0414\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0439 \u0411\u0438\u0442\u043a\u043e\u0438\u043d-\u043a\u043e\u0448\u0435\u043b\u0435\u043a (\u0441 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u043e\u0439 \u0442\u0435\u0441\u0442\u043e\u0432\u043e\u0439 \u0438 \u043e\u0441\u043d\u043e\u0432\u043d\u043e\u0439 \u0441\u0435\u0442\u0438)", None))
+        self.label_16.setText(QCoreApplication.translate("MainWindow", u"\u0414\u0435\u0442\u0435\u0440\u043c\u0438\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0439 \u0411\u0438\u0442\u043a\u043e\u0438\u043d-\u043a\u043e\u0448\u0435\u043b\u0435\u043a (\u0441 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u043e\u0439 \u0442\u0435\u0441\u0442\u043e\u0432\u043e\u0439 \u0438 \u043e\u0441\u043d\u043e\u0432\u043d\u043e\u0439 \u0441\u0435\u0442\u0435\u0439)", None))
         self.author.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0432\u044f\u0437\u044c \u0441 \u0430\u0432\u0442\u043e\u0440\u043e\u043c", None))
         self.docs.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f", None))
         self.source_code.setText(QCoreApplication.translate("MainWindow", u"\u0418\u0441\u0445\u043e\u0434\u043d\u044b\u0439 \u043a\u043e\u0434 (Github)", None))
