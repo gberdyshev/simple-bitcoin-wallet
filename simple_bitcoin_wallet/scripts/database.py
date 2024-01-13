@@ -1,3 +1,5 @@
+"""Работа с базой данных"""
+
 import sqlcipher3
 import os
 

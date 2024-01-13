@@ -1,4 +1,5 @@
-# This Python file uses the following encoding: utf-8
+"""Основное окно приложения"""
+
 import sqlcipher3
 import threading
 import time
@@ -45,7 +46,6 @@ class MainWindow(QMainWindow):
         self.ui.setting.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(9))
         self.ui.get_mnemonic.clicked.connect(self.get_mnemonic)
         self.ui.show_bal.clicked.connect(lambda: threading.Thread(target=self.get_bal).start())
-        #self.ui.show_bal.clicked.connect(lambda: self.ui.unconf_balance.setText(str('{0:.9f}'.format(self.get_bal('unconfirmed')))))
         self.ui.receive_button.clicked.connect(self.recieve)
         self.ui.history.clicked.connect(self.get_history)
 
@@ -66,12 +66,10 @@ class MainWindow(QMainWindow):
             self.DB = Database()
             self.GenFunc = GeneralFunctions(self.password)
             path = 'simple_bitcoin_wallet/resources/logo.png'
-            self.ui.logo.setPixmap(QPixmap(path))
-           
-            linkTemplate = '<a href={0} style="text-decoration:none;color:rgb(196, 176, 4);">{1}</a>'   
-            self.ui.docs.setText(linkTemplate.format(consts.__docs__, "Документация"))   
-            self.ui.source_code.setText(linkTemplate.format(consts.__repository__, "Исходный код"))
-            self.ui.author.setText(linkTemplate.format(consts.__author__, "Связь с автором"))
+            self.ui.logo.setPixmap(QPixmap(path))         
+            self.ui.docs.setText(consts.__linkTemplate__.format(consts.__docs__, "Документация"))   
+            self.ui.source_code.setText(consts.__linkTemplate__.format(consts.__repository__, "Исходный код"))
+            self.ui.author.setText(consts.__linkTemplate__.format(consts.__author__, "Связь с автором"))
         else:
             QMessageBox.critical(self, 'Ошибка!', "Неверный пароль")
 
@@ -103,9 +101,6 @@ class MainWindow(QMainWindow):
         else:
             self.ui.mnemonic.setText("")
 
-
-
-
     """ Работа с темой """
 
     def check_theme(self):
@@ -126,10 +121,6 @@ class MainWindow(QMainWindow):
             theme_opt = "light"
         Tools().change_theme_option(theme_opt)
         self.ui.centralwidget.setStyleSheet(ui_style)
-
-
-
-
 
     """ Работа с историей транзакций """
 
@@ -153,6 +144,14 @@ class MainWindow(QMainWindow):
             self.ui.history_table.setItem(i,1, QTableWidgetItem(hash))
             self.ui.history_table.setItem(i,2, QTableWidgetItem(str('{:.8f}'.format(amount/__currency__))))
 
+    """ Работа с адресами, генерацией адресов, таблицами адресов """
+
+    def get_addresses(self):
+        r = self.DB.get_addresses_from_db() # получаем адреса из базы данных
+        self.ui.addresses_list.clear()
+        for i, address in enumerate(r):
+            self.ui.addresses_list.addItem(address) # фомируем список
+
     def get_transaction_inform(self, hash):
         db = sqlcipher3.connect(__db_path__)
         cur = db.cursor()
@@ -162,6 +161,7 @@ class MainWindow(QMainWindow):
             self.ui.summ_2.setText("+ {:.8f}".format(r[4]/__currency__))
         else:
             self.ui.summ_2.setText("-{:.8f}".format(r[4]/__currency__))
+
         self.ui.hash_2.setText(r[3])
         data = self.btc.inspect(self.btc.get_raw_tx(hash))
         outputs = data['outs']
@@ -169,57 +169,20 @@ class MainWindow(QMainWindow):
         self.ui.fee.setText(str('{:.8f}'.format(data['fee']/__currency__)))
         self.ui.outs_table.setRowCount(len(outputs))
         self.ui.inputs_table.setRowCount(len(inputs))
+
+        """ Отбор входных и выходных данных транзакции """
         for i, out in enumerate(outputs):
             self.ui.outs_table.setItem(i,0, QTableWidgetItem(out['address']))
             self.ui.outs_table.setItem(i,1, QTableWidgetItem(str('{:.8f}'.format(out['value']/__currency__))))
-                #print(i, out)
+
         for i, input in enumerate(inputs):
             self.ui.inputs_table.setItem(i, 0, QTableWidgetItem(input))
             self.ui.inputs_table.setItem(i, 1, QTableWidgetItem(str('{:.8f}'.format(inputs[input]/__currency__))))
         self.ui.stackedWidget.setCurrentIndex(8)
-            #print(inputs)
-
-    """ Работа с адресами, генерацией адресов, таблицами адресов """
-
-    def get_addresses(self):
-        r = self.DB.get_addresses_from_db()
-        #self.ui.addresses_table.setRowCount(len(r)) # строчки
-        #self.ui.addresses_table.setColumnCount(1)
-        #self.ui.addresses_table.setHorizontalHeaderLabels(["Адрес"])
-        self.ui.addresses_list.clear()
-        for i, address in enumerate(r):
-            self.ui.addresses_list.addItem(address)
-            #self.ui.addresses_table.setItem(i,0, QTableWidgetItem(address))
-
-            def get_transaction_inform(self, hash):
-                db = sqlcipher3.connect(__db_path__)
-                cur = db.cursor()
-                cur.execute("select * from transactions where hash = ?", (hash, ))
-                r = cur.fetchone()
-                #
-                if r[0] == 'input':
-                    self.ui.summ_2.setText("+ {:.8f}".format(r[4]/__currency__))
-                else:
-                     self.ui.summ_2.setText("-{:.8f}".format(r[4]/__currency__))
-
-                self.ui.hash_2.setText(r[3])
-                data = self.btc.inspect(self.btc.get_raw_tx(hash))
-                outputs = data['outs']
-                inputs = data['ins']
-                self.ui.fee.setText(str('{:.8f}'.format(data['fee']/__currency__)))
-                self.ui.outs_table.setRowCount(len(outputs))
-                self.ui.inputs_table.setRowCount(len(inputs))
-                for i, out in enumerate(outputs):
-                    self.ui.outs_table.setItem(i,0, QTableWidgetItem(out['address']))
-                    self.ui.outs_table.setItem(i,1, QTableWidgetItem(str('{:.8f}'.format(out['value']/__currency__))))
-                    #print(i, out)
-                for i, input in enumerate(inputs):
-                    self.ui.inputs_table.setItem(i, 0, QTableWidgetItem(input))
-                    self.ui.inputs_table.setItem(i, 1, QTableWidgetItem(str('{:.8f}'.format(inputs[input]/__currency__))))
 
     def generate_new_address(self):
-
-        if Database(self.password).walletIsDeterministic() is False: # если кошелек недетерминированный - генерация новых адресов невозможна
+        # если кошелек недетерминированный - генерация новых адресов невозможна
+        if Database(self.password).walletIsDeterministic() is False: 
             return QMessageBox.critical(self, 'Ошибка!', "Ваш кошелек является недетерминированным!")
         new_addr = self.GenFunc.generate_new_address()
         QApplication.clipboard().setText(new_addr)
@@ -245,7 +208,8 @@ class MainWindow(QMainWindow):
     # Подтверждение и отправка транзакций
     def send_transaction(self, inputs, priv, inputs_summ, summ, new_addr):
         summ = int(float(self.ui.summ_recipient.text())*__currency__)
-        outs = [{'value': summ, 'address': self.ui.address_recipient.text()}, {'value': inputs_summ -  summ - int(self.ui.comission_tr.text()), 'address': new_addr}]
+        outs = [{'value': summ, 'address': self.ui.address_recipient.text()},\
+                {'value': inputs_summ -  summ - int(self.ui.comission_tr.text()), 'address': new_addr}]
         tx = self.btc.mktx(inputs, outs)
         password, ok = QInputDialog.getText(None, 'Подписание транзакции', 'Введите пароль:', QLineEdit.Password)
         check_password = Database(str(password)).check_password()
@@ -253,9 +217,8 @@ class MainWindow(QMainWindow):
             tx2 = self.btc.signall(tx, priv)
             tx3 = serialize(tx2)
             tx_final = self.btc.pushtx(tx3)
-            linkTemplate = '<a href={0}>{1}</a>'
             tx_link = f'https://mempool.space/testnet/tx/{tx_final}'
-            self.ui.hash.setText(linkTemplate.format(tx_link, tx_final))
+            self.ui.hash.setText(consts.__linkTemplate__.format(tx_link, tx_final)) # Ссылка на проводник блокчейна
             self.ui.stackedWidget.setCurrentIndex(6)
         else:
             QMessageBox.critical(self, 'Ошибка!', "Неверный пароль")
@@ -280,8 +243,6 @@ class MainWindow(QMainWindow):
             # Добавляем в список все сгенерированные адреса
             for addr in r:
                 all_in.append(addr[0])
-            # формула расчета комисии: fee = (n_inputs * 148 + n_outputs * 34 + 10) * price_per_byte (где 10 - служебные доп данные)
-	
             all_in = tuple(all_in)
             all_in = self.btc.get_unspents(*all_in) # получаем UTXO для всех адресов
 
@@ -292,8 +253,7 @@ class MainWindow(QMainWindow):
                     addr = unsp['address']
                     priv[addr] = Database(self.password).get_private_key(addr)
                     inputs_summ += unsp['value']
-
-            
+       
             last_address = Database(self.password).get_last_address()
 
             # Если кошелек детерминированный - генерируем новый адрес для сдачи
@@ -305,6 +265,7 @@ class MainWindow(QMainWindow):
             if inputs_summ - summ < 0 or summ <=0:
                 return QMessageBox.critical(self, 'Ошибка!', "Недостаточно средств на счёте")
 
+            # Получение сведений о комиссии
             def select_fee_option(value):
                 fees = Tools().get_actual_fee()
                 fee = 1

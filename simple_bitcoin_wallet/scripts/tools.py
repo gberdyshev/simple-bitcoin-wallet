@@ -1,3 +1,5 @@
+"""Инструменты, взаимодействие с API, смена темы"""
+
 import qrcode
 import os
 import random

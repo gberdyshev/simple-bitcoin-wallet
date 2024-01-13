@@ -1,3 +1,5 @@
+"""Различные константы, получение данных из конфиг файла"""
+
 import json
 
 __json_config_file__ = 'simple_bitcoin_wallet/scripts/config.json'
@@ -21,6 +23,7 @@ __ui_dark_theme__ = """
                     border-color: rgba(216, 151, 50, 246);"""
                     
 __ui_light_theme__ = """font: 11pt "Cantarell";"""
+__linkTemplate__ = '<a href={0} style="text-decoration:none;color:rgb(196, 176, 4);">{1}</a>'
 
 __repository__ = "https://github.com/gberdyshev/simple-bitcoin-wallet"
 __docs__ = "https://github.com/gberdyshev/simple-bitcoin-wallet/blob/main/docs/user_guide.md"

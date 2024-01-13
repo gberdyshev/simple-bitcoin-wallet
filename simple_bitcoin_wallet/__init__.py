@@ -1,3 +1,10 @@
+"""
+Simple Bitcoin Wallet
+GNU GPL v3
+Development and distribution: Grigoriy Berdyshev
+Technical Сonsultant: Oleg Akhmadeev
+2023-2024
+"""
 import sys
 
 # Импорт классов, соответствующих окнам приложения
@@ -36,10 +43,5 @@ def main():
         widget.show_w1() # при отсутствии ключей запускается мастер первоначальной настройки
     sys.exit(app.exec())
 
-
-    
- 	
-
 if __name__ == "__main__":
     main()
-

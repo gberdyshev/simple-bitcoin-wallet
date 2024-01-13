@@ -1,16 +1,19 @@
+"""Класс и окно первоначальной настройки"""
+
 import sqlcipher3
 import os
 import threading
 
+# Импорт формы
 from simple_bitcoin_wallet.ui import ui_firstrun_form as firstrun_form
 
+# Импорт самописных функций
 from simple_bitcoin_wallet.scripts.wallets import GeneralFunctions
 from simple_bitcoin_wallet.scripts.database import Database
 from simple_bitcoin_wallet.scripts import consts
 
 from cryptos import *
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QWidget, QDialog, QTableWidgetItem, QInputDialog, QLineEdit
-
 
 __db_folder_path__ = consts.__db_folder_path__
 __db_path__ = consts.__db_path__
@@ -27,11 +30,15 @@ class FirstRunWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.create_wallet.clicked.connect(self.create_wallet)
         self.ui.import_wallet.clicked.connect(self.import_wallet)
-        #self.ui.import_wallet_from_seed.clicked.connect(self.import_wallet_from_seed)
-
+    """ Добавление пароля """
     def add_password(self,private_key, public_key, addr, mnemonic):
         self.ui.stackedWidget.setCurrentIndex(3)
-        self.ui.confirm.clicked.connect(lambda: self.crypt_wdb(private_key, public_key, addr, mnemonic))
+        self.ui.confirm.clicked.connect(lambda: self.crypt_wdb(
+            private_key, 
+            public_key, 
+            addr, 
+            mnemonic
+            )) # Вызов функции шифрования базы данных
 
     """ Импорт кошелька """
     def import_wallet(self):
@@ -40,14 +47,19 @@ class FirstRunWindow(QMainWindow):
         self.mnemonic = False
         self.mnemonic_phrase = None
         self.ui.import_options.currentTextChanged.connect(self.select_option)
-        #if self.ui.import_options.currentIndex() == 1:
-            #print(0)
         self.ui.check.clicked.connect(self.check_keys)
-        self.ui.finish_import_2.clicked.connect(lambda: self.add_password(self.ui.private_key_2.text(),self.ui.public_key_2.text(), self.ui.address_2.text(), self.mnemonic_phrase))
-
+        self.ui.finish_import_2.clicked.connect(lambda: self.add_password(
+            self.ui.private_key_2.text(),
+            self.ui.public_key_2.text(), 
+            self.ui.address_2.text(), 
+            self.mnemonic_phrase
+            ))
+    
+    """ Выбор варианта импорта """
     def select_option(self, value):
         self.ui.private_key_2.setEnabled(False)
         self.ui.mnemonic_2.setEnabled(False)
+        # Активация соответствующего поля в зависимости от варианта
         if value == "Секретный ключ":
             self.ui.private_key_2.setEnabled(True)
             self.mnemonic = False
@@ -55,16 +67,14 @@ class FirstRunWindow(QMainWindow):
             self.ui.mnemonic_2.setEnabled(True)
             self.mnemonic = True
 
+    """ Добавление ранее имеющихся транзакций в БД """
     def add_old_transactions_to_db(self, *addr):
         self.ui.importer_frame_3.setEnabled(False)
         GeneralFunctions().add_transactions(addr[0])
-        #value += int(100/len(history))
         self.ui.import_progress.setValue(100)
         self.ui.finish_import_2.setEnabled(True)
-        #self.w2 = MainWindow()
-        #self.ui.finish_import.clicked.connect(self.close())
-        #self.ui.finish_import.clicked.connect(self.w2.show())
 
+    """ Проверка мнемонической фразы (секретного ключа) """
     def check_keys(self):
         try:
             if self.mnemonic is True:
@@ -84,20 +94,26 @@ class FirstRunWindow(QMainWindow):
         Database().add_keys_to_db(public_key, address)
 
     """ Создание кошелька """
-
     def create_wallet(self):
         self.ui.stackedWidget.setCurrentIndex(2) # переход на сл страницу - создание кошелька
         self.ui.generate.clicked.connect(lambda: self.gen_keys()) # Вызывается gen_keys
 
         self.ui.go.setEnabled(True)
-        self.ui.go.clicked.connect(lambda: self.add_password(self.ui.private_key.text(),self.ui.public_key.text() ,  self.ui.address.text(),self.ui.mnemonic.text()))
+        self.ui.go.clicked.connect(lambda: self.add_password(
+            self.ui.private_key.text(),
+            self.ui.public_key.text(),  
+            self.ui.address.text(),
+            self.ui.mnemonic.text()
+            ))
 
+    """ Показать мнемоническую фразу (секретный ключ) """
     def viewMnemonicAndPrivateKey(self):
         self.ui.private_key.setEchoMode(QLineEdit.EchoMode.Normal)
         self.ui.mnemonic.setEchoMode(QLineEdit.EchoMode.Normal)
 
+    """ Генерация мнемонической фразы """
     def gen_keys(self):
-        Database().clean_transactions()
+        Database().clean_transactions() # Очистка базы данных от транзакций (если они есть)
         words = entropy_to_words(os.urandom(16))
         wallet = self.btc.wallet(words)
         addr = wallet.new_receiving_address()
@@ -109,6 +125,3 @@ class FirstRunWindow(QMainWindow):
         self.ui.public_key.setText(public_key)
         self.ui.address.setText(addr)
         self.ui.show_private_key.clicked.connect(lambda: self.viewMnemonicAndPrivateKey())
-        #return self.generate_keys(private_key, public_key, addr)
-
-        #self.ui.go.clicked.connect(lambda: self.add_keys_to_db(private_key, addr))

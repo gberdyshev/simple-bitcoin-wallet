@@ -1,3 +1,5 @@
+"""Некоторые функции для взаимодействия с сетью"""
+
 from cryptos import *
 from simple_bitcoin_wallet.scripts import consts
 from simple_bitcoin_wallet.scripts.database import Database
