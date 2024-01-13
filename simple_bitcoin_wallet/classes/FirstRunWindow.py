@@ -2,11 +2,11 @@ import sqlcipher3
 import os
 import threading
 
-from ui import ui_firstrun_form as firstrun_form
+from simple_bitcoin_wallet.ui import ui_firstrun_form as firstrun_form
 
-from scripts.wallets import GeneralFunctions
-from scripts.database import Database
-from scripts import consts
+from simple_bitcoin_wallet.scripts.wallets import GeneralFunctions
+from simple_bitcoin_wallet.scripts.database import Database
+from simple_bitcoin_wallet.scripts import consts
 
 from cryptos import *
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QWidget, QDialog, QTableWidgetItem, QInputDialog, QLineEdit

@@ -1,6 +1,6 @@
 import json
 
-__json_config_file__ = './scripts/config.json'
+__json_config_file__ = 'simple_bitcoin_wallet/scripts/config.json'
 
 def get_json_config():
     jsonconfig = {}

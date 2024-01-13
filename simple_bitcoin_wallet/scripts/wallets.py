@@ -1,6 +1,6 @@
 from cryptos import *
-from scripts import consts
-from scripts.database import Database
+from simple_bitcoin_wallet.scripts import consts
+from simple_bitcoin_wallet.scripts.database import Database
 
 __coin__ = Bitcoin(testnet=consts.__testnet__)
 

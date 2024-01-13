@@ -1,7 +1,7 @@
 import sqlcipher3
 import os
 
-from scripts import consts
+from simple_bitcoin_wallet.scripts import consts
 
 class Database(object):
     def __init__(self, password=None):
@@ -24,7 +24,7 @@ class Database(object):
             os.mkdir(consts.__db_folder_path__)
         db = sqlcipher3.connect(consts.__db_path__)
         cur = db.cursor()
-        with open("./resources/init.sql", "r") as file:
+        with open("simple_bitcoin_wallet/resources/init.sql", "r") as file:
             cur.executescript(file.read())
             db.commit()
         # проверка на наличие ключей

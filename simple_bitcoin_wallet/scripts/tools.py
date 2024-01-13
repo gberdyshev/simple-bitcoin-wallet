@@ -4,7 +4,7 @@ import random
 import requests
 import json
 
-from scripts import consts
+from simple_bitcoin_wallet.scripts import consts
 
 
 

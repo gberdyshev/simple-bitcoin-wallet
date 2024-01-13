@@ -1,10 +1,10 @@
 import sys
 
 # Импорт классов, соответствующих окнам приложения
-from classes.FirstRunWindow import FirstRunWindow
-from classes.MainWindow import MainWindow
+from simple_bitcoin_wallet.classes.FirstRunWindow import FirstRunWindow
+from simple_bitcoin_wallet.classes.MainWindow import MainWindow
 
-from scripts.database import Database
+from simple_bitcoin_wallet.scripts.database import Database
 
 from PySide6.QtWidgets import QApplication, QMainWindow
 

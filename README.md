@@ -1,8 +1,16 @@
-## Simple Bitcoin Wallet
+# Simple Bitcoin Wallet
 
-Документация In progress...
+<div style="text-align: center;">
+
+![Логотип](simple_bitcoin_wallet/resources/logo.png)
+
+**Некастодиальный детерминированный Bitcoin кошелек**
+</div>
+
 
 ## Установить:
+
+Документация In progress...
 
 Установить зависимости из req.txt (в виртуальном окружении), запустить mainwindow.py
 

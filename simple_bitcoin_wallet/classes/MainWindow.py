@@ -3,13 +3,13 @@ import sqlcipher3
 import threading
 import time
 
-from ui import ui_form # Импорт основной формы
+from simple_bitcoin_wallet.ui import ui_form # Импорт основной формы
 
 # Импорт самописных функций
-from scripts.wallets import GeneralFunctions
-from scripts.tools import Tools
-from scripts.database import Database
-from scripts import consts
+from simple_bitcoin_wallet.scripts.wallets import GeneralFunctions
+from simple_bitcoin_wallet.scripts.tools import Tools
+from simple_bitcoin_wallet.scripts.database import Database
+from simple_bitcoin_wallet.scripts import consts
 
 from cryptos import *
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QWidget, QDialog, QTableWidgetItem, QInputDialog, QLineEdit
@@ -65,7 +65,7 @@ class MainWindow(QMainWindow):
             self.cr_DB = Database(self.password)
             self.DB = Database()
             self.GenFunc = GeneralFunctions(self.password)
-            path = './resources/logo.png'
+            path = 'simple_bitcoin_wallet/resources/logo.png'
             self.ui.logo.setPixmap(QPixmap(path))
            
             linkTemplate = '<a href={0} style="text-decoration:none;color:rgb(196, 176, 4);">{1}</a>'   
