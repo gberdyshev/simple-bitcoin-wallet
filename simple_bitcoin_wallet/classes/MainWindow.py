@@ -89,12 +89,17 @@ class MainWindow(QMainWindow):
     """ Настройки """
     def get_mnemonic(self):
         if self.ui.mnemonic.text() == "":
-            QMessageBox.warning(self, 'Предупреждение!', "Никогда и никому не передавайте сид-фразу и секретные ключи от вашего кошелька!")
-            if self.cr_DB.walletIsDeterministic() is False:
-                text = self.cr_DB.get_private_key_for_non_determ()
+            password, ok = QInputDialog.getText(None, 'Подтверждение действия', 'Введите пароль:', QLineEdit.Password)
+            check_password = Database(str(password)).check_password()
+            if check_password:
+                #QMessageBox.warning(self, 'Предупреждение!', "Никогда и никому не передавайте сид-фразу и секретные ключи от вашего кошелька!")
+                if self.cr_DB.walletIsDeterministic() is False:
+                    text = self.cr_DB.get_private_key_for_non_determ()
+                else:
+                    text = self.cr_DB.get_mnemonic()
+                self.ui.mnemonic.setText(text)
             else:
-                text = self.cr_DB.get_mnemonic()
-            self.ui.mnemonic.setText(text)
+                QMessageBox.critical(self, 'Ошибка!', "Неверный пароль") 
         else:
             self.ui.mnemonic.setText("")
 

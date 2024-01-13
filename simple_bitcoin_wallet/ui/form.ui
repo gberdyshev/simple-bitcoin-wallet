@@ -470,7 +470,7 @@
                <string/>
               </property>
               <property name="placeholderText">
-               <string>Введите сумму в BTC</string>
+               <string>Введите сумму</string>
               </property>
               <property name="clearButtonEnabled">
                <bool>true</bool>
