@@ -9,7 +9,7 @@
 Для Unix-подобных ОС:
 
 ```
-git clone https://github.com/gberdyshev/simple-bitcoin-walletgit
+git clone https://github.com/gberdyshev/simple-bitcoin-wallet.git
 cd simple-bitcoin-wallet
 python3 -m venv venv
 source venv/bin/activate
@@ -41,6 +41,7 @@ python3 -m simple_bitcoin_wallet
 - Сборка и публикация пакета в PyPi
 
 ![Темная тема](./docs/screenshots/dark_theme.png)
+
 ![Светлая тема](./docs/screenshots/light_theme.png) 
 
 ## Замечание
