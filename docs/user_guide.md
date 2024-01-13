@@ -42,7 +42,23 @@ python3 -m simple_bitcoin_wallet
 ```
 ### Windows
 
-В процессе...
+**Предупреждение!** На ОС Windows не реализовано шифрование кошелька (т.к. библиотека sqlcipher3 не обеспечивает должную поддержку этой ОС), поэтому рекомендуется хранить файл кошелька на съемных носителях или использовать unix-подобную ОС (Linux) для управления своими активами.
+
+1. Скачать [исходный код](https://github.com/gberdyshev/simple-bitcoin-wallet/releases/tag/windows)
+
+2. Распаковать архив, запустить командную строку или PowerShell, перейти в директорию.
+
+3. Установить зависимости из файла ``req.txt``. Рекомендуется это делать в виртуальном окружении Python ([подробнее про venv](https://docs.python.org/3/library/venv.html)).
+
+```
+py -m venv venv
+venv\Scripts\activate.bat
+pip install -r req.txt
+```
+4. Запустить приложение
+```
+py -m simple_bitcoin_wallet
+```
 
 
 ## Первоначальная настройка (инициализация)
