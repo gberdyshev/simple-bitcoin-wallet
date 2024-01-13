@@ -42,7 +42,7 @@ python3 -m simple_bitcoin_wallet
 
 ![Темная тема](./docs/screenshots/dark_theme.png)
 
-![Светлая тема](./docs/screenshots/light_theme.png) 
+![Светлая тема](./docs/screenshots/light_theme2.png) 
 
 ## Замечание
 В рамках этого проекта мною был исправлен баг некорректного отображения некоторых адресов в библиотеке cryptos, был создан PR, который на сегодняшний день не принят,
