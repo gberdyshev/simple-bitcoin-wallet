@@ -490,7 +490,7 @@ class Ui_MainWindow(object):
 
         self.layoutWidget2 = QWidget(self.transaction_inform)
         self.layoutWidget2.setObjectName(u"layoutWidget2")
-        self.layoutWidget2.setGeometry(QRect(290, 210, 251, 21))
+        self.layoutWidget2.setGeometry(QRect(290, 210, 251, 22))
         self.fee_frame = QHBoxLayout(self.layoutWidget2)
         self.fee_frame.setObjectName(u"fee_frame")
         self.fee_frame.setContentsMargins(0, 0, 0, 0)

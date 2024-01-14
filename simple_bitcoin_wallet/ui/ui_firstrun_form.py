@@ -32,12 +32,22 @@ class Ui_MainWindow(object):
         self.stackedWidget.setGeometry(QRect(0, 10, 661, 451))
         self.welcome = QWidget()
         self.welcome.setObjectName(u"welcome")
-        self.create_wallet = QPushButton(self.welcome)
+        self.widget = QWidget(self.welcome)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(150, 70, 361, 261))
+        self.verticalLayout_4 = QVBoxLayout(self.widget)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.create_wallet = QPushButton(self.widget)
         self.create_wallet.setObjectName(u"create_wallet")
-        self.create_wallet.setGeometry(QRect(170, 60, 251, 121))
-        self.import_wallet = QPushButton(self.welcome)
+
+        self.verticalLayout_4.addWidget(self.create_wallet)
+
+        self.import_wallet = QPushButton(self.widget)
         self.import_wallet.setObjectName(u"import_wallet")
-        self.import_wallet.setGeometry(QRect(170, 190, 251, 91))
+
+        self.verticalLayout_4.addWidget(self.import_wallet)
+
         self.stackedWidget.addWidget(self.welcome)
         self.importer = QWidget()
         self.importer.setObjectName(u"importer")

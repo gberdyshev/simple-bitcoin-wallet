@@ -43,10 +43,10 @@ python3 -m simple_bitcoin_wallet
 - Сборка ``sqlcipher3`` под Windows для полноценной поддержки этой ОС
 - Сборка и публикация пакета в PyPi
 
-![Темная тема](./docs/screenshots/dark_theme.png)
+![Темная тема](https://i.imgur.com/2u1AsU7.png)
 
-![Светлая тема](./docs/screenshots/light_theme2.png) 
+![Светлая тема](https://i.imgur.com/YHi9pcp.png) 
 
 ## Замечание
 В рамках этого проекта мною был исправлен баг некорректного отображения некоторых адресов в библиотеке cryptos, был создан PR, который на сегодняшний день не принят,
-поэтому было принято решение опубликовать форк библиотеки на PyPI (https://pypi.org/project/cryptos-witness/)
+поэтому было принято решение опубликовать форк библиотеки на [PyPI](https://pypi.org/project/cryptos-witness/).

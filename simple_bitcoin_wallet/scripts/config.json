@@ -1,1 +1,1 @@
-{"ui_theme": "dark", "db_folder": "simple_bitcoin_wallet/db", "data_db_path": "simple_bitcoin_wallet/db/data.db", "wallet_db_path": "simple_bitcoin_wallet/db/wallet.db", "temp_path": "simple_bitcoin_wallet/.temp/", "currency": "btc", "network": "testnet"}
+{"ui_theme": "light", "db_folder": "simple_bitcoin_wallet/db", "data_db_path": "simple_bitcoin_wallet/db/data.db", "wallet_db_path": "simple_bitcoin_wallet/db/wallet.db", "temp_path": "simple_bitcoin_wallet/.temp/", "currency": "btc", "network": "testnet"}

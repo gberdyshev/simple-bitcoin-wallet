@@ -27,31 +27,31 @@
      <number>0</number>
     </property>
     <widget class="QWidget" name="welcome">
-     <widget class="QPushButton" name="create_wallet">
+     <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
-        <x>170</x>
-        <y>60</y>
-        <width>251</width>
-        <height>121</height>
+        <x>150</x>
+        <y>70</y>
+        <width>361</width>
+        <height>261</height>
        </rect>
       </property>
-      <property name="text">
-       <string>Создать кошелек</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="import_wallet">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>190</y>
-        <width>251</width>
-        <height>91</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Импортировать кошелек</string>
-      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QPushButton" name="create_wallet">
+         <property name="text">
+          <string>Создать кошелек</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="import_wallet">
+         <property name="text">
+          <string>Импортировать кошелек</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QWidget" name="importer">
