@@ -44,7 +44,7 @@ python3 -m simple_bitcoin_wallet
 
 **Предупреждение!** На ОС Windows не реализовано шифрование кошелька (т.к. библиотека sqlcipher3 не обеспечивает должную поддержку этой ОС), поэтому рекомендуется хранить файл кошелька на съемных носителях или использовать unix-подобную ОС (Linux) для управления своими активами.
 
-1. Скачать [исходный код](https://github.com/gberdyshev/simple-bitcoin-wallet/releases/tag/windows)
+1. Скачать [исходный код](https://github.com/gberdyshev/simple-bitcoin-wallet/releases)
 
 2. Распаковать архив, запустить командную строку или PowerShell, перейти в директорию.
 

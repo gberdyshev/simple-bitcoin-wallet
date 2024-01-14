@@ -207,6 +207,8 @@ class MainWindow(QMainWindow):
 
     # Подтверждение и отправка транзакций
     def send_transaction(self, inputs, priv, inputs_summ, summ, new_addr):
+        if inputs_summ - summ - int(self.ui.comission_tr.text()) < 0:
+            return QMessageBox.critical(self, 'Ошибка!', "Недостаточно средств на счёте")
         summ = int(float(self.ui.summ_recipient.text())*__currency__)
         outs = [{'value': summ, 'address': self.ui.address_recipient.text()},\
                 {'value': inputs_summ -  summ - int(self.ui.comission_tr.text()), 'address': new_addr}]
@@ -246,7 +248,7 @@ class MainWindow(QMainWindow):
             all_in = tuple(all_in)
             all_in = self.btc.get_unspents(*all_in) # получаем UTXO для всех адресов
 
-            # Ищем неизрасходованные данные (UTXO)
+            # Добавляем неизрасходованные данные (UTXO)
             for unsp in all_in:
                 if inputs_summ <= summ:
                     inputs.append(unsp)
@@ -282,8 +284,7 @@ class MainWindow(QMainWindow):
                 fee_tr = Tools().calc_fee(len(inputs), 2, fee)
                 self.ui.comission_byte.setText(str(fee))
                 self.ui.comission_tr.setText(str(fee_tr))
-                if inputs_summ - summ - fee_tr < 0:
-                    return QMessageBox.critical(self, 'Ошибка!', "Недостаточно средств на счёте")
+            
 
             self.ui.stackedWidget.setCurrentIndex(5) # переход на страницу подтверждения транзакции
             self.ui.address_recipient.setText(self.ui.addr.text())
