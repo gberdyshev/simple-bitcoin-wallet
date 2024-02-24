@@ -18,8 +18,7 @@
     <normaloff>../resources/logo.png</normaloff>../resources/logo.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">
-</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
